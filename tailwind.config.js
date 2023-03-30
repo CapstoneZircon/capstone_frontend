@@ -6,7 +6,10 @@ module.exports = withMT({
 
     colors : {
 
-      "FeedButton" : '#155e75'
+      "backg-gray" : '#B2B2B2',
+
+      "FeedButton" : '#155e75',
+      "feedHome-bg" : '#E6D6C6'
 
     },
  
