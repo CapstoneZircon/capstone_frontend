@@ -4,7 +4,7 @@ import { Button } from '@material-tailwind/react'
 const ButtonFeed = () => {
 
     return(
-        <Button variant='filled'> Hello world </Button>
+        <Button  className='bg-FeedButton' variant='filled' > Hello world </Button>
     )
 
 }; export default ButtonFeed;

@@ -1,11 +1,13 @@
 import React from 'react';
 import './App.css';
 import ButtonFeed from './components/Button/ButtonFeed'
+import HomePage from './pages/home';
 
-function App() {
+const App = () => {
+
   return (
-    <div className="App">
-      <ButtonFeed></ButtonFeed>
+    <div>
+      <HomePage></HomePage>
     </div>
   );
 }
