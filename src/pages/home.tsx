@@ -23,7 +23,7 @@ const HomePage =() =>{
                         </div>
 
                         <div className="col basis-1/4">
-                            <Link to='/'>
+                            <Link to='salesOrder'>
                                 <Button variant="text" color = "white"> <a> Sales </a> </Button>
                             </Link>
                         </div>
