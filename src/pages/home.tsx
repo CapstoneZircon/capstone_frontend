@@ -1,5 +1,5 @@
-import React from "react";
-import {Button, CardBody, CardHeader} from "@material-tailwind/react"
+import React, { useEffect, useState } from "react";
+import {Button, CardBody, CardFooter, CardHeader} from "@material-tailwind/react"
 import ButtonFeed from "../components/Button/ButtonFeed";
 import {Card} from "@material-tailwind/react"
 import { Link } from "react-router-dom";
@@ -43,33 +43,154 @@ const HomePage =() =>{
                 </div>
             </nav>
 
-            <div id = "Body" className=" mt-4 mb-2 flex flex-row pb-80">
-                <div className="basis-4/6 mx-3">
-                    <Card className="w-full h-96">
-                        <div className="text-2xl font-extrabold ml-11 mt-4 "> <h2> IN - OUT Visualize <a href="/"> &#10093; </a></h2> </div>
+            <div className="flex flex-row">
 
-                        <CardBody >
-                            {/* <img className="w-1/2 h-1/2" src="images/bargraph.jpg"></img> */}
-                        </CardBody>
-                        
+            <div className="flex flex-col basis-4/6">
 
-                    </Card>
-                </div>
 
-                <div className="basis-2/6 mx-3">
-                    <Card className="w-full h-96 bg-feedHome-bg"> 
-                        <div className="mt-4">
-                            <Typography> <span className="ml-11 text-2xl font-semibold"> ENTERED HISTORY </span> </Typography>
+                    <div id = "Body" className="mt-4 mb-2 flex flex-col">
+
+                        <div className="row-span-2 basis-4/6 mx-3">
+                            <Card className="w-auto h-auto">
+                                <div className="text-2xl font-extrabold ml-11 mt-4 "> <h2> IN - OUT Visualize <a href="/"> &#10093; </a></h2> </div>
+
+                                <CardBody className="flex flex-col items-center w-full h-96 justify-center my-5">
+                            
+		<h2 className="text-xl font-bold">Products Beheaviors</h2>
+		<span className="text-sm font-semibold text-gray-500">2023</span>
+		<div className="flex items-end flex-grow w-full mt-2 space-x-2 sm:space-x-3">
+			<div className="relative flex flex-col items-center flex-grow pb-5 group">
+				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$37,500</span>
+				<div className="relative flex justify-center w-full h-8 bg-red-200"></div>
+				<div className="relative flex justify-center w-full h-6 bg-green-300"></div>
+				<div className="relative flex justify-center w-full h-16 bg-backg-gray"></div>
+				<span className="absolute bottom-0 text-xs font-bold">Jan</span>
+			</div>
+			<div className="relative flex flex-col items-center flex-grow pb-5 group">
+				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$45,000</span>
+				<div className="relative flex justify-center w-full h-10 bg-red-200"></div>
+				<div className="relative flex justify-center w-full h-6 bg-green-300"></div>
+				<div className="relative flex justify-center w-full h-20 bg-backg-gray"></div>
+				<span className="absolute bottom-0 text-xs font-bold">Feb</span>
+			</div>
+			<div className="relative flex flex-col items-center flex-grow pb-5 group">
+				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$47,500</span>
+				<div className="relative flex justify-center w-full h-10 bg-red-200"></div>
+				<div className="relative flex justify-center w-full h-8 bg-green-300"></div>
+				<div className="relative flex justify-center w-full h-20 bg-backg-gray"></div>
+				<span className="absolute bottom-0 text-xs font-bold">Mar</span>
+			</div>
+			<div className="relative flex flex-col items-center flex-grow pb-5 group">
+				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$50,000</span>
+				<div className="relative flex justify-center w-full h-10 bg-red-200"></div>
+				<div className="relative flex justify-center w-full h-6 bg-green-300"></div>
+				<div className="relative flex justify-center w-full h-24 bg-backg-gray"></div>
+				<span className="absolute bottom-0 text-xs font-bold">Apr</span>
+			</div>
+			<div className="relative flex flex-col items-center flex-grow pb-5 group">
+				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$47,500</span>
+				<div className="relative flex justify-center w-full h-10 bg-red-200"></div>
+				<div className="relative flex justify-center w-full h-8 bg-green-300"></div>
+				<div className="relative flex justify-center w-full h-20 bg-backg-gray"></div>
+				<span className="absolute bottom-0 text-xs font-bold">May</span>
+			</div>
+			<div className="relative flex flex-col items-center flex-grow pb-5 group">
+				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$55,000</span>
+				<div className="relative flex justify-center w-full h-12 bg-red-200"></div>
+				<div className="relative flex justify-center w-full h-8 bg-green-300"></div>
+				<div className="relative flex justify-center w-full h-24 bg-backg-gray"></div>
+				<span className="absolute bottom-0 text-xs font-bold">Jun</span>
+			</div>
+			<div className="relative flex flex-col items-center flex-grow pb-5 group">
+				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$60,000</span>
+				<div className="relative flex justify-center w-full h-12 bg-red-200"></div>
+				<div className="relative flex justify-center w-full h-16 bg-green-300"></div>
+				<div className="relative flex justify-center w-full h-20 bg-backg-gray"></div>
+				<span className="absolute bottom-0 text-xs font-bold">Jul</span>
+			</div>
+			<div className="relative flex flex-col items-center flex-grow pb-5 group">
+				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$57,500</span>
+				<div className="relative flex justify-center w-full h-12 bg-red-200"></div>
+				<div className="relative flex justify-center w-full h-10 bg-green-300"></div>
+				<div className="relative flex justify-center w-full h-24 bg-backg-gray"></div>
+				<span className="absolute bottom-0 text-xs font-bold">Aug</span>
+			</div>
+			<div className="relative flex flex-col items-center flex-grow pb-5 group">
+				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$67,500</span>
+				<div className="relative flex justify-center w-full h-12 bg-red-200"></div>
+				<div className="relative flex justify-center w-full h-10 bg-green-300"></div>
+				<div className="relative flex justify-center w-full h-32 bg-backg-gray"></div>
+				<span className="absolute bottom-0 text-xs font-bold">Sep</span>
+			</div>
+			<div className="relative flex flex-col items-center flex-grow pb-5 group">
+				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$65,000</span>
+				<div className="relative flex justify-center w-full h-12 bg-red-200"></div>
+				<div className="relative flex justify-center w-full h-12 bg-green-300"></div>
+				<div className="relative flex justify-center w-full bg-backg-gray h-28"></div>
+				<span className="absolute bottom-0 text-xs font-bold">Oct</span>
+			</div>
+			<div className="relative flex flex-col items-center flex-grow pb-5 group">
+				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$70,000</span>
+				<div className="relative flex justify-center w-full h-8 bg-red-200"></div>
+				<div className="relative flex justify-center w-full h-8 bg-green-300"></div>
+				<div className="relative flex justify-center w-full h-40 bg-backg-gray"></div>
+				<span className="absolute bottom-0 text-xs font-bold">Nov</span>
+			</div>
+			<div className="relative flex flex-col items-center flex-grow pb-5 group">
+				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$75,000</span>
+				<div className="relative flex justify-center w-full h-12 bg-red-200"></div>
+				<div className="relative flex justify-center w-full h-8 bg-green-300"></div>
+				<div className="relative flex justify-center w-full h-40 bg-backg-gray"></div>
+				<span className="absolute bottom-0 text-xs font-bold">Dec</span>
+			</div>
+		</div>
+
+                                </CardBody>
+
+                            </Card>
                         </div>
-                    </Card>
+
+                <div className="flex flex-row mb-5 pb-5  justify-center ">
+                    <div className="basis-2/5 mr-5 ml-3">
+                            <Card className="w-auto h-full my-3 border-red-600 border-3">
+                                <CardBody>
+
+                                </CardBody>
+                            </Card>
+
+                    </div>
+
+                    <div className="basis-1/5 ml-5">
+                            <Card className="w-full h-full my-3 border-red-600 border-3 grid">
+                                <CardBody>
+                                    <Typography> <div className="flex flex-row"> <div> <span className="mx-5 text-8xl font-extrabold"> 12 </span> </div> <div className="ml-10 w-32 h-auto"> <span className="text-2xl font-bold "> Orders need to be shiped </span></div></div> </Typography>
+                                </CardBody>
+                                <div className="text-center ">
+                                <Typography> <span className="text-md font-bold text-red-600"> 3 Orders was delayed </span></Typography>
+                                </div>
+                                <CardFooter className="text-center w-full h-auto mb-0 mt-5 rounded-md bg-order-bg content-end">
+                                    <a href="/"><Typography> <span className="text-white font-extrabold text-xl"> See all sales orders </span> </Typography></a>
+                                </CardFooter>
+                            </Card>
+                    </div>
+                    </div>
+
                 </div>
 
+               
+                </div>
+                <div className="row-span-4 basis-2/6 mx-3 my-3">
+                            <Card className="w-auto h-full bg-feedHome-bg"> 
+                                <div className="my-4">
+                                    <Typography> <span className="ml-11 text-2xl font-semibold"> ENTERED HISTORY </span> </Typography>
+                                </div>
+                            </Card>
+                </div>
+
+                
+
             </div>
 
-            <div id = "footer" className="h-48" >
-                <h2> This is Footer </h2>
-
-            </div>
 
         </div>
         

@@ -9,7 +9,8 @@ module.exports = withMT({
       "backg-gray" : '#B2B2B2',
 
       "FeedButton" : '#155e75',
-      "feedHome-bg" : '#E6D6C6'
+      "feedHome-bg" : '#E6D6C6',
+      "order-bg" : '#8C8176',
 
     },
 
