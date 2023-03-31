@@ -10,6 +10,11 @@ module.exports = withMT({
 
       "FeedButton" : '#155e75',
       "feedHome-bg" : '#E6D6C6',
+
+      "saleNev-bg": '#8C8176',
+      'saleBody-bg': '#FDFDFD',
+
+
       "order-bg" : '#8C8176',
 
     },
