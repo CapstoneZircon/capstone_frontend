@@ -64,20 +64,34 @@ const Footage =() =>{
                                 <CardBody>
                                     <div className="flex flex-row">
                                         <div className="col basis-4/12 border-red-500 border-2">
-                                            <div className="">
-                                                <img src="/images/Employee-resize.jpg" className="object-none object-top h-eqw rounded-full border-blue-500 border-2" alt="Employee"/>
-                                                hello
-                                            </div>
-
-                                            <div className=" border-blue-700 border-2">
-                                                hello
-                                            </div>
+                                            
+                                            <img src="/images/Employee-resize.jpg" className="object-cover object-top h-eqw rounded-full border-blue-500 border-4" alt="Employee"/>
                                             
                                         </div>
 
                                         <div className="col basis-8/12 border-red-700 border-2">
                                             Hello
                                         </div>
+                                    </div>
+
+                                    <div className="flex flex-row">
+
+                                        <div className="col basis-4/12 pt-2 text-center border-blue-700 border-2">
+                                            <Typography>
+                                                <span className="text-md">
+                                                    HISTORY
+                                                </span>
+                                            </Typography>
+                                        </div>
+
+                                        <div className="col basis-8/12 border-blue-700 border-b-2">
+                                            <Typography>
+                                                <span className="text-md">
+                                                    HISTORY
+                                                </span>
+                                            </Typography>
+                                        </div>
+
                                     </div>
                                 </CardBody>
 
