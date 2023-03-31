@@ -5,18 +5,80 @@ import { useState, useEffect } from "react";
 
 
 const SaleOrder = () => {
-    // const [data, Setdata] = useState({'importers': dict[ {'model': [] as string[], 'SN': [] as string[], 'NO': [] as string[], 'dealer': [] as string[], 'SO': [] as string[], 
-    //                                     'date':[] as string[], 'comment':[] as string[], 'status': [] as string[] }]});
+    type Importer = {
+  [key: string]: string[];
+};
+    const [data, setData] = useState<{ importers: Importer[] }>({
+        importers: [
+          {
+            model: [] as string[],
+            SN:  [] as string[],
+            NO: [] as string[],
+            dealer: [] as string[],
+            SO: [] as string[],
+            date: [] as string[],
+            comment: [] as string[], 
+            status: [] as string[],
+          },
+        ],
+      });
+      useEffect(() => {
+        setData((prevData) => {
+          const newImporters = [];
+          for (let i = 0; i < 15; i++) {
+            const model = `A1-00${i+ Math.floor(Math.random() * 1000000)}`;
+            const SN = `SN${Math.floor(Math.random() * 1000000)}`;
+            const NO = `${i + 1}`;
+            const dealer = i % 2 === 0 ? "SHOPEE" : "LAZADA";
+            const SO = `SY${Math.floor(Math.random() * 1000000)}`;
+            const date = `${Math.floor(Math.random() * 28) + 1}/${
+              Math.floor(Math.random() * 12) + 1
+            }/2023`;
+            const comment = `xxxxxxxxx${i}`;
+            const status =
+              i % 4 === 0 ? "delivery" : i % 3 === 0 ? "neworder" : "late";
+      
+            const newImporter = {
+              model: [model],
+              SN: [SN],
+              NO: [NO],
+              dealer: [dealer],
+              SO: [SO],
+              date: [date],
+              comment: [comment],
+              status: [status],
+            };
+      
+            newImporters.push(newImporter);
+          }
+      
+          return {
+            importers: [...newImporters],
+          };
+        });
+      }, []);
+      console.log(data.importers);
+
+
     // useEffect(() => {
-    //     Setdata({'model': ['A1-0001','A1-0002'],
-    //              'SN': ['SN12456','SN654987'],
-    //              'NO': ['1', '2'],  
-    //              'dealer': ['SHOPEE','LAZADA'], 
-    //              'SO': ['SY111111','SY222222'], 
-    //              'date':['9/3/2023', '9/3/2023'], 
-    //              'comment':['xxxxxxxxx','xxxxxxxxxxx'], 
-    //              'status': ['neworder','late']});
-    // })
+    //     setData({
+    //       importers: [
+    //         {
+    //           model: ['A1-0w001', 'A1-0002'],
+    //           SN: ['SN12456', 'SN654987'],
+    //           NO: ['1', '2'],
+    //           dealer: ['SHOPEE', 'LAZADA'],
+    //           SO: ['SY111111', 'SY222222'],
+    //           date: ['9/3/2023', '9/3/2023'],
+    //           comment: ['xxxxxxxxx', 'xxxxxxxxxxx'],
+    //           status: ['neworder', 'late'],
+    //         },
+    //       ],
+    //     });
+    //   }, []);
+
+    const columnNames = Object.keys(data.importers[0]);
+    
     return(
         <div className="">
            <nav id = "SalesOrderNavBar" className="container-lg bg-saleNev-bg">
@@ -45,14 +107,14 @@ const SaleOrder = () => {
                             <p>Show date &#60;</p>
                         </div>
                         <div className = 'col basis-9/12 text-4xl px-4 py-4 border-blue-300 border-4 text-right'>
-                            <p> Total of XXX sale orders</p>
+                            <p> Total of {data.importers.length} sale orders</p>
                         </div>
                     </div>
                 </div>
                 <div className = 'border-red-500 border-2'>
                     <table className = 'border-black border-2 mx-auto text-center '>
                         <thead>
-                            <td>
+                            <tr>
                                 <th className = 'border-black border-2 px-5 py-2 w-2/12'>ชื่อรุ่น</th>
                                 <th className = 'border-black border-2 px-5 py-2 w-2/12'>Serial Number</th>
                                 <th className = 'border-black border-2 px-5 py-2 w-1/12'>No.</th>
@@ -61,26 +123,38 @@ const SaleOrder = () => {
                                 <th className = 'border-black border-2 px-5 py-2 w-1/12'>วันที่ส่งออก</th>
                                 <th className = 'border-black border-2 px-5 py-2 w-1/12'>หมายเหตุ</th>
                                 <th className = 'border-black border-2 px-5 py-2 w-1/12'>สถานะ</th>
-                            </td>
+                            </tr>
                         </thead>
                         <tbody>
-                            {/* <tr className = ''>
-                               {data.model.map((Model) => {return( <td className = 'border-black border-2 px-5 py-2'> {Model} </td>)})}
-                               {data.SN.map((Sn) => {return( <td className = 'border-black border-2 px-5 py-2'> {Sn} </td>)})}
-
-
-                            </tr> */}
-                            <tr className = ''>
-                                <td className = 'border-black border-2 px-5 py-2'>Centro comercial Moctezuma</td>
-                                <td className = 'border-black border-2 px-5 py-2'>Francisco Chang</td>
-                                <td className = 'border-black border-2 px-5 py-2'>Mexico</td>
-                                <td className = 'border-black border-2 px-5 py-2'>Dealer</td>
-                                <td className = 'border-black border-2 px-5 py-2'>Maria Anders</td>
-                                <td className = 'border-black border-2 px-5 py-2'>Germany</td>
-                                <td className = 'border-black border-2 px-5 py-2'>Dealer</td>
-                                <td className = 'border-black border-2 px-5 py-2'>Maria Anders</td>
-
+                            {data.importers.map((importer, index) => (
+                            <tr key={index}>
+                                {columnNames.map((columnName) => (
+                                <td key={columnName} className="border-black border-2 px-5 py-2">{importer[columnName].join(", ")}</td>
+                                ))}
                             </tr>
+                            ))}
+{/* 
+                            {data.importers[0].model.map((model, index) => (
+                            <tr key={index}>      
+                            <td className="border-black border-2 px-5 py-2">{model}</td>
+                            <td className="border-black border-2 px-5 py-2">{data.importers[0].SN[index]}</td>
+                            <td className="border-black border-2 px-5 py-2">{data.importers[0].NO[index]}</td>
+                            <td className="border-black border-2 px-5 py-2">{data.importers[0].dealer[index]}</td>
+                            <td className="border-black border-2 px-5 py-2">{data.importers[0].SO[index]}</td>
+                            <td className="border-black border-2 px-5 py-2">{data.importers[0].date[index]}</td>
+                            <td className="border-black border-2 px-5 py-2">{data.importers[0].comment[index]}</td>
+                            <td className="border-black border-2 px-5 py-2">{data.importers[0].status[index]}</td>
+                            </tr>
+                            ))} */}
+
+
+                            {/* {data.importers.map((importer, index) => (
+                                <tr key={index}>
+                                {columnNames.map((columnName) => (
+                                    <td key={columnName} className="border-black border-2 px-5 py-2">{importer[columnName]}</td>
+                                ))}
+                                </tr>
+                            ))} */}
                         </tbody>
                     </table>
                 </div>
