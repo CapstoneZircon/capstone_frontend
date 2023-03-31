@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.h-eqw {
+    width: 100vw;
+    height: 100px;
+}

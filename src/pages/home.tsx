@@ -29,7 +29,7 @@ const HomePage =() =>{
                         </div>
 
                         <div className="col basis-1/4">
-                            <Link to='/'>
+                            <Link to='footage'>
                                 <Button variant="text" color = "white"> <a> Footage </a> </Button>
                             </Link>
                         </div>
