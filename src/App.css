@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.h-eqw {
+    aspect-ratio: 1/1;
+    width: 100vw;
+}

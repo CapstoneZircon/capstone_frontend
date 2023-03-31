@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{useState} from "react";
 import {Link , Route , Routes , BrowserRouter} from 'react-router-dom'
 import { Button } from "@material-tailwind/react";
 import {
@@ -15,35 +15,37 @@ import { Image } from "react-bootstrap";
 
 const LoginPage = () => {
 
+
     return(
 
-        <div className="flex flex-row bg-backg-gray">
-            <div className="basis-2/4">
-
-                <Card className="w-96 border-red-600 border-2 text-center item-center justify-center mt-48 ml-56 mb-60">
-                    <CardHeader className="pb-3 mb-3">
-                        <Typography> <span className="text-2xl font-bold"> WareHouse  Department </span> </Typography>
-                    </CardHeader>
-                    <CardBody>
-                        <img src="/images/yuanter.jpg" />
-                    </CardBody>
-                    <CardFooter>
-                        <div className="flex flex-row  item-center justify-center ">
-                            <div className="mx-5 mt-7 ">
-                                <Typography> <span className="font-bold text-xl"> By: </span> </Typography>
-                            </div>
-                            <div>
-                                <div className="flex item-center justify-center text-center">
-                                    <img className = "w-48 h-full" src="/images/Zircon_logo.png" />
+        <div className="flex flex-row bg-backg-gray py-40">
+            <div className="basis-2/3 flex justify justify-center py-10">
+                <div className="my-5">
+                    <Card className="w-96 border-red-600 border-2 text-center ">
+                        <CardHeader className="pb-3 mb-3">
+                            <Typography> <span className="text-2xl font-bold"> WareHouse  Department </span> </Typography>
+                        </CardHeader>
+                        <CardBody>
+                            <img src="/images/yuanter.jpg" />
+                        </CardBody>
+                        <CardFooter>
+                            <div className="flex flex-row  item-center justify-center ">
+                                <div className="mx-5 mt-7 ">
+                                    <Typography> <span className="font-bold text-xl"> By: </span> </Typography>
+                                </div>
+                                <div>
+                                    <div className="flex item-center justify-center text-center">
+                                        <img className = "w-48 h-full" src="/images/Zircon_logo.png" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </CardFooter>
-                    
-                </Card>
+                        </CardFooter>
+                        
+                    </Card>
+                </div>
 
             </div>
-            <div className="basis-1/4 mt-60 pb-60">
+            <div className="basis-1/3  my-auto">
                 <Card className="w-96">
                     <CardHeader
                     variant="gradient"
