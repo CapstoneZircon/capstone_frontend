@@ -65,7 +65,7 @@ const Footage =() =>{
                                     <div className="flex flex-row">
                                         <div className="col basis-4/12 border-red-500 border-2">
                                             <div className="">
-                                                <img src="/images/Employee-resize.jpg" className="object-none object-top-right rounded-full border-blue-500 border-2" alt="Employee"/>
+                                                <img src="/images/Employee-resize.jpg" className="object-none object-top h-eqw rounded-full border-blue-500 border-2" alt="Employee"/>
                                                 hello
                                             </div>
 
