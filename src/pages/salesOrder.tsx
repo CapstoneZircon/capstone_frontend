@@ -1,8 +1,8 @@
-import React from "react";
-import {Link , Route , Routes , BrowserRouter} from 'react-router-dom'
+import React, {useState, useEffect }from "react";
+import {Link} from 'react-router-dom'
 import {Button, CardBody, CardHeader} from "@material-tailwind/react"
-import { useState, useEffect } from "react";
-
+import { DatePicker } from 'react-widgets';
+import "react-widgets/styles.css";
 
 const SaleOrder = () => {
     type Importer = {
@@ -57,7 +57,7 @@ const SaleOrder = () => {
           };
         });
       }, []);
-      console.log(data.importers);
+    //   console.log(data.importers);
 
 
     // useEffect(() => {
@@ -78,6 +78,8 @@ const SaleOrder = () => {
     //   }, []);
 
     const columnNames = Object.keys(data.importers[0]);
+    const [selectedDate, setSelectedDate] = useState<any>(new Date());
+
     
     return(
         <div className="">
@@ -99,16 +101,26 @@ const SaleOrder = () => {
                     </div>
                 </div>
             </nav>
+            {/* border-blue-300 border-4 */}
 
             <div id = "SalesOrderBody">
                 <div className="bg-saleBody">
                     <div className =" flex flex-row">
-                        <div className = 'col basis-3/12 text-4xl px-4 py-4 border-blue-300 border-4'>
-                            <p>Show date &#60;</p>
+
+                        <div className = 'col basis-2/12 text-l px-4 py-4  border-blue-300 border-4'>
+                        Date
+                        <DatePicker
+                            value={selectedDate}
+                            onChange={setSelectedDate}
+                        />
+
+
                         </div>
-                        <div className = 'col basis-9/12 text-4xl px-4 py-4 border-blue-300 border-4 text-right'>
+
+                        <div className = 'col basis-10/12 text-4xl px-4 py-4 text-right border-blue-300 border-4'>
                             <p> Total of {data.importers.length} sale orders</p>
                         </div>
+                        
                     </div>
                 </div>
                 <div className = 'border-red-500 border-2'>
@@ -129,7 +141,7 @@ const SaleOrder = () => {
                             {data.importers.map((importer, index) => (
                             <tr key={index}>
                                 {columnNames.map((columnName) => (
-                                <td key={columnName} className="border-black border-2 px-5 py-2">{importer[columnName].join(", ")}</td>
+                                <td key={columnName} className="border-black border-2 px-5 py-2">{importer[columnName]} {columnName}</td>
                                 ))}
                             </tr>
                             ))}
@@ -148,13 +160,6 @@ const SaleOrder = () => {
                             ))} */}
 
 
-                            {/* {data.importers.map((importer, index) => (
-                                <tr key={index}>
-                                {columnNames.map((columnName) => (
-                                    <td key={columnName} className="border-black border-2 px-5 py-2">{importer[columnName]}</td>
-                                ))}
-                                </tr>
-                            ))} */}
                         </tbody>
                     </table>
                 </div>
