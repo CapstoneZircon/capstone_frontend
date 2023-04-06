@@ -6,6 +6,7 @@ import LoginPage from './pages/login';
 import SaleOrder from './pages/salesOrder';
 import { Routes , BrowserRouter as Router  , Link , Route } from 'react-router-dom';
 import Footage from './pages/footage';
+import SignUpPage from './pages/signup';
 
 
 const App = () => {
@@ -18,7 +19,7 @@ const App = () => {
           <Route path='home' element = {<HomePage />} />
           <Route path='home/salesOrder' element = {<SaleOrder />} />
           <Route path='home/footage' element = {<Footage />} />
-
+          <Route path='signup' element = {<SignUpPage />} />
         </Routes>
 
       </Router>

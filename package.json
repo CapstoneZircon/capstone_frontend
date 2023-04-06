@@ -27,7 +27,8 @@
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
-    "build": "react-scripts --openssl-legacy-provider build"
+    "build": "GENERATE_SOURCEMAP=false react-scripts --openssl-legacy-provider build",
+    "winBuild": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build"
   },
   "eslintConfig": {
     "extends": [

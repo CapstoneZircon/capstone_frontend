@@ -60,22 +60,21 @@ const SaleOrder = () => {
 
     const columnNames = Object.keys(data.importers[0]);
     const [selectedDate, setSelectedDate] = useState<any>(new Date());
-    console.log(selectedDate)
 
     
     return(
         <div className="">
            <nav id = "SalesOrderNavBar" className="container-lg bg-saleNev-bg">
                 <div className = "md-container w-full">
-                    <div className="space-x-3 border-black border-2">
+                    <div className="space-x-3 ">
 
                         <div className="flex flex-row">
                             <Link to='/home'>
-                                <div className = 'col basis-1/12 text-4xl px-6 py-6 border-black border-4 text-white'>
+                                <div className = 'col basis-1/12 text-4xl px-6 py-6 text-white'>
                                     <a> &#60; </a>
                                 </div>
                             </Link>
-                                <div className = 'col basis-5/12 text-4xl px-6 py-6 border-blue-300 border-4 text-white'>
+                                <div className = 'col basis-5/12 text-4xl px-6 py-6 text-white'>
                                     Sale order
                                 </div>
                         </div>
@@ -88,7 +87,7 @@ const SaleOrder = () => {
                 <div className="bg-saleBody">
                     <div className =" flex flex-row">
 
-                        <div className = 'col basis-2/12 text-l px-4 py-4  border-blue-300 border-4'>
+                        <span className = 'col basis-2/12 text-l px-4 py-4'>
                         Date
                         <DatePicker
                             value={selectedDate}
@@ -96,15 +95,15 @@ const SaleOrder = () => {
                         />
 
 
-                        </div>
+                        </span>
 
-                        <div className = 'col basis-10/12 text-4xl px-4 py-4 text-right border-blue-300 border-4'>
+                        <div className = 'col basis-10/12 text-4xl px-4 py-7 text-justify text-end'>
                             <p> Total of {data.importers.length} sale orders</p>
                         </div>
                         
                     </div>
                 </div>
-                <div className = 'border-red-500 border-2'>
+                <div className = 'border-blue-400 border-2'>
                     <table className = 'border-black border-2 mx-auto text-center '>
                         <thead>
                             <tr>
@@ -120,9 +119,12 @@ const SaleOrder = () => {
                         </thead>
                         <tbody>
                             {data.importers.map((importer, index) => (
+
                             <tr key={index}>
                                 {columnNames.map((columnName) => (
-                                <td key={columnName} className="border-black border-2 px-5 py-2">{importer[columnName]} {columnName}</td>
+                                <td key={columnName} className="border-black border-2 px-5 py-2">
+                                  {importer[columnName]}
+                                </td>
                                 ))}
                             </tr>
                             ))}
