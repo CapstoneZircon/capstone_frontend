@@ -57,28 +57,10 @@ const SaleOrder = () => {
           };
         });
       }, []);
-    //   console.log(data.importers);
-
-
-    // useEffect(() => {
-    //     setData({
-    //       importers: [
-    //         {
-    //           model: ['A1-0w001', 'A1-0002'],
-    //           SN: ['SN12456', 'SN654987'],
-    //           NO: ['1', '2'],
-    //           dealer: ['SHOPEE', 'LAZADA'],
-    //           SO: ['SY111111', 'SY222222'],
-    //           date: ['9/3/2023', '9/3/2023'],
-    //           comment: ['xxxxxxxxx', 'xxxxxxxxxxx'],
-    //           status: ['neworder', 'late'],
-    //         },
-    //       ],
-    //     });
-    //   }, []);
 
     const columnNames = Object.keys(data.importers[0]);
     const [selectedDate, setSelectedDate] = useState<any>(new Date());
+    console.log(selectedDate)
 
     
     return(
@@ -101,7 +83,6 @@ const SaleOrder = () => {
                     </div>
                 </div>
             </nav>
-            {/* border-blue-300 border-4 */}
 
             <div id = "SalesOrderBody">
                 <div className="bg-saleBody">
@@ -145,20 +126,6 @@ const SaleOrder = () => {
                                 ))}
                             </tr>
                             ))}
-{/* 
-                            {data.importers[0].model.map((model, index) => (
-                            <tr key={index}>      
-                            <td className="border-black border-2 px-5 py-2">{model}</td>
-                            <td className="border-black border-2 px-5 py-2">{data.importers[0].SN[index]}</td>
-                            <td className="border-black border-2 px-5 py-2">{data.importers[0].NO[index]}</td>
-                            <td className="border-black border-2 px-5 py-2">{data.importers[0].dealer[index]}</td>
-                            <td className="border-black border-2 px-5 py-2">{data.importers[0].SO[index]}</td>
-                            <td className="border-black border-2 px-5 py-2">{data.importers[0].date[index]}</td>
-                            <td className="border-black border-2 px-5 py-2">{data.importers[0].comment[index]}</td>
-                            <td className="border-black border-2 px-5 py-2">{data.importers[0].status[index]}</td>
-                            </tr>
-                            ))} */}
-
 
                         </tbody>
                     </table>
