@@ -43,7 +43,7 @@ const HomePage =() =>{
                 </div>
             </nav>
 
-            <div className="flex flex-row">
+            <div className="flex flex-row pb-24">
 
             <div className="flex flex-col basis-4/6">
 
@@ -140,7 +140,7 @@ const HomePage =() =>{
 				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$75,000</span>
 				<div className="relative flex justify-center w-full h-12 bg-red-200"></div>
 				<div className="relative flex justify-center w-full h-8 bg-green-300"></div>
-				<div className="relative flex justify-center w-full h-40 bg-backg-gray"></div>
+				<div className="relative flex justify-center w-full h-40 bg-backg-gray "></div>
 				<span className="absolute bottom-0 text-xs font-bold">Dec</span>
 			</div>
 		</div>
@@ -150,7 +150,7 @@ const HomePage =() =>{
                             </Card>
                         </div>
 
-                <div className="flex flex-row mb-5 pb-5  justify-center ">
+                <div className="flex flex-row mb-5 pb-5  justify-center mt-5">
                     <div className="basis-2/5 mr-5 ml-3">
                             <Card className="w-auto h-full my-3 border-red-600 border-3">
                                 <CardBody>
@@ -179,7 +179,7 @@ const HomePage =() =>{
 
                
                 </div>
-                <div className="row-span-4 basis-2/6 mx-3 my-3">
+                <div className="row-span-4 basis-2/6 mx-3 my-3 ">
                             <Card className="w-auto h-full bg-feedHome-bg"> 
                                 <div className="my-4">
                                     <Typography> <span className="ml-11 text-2xl font-semibold"> ENTERED HISTORY </span> </Typography>

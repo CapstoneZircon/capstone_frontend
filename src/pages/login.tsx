@@ -42,6 +42,11 @@ const LoginPage = () => {
                         </CardFooter>
                         
                     </Card>
+                    <Link to="signup">
+                        <div className="text-white underline text-center mt-3">
+                            Request for an account
+                        </div>
+                    </Link>
                 </div>
 
             </div>
@@ -70,7 +75,9 @@ const LoginPage = () => {
                             </Button>
                         </Link>
                     </CardFooter>
+
                 </Card>
+
               </div>
 
 
