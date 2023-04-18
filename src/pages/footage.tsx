@@ -4,7 +4,7 @@ import { Typography } from "@material-tailwind/react";
 import { Card,CardBody,CardFooter, } from "@material-tailwind/react";
 import { Link } from 'react-router-dom';
 import { Clock } from "../components/Icon/clock";
-
+import ReactPlayer from 'react-player';
 
 const Footage =() =>{
     return (
@@ -39,7 +39,15 @@ const Footage =() =>{
                     <div className="col basis-9/12 border-gray-700 border-2 flex flex-row justify-center">
 
                         <div className="border-purple-600 border-4 justify-center flex">
-                            <img src="/images/CCTV1.jpg" alt="CCTV1"/>
+                        <ReactPlayer
+                        url="/videos/vdo1.mp4"
+                        width="100%"
+                        height="100%"
+                        controls
+                        />
+
+                            {/* <source src="/videos/vdo1.mp4" type="video/mp4"/> */}
+                            {/* <img src="/images/CCTV1.jpg" alt="CCTV1"/> */}
                         </div>
 
                         
@@ -164,18 +172,21 @@ const Footage =() =>{
                                         <div className="">
                                             <div className="pt-3 flex justify-around">
 
-                                                <div className=" border-blue-500 border-2">
-                                                    <div className="h-10 w-10 rounded-full border-gray-400 border-2">
-                                                        <div className="grid grid-row-2 gap-0 place-items-center w-5 h-5">
-                                                            <div className=" row-start-1 border-purple-900 border-2">
-                                                                <Typography>
-                                                                    <span className="text-lg">
-                                                                        9
-                                                                    </span>
-                                                                </Typography>
-                                                            </div>
+                                                <div className="relative ">
+                                                    <div className=" h-12 w-12 rounded-full border-gray-400 border-2">
+                                                        <div className="w-full h-full flex justify-center items-center">
+                                                            <Typography>
+                                                                <span className="text-lg">
+                                                                    9
+                                                                </span>
+                                                            </Typography>
                                                         </div>
                                                     </div>
+
+                                                    <div className="w-6 absolute bottom-8 left-7">
+                                                            <img src="/images/Employee-resize.jpg" className="object-cover object-top h-eqw rounded-full border-gray-400 border-2" alt="Employee"/>
+                                                    </div>
+
 
                                                     <div className="text-center pt-1">
                                                         <Typography>
@@ -185,10 +196,15 @@ const Footage =() =>{
                                                         </Typography>
                                                     </div>
                                                 </div>
-
-                                                <div className="">
-                                                    <div className=" rounded-full border-gray-600 border-2">
-                                                        10
+                                                <div className="relative">
+                                                    <div className="h-12 w-12 rounded-full border-gray-400 border-2">
+                                                        <div className="w-full h-full flex justify-center items-center">
+                                                            <Typography>
+                                                                <span className="text-lg">
+                                                                    10
+                                                                </span>
+                                                            </Typography>
+                                                        </div>
                                                     </div>
 
                                                     <div className="text-center pt-1">
@@ -200,9 +216,22 @@ const Footage =() =>{
                                                     </div>
                                                 </div>
 
-                                                <div className="">
-                                                    <div className=" rounded-full border-gray-800 border-2">
-                                                        11
+                                                <div className="relative">
+                                                    <div className="h-12 w-12 rounded-full border-gray-400 border-2">
+                                                        <div className="w-full h-full flex justify-center items-center">
+                                                            <Typography>
+                                                                <span className="text-lg">
+                                                                    13
+                                                                </span>
+                                                            </Typography>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="w-7 absolute  bottom-8 left-6">
+                                                            <img src="/images/Employee-resize.jpg" className="object-cover object-top h-eqw rounded-full border-gray-400 border-2" alt="Employee"/>
+                                                    </div>
+                                                    <div className="w-7 absolute  bottom-8 left-9">
+                                                            <img src="/images/Employee-resize.jpg" className="object-cover object-top h-eqw rounded-full border-gray-400 border-2" alt="Employee"/>
                                                     </div>
 
                                                     <div className="text-center pt-1">
@@ -214,9 +243,15 @@ const Footage =() =>{
                                                     </div>
                                                 </div>
 
-                                                <div className="">
-                                                    <div className=" rounded-full border-black border-2">
-                                                        12
+                                                <div className="relative">
+                                                    <div className="h-12 w-12 rounded-full border-gray-400 border-2">
+                                                        <div className="w-full h-full flex justify-center items-center">
+                                                            <Typography>
+                                                                <span className="text-lg">
+                                                                    18
+                                                                </span>
+                                                            </Typography>
+                                                        </div>
                                                     </div>
 
                                                     <div className="text-center pt-1">
@@ -227,6 +262,8 @@ const Footage =() =>{
                                                         </Typography>
                                                     </div>
                                                 </div>
+
+
 
                                             </div>
                                         </div>
