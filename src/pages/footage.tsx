@@ -14,7 +14,7 @@ const Footage =() =>{
         
         // <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
         <div className="px-5 py-5 bg-backg-gray ">
-            <div className="border-purple-700 border-4 px-2 py-2 bg-feedHome-bg">
+            <div className=" px-2 py-2 bg-feedHome-bg">
 
                 <nav id="FootageNavbar" className="flex flex-row">
                     <Link to='/home'>    
@@ -39,12 +39,12 @@ const Footage =() =>{
         
                 <div id="FootageBody" className="flex flex-row">
 
-                    <div className="col basis-9/12 border-gray-700 border-2 flex flex-row justify-center">
+                    <div className="col basis-9/12  flex flex-row justify-center">
 
-                        <div className="border-purple-600 border-4 justify-center flex">
+                        <div className="justify-center flex border-red-800 border-2">
                         <ReactPlayer
                         url="/videos/vdo1.mp4"
-                        width="100%"
+                        width="95%"
                         height="100%"
                         controls
                         />
@@ -57,13 +57,13 @@ const Footage =() =>{
 
                     </div>
 
-                    <div className="col basis-3/12 border-gray-900 border-4">
+                    <div className="col basis-3/12 ">
                         <div className="flex flex-col ">
-                            <div className="basis-3/12 border-yellow-600 border-4">
+                            <div className="basis-3/12">
                                 <img src="/images/CCTV2.jpg" alt="CCTV2"/>
                             </div>
 
-                            <div className="basis-1/12 text-center border-yellow-900 border-4">
+                            <div className="basis-1/12 text-center ">
                                 <Typography>
                                     <span className="text-xl">
                                         Camera 2
@@ -71,21 +71,21 @@ const Footage =() =>{
                                 </Typography>
                             </div>
 
-                            <div className="basis-8/12 border-yellow-400 border-4">
+                            <div className="basis-8/12 ">
                                 <Card className="rounded-3xl">
 
                                     <CardBody>
                                         <div className="flex flex-row">
-                                            <div className="col basis-4/12 border-red-500 border-2">
+                                            <div className="col basis-4/12 ">
                                                 
-                                                <img src="/images/Employee-resize.jpg" className="object-cover object-top h-eqw rounded-full border-blue-500 border-4" alt="Employee"/>
+                                                <img src="/images/Employee-resize.jpg" className="object-cover object-top h-eqw rounded-full " alt="Employee"/>
                                                 
                                             </div>
 
-                                            <div className="col basis-8/12 border-red-700 border-2 text-right">
+                                            <div className="col basis-8/12 text-right">
                                                 <div className="flex flex-col">
 
-                                                    <div className="basis-1/3 border-yellow-800 border-2">
+                                                    <div className="basis-1/3 ">
                                                         <Typography>
                                                             <span className="text-3xl font-bold">
                                                                 Atichai K.
@@ -94,19 +94,19 @@ const Footage =() =>{
                                                         
                                                     </div>
 
-                                                    <div className="basis-2/3 border-black border-2">
+                                                    <div className="basis-2/3">
 
                                                         <div className="flex flex-row-reverse grid-flow-col gap-0">
 
-                                                            <div className="flex justify-end border-blue-500 border-2">
+                                                            <div className="flex justify-end ">
                                                                 
-                                                                <div className="pt-3 border-red-300 border-2">
+                                                                <div className="pt-3 ">
                                                                     <Clock />
                                                                 </div>
 
                                                                 <div className="flex flex-col">
 
-                                                                    <div className="basis-1/2 pt-1 border-black border-2">
+                                                                    <div className="basis-1/2 pt-1 ">
                                                                         <Typography>
                                                                             <span className="text-lg">
                                                                                 17:46 - 19:55 
@@ -114,7 +114,7 @@ const Footage =() =>{
                                                                         </Typography>
                                                                     </div>
 
-                                                                    <div className="basis-1/2 text-center border-yellow-500 border-2">
+                                                                    <div className="basis-1/2 text-center ">
                                                                     <Typography>
                                                                         <span className="text-lg">
                                                                             &#40;2 hr 9 min&#41;
@@ -138,7 +138,7 @@ const Footage =() =>{
 
                                         <div className="flex flex-row">
 
-                                            <div className="basis-4/12 text-center box-border h-6 border-white border-b-2">
+                                            <div className="basis-4/12 text-center box-border h-6">
                                                 <Typography>
                                                     <span className="text-md">
                                                         HISTORY
@@ -146,7 +146,7 @@ const Footage =() =>{
                                                 </Typography>
                                             </div>
 
-                                            <div className="basis-8/12 box-border h-6 border-black border-b-2 flex justify-end">
+                                            <div className="basis-8/12 box-border h-6  flex justify-end">
                                                 
                                                 <div className="basis-1/12 text-center">
                                                     <a className="text-md text-black font-thin">
@@ -176,7 +176,7 @@ const Footage =() =>{
                                             <div className="pt-3 flex justify-around">
 
                                                 <div className="relative ">
-                                                    <div className=" h-12 w-12 rounded-full border-gray-400 border-2">
+                                                    <div className=" h-12 w-12 rounded-full ">
                                                         <div className="w-full h-full flex justify-center items-center">
                                                             <Typography>
                                                                 <span className="text-lg">
@@ -200,7 +200,7 @@ const Footage =() =>{
                                                     </div>
                                                 </div>
                                                 <div className="relative">
-                                                    <div className="h-12 w-12 rounded-full border-gray-400 border-2">
+                                                    <div className="h-12 w-12 rounded-full">
                                                         <div className="w-full h-full flex justify-center items-center">
                                                             <Typography>
                                                                 <span className="text-lg">
@@ -220,7 +220,7 @@ const Footage =() =>{
                                                 </div>
 
                                                 <div className="relative">
-                                                    <div className="h-12 w-12 rounded-full border-gray-400 border-2">
+                                                    <div className="h-12 w-12 rounded-full ">
                                                         <div className="w-full h-full flex justify-center items-center">
                                                             <Typography>
                                                                 <span className="text-lg">
@@ -247,7 +247,7 @@ const Footage =() =>{
                                                 </div>
 
                                                 <div className="relative">
-                                                    <div className="h-12 w-12 rounded-full border-gray-400 border-2">
+                                                    <div className="h-12 w-12 rounded-full">
                                                         <div className="w-full h-full flex justify-center items-center">
                                                             <Typography>
                                                                 <span className="text-lg">

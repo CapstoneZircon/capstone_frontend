@@ -11,7 +11,7 @@ const HomePage =() =>{
 
 
     return(
-        <div className="bg-backg-gray">
+        <div className="bg-backg-gray border-2 border-red-600">
             <nav id = "NavBar" className="text-center item-center container-lg">
                 <div className = "md-container w-full">
                     <div className="pt-3 flex flex-row space-x-3">
@@ -43,12 +43,12 @@ const HomePage =() =>{
                 </div>
             </nav>
 
-            <div className="flex flex-row pb-24">
+            <div className="flex flex-row pb-24 border-2 border-indigo-400">
 
             <div className="flex flex-col basis-4/6">
 
 
-                    <div id = "Body" className="mt-4 mb-2 flex flex-col">
+                    <div id = "Body" className="mt-3 mb-2 flex flex-col">
 
                         <div className="row-span-2 basis-4/6 mx-3">
                             <Card className="w-auto h-auto">
