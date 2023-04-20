@@ -17,7 +17,7 @@ import InputForm from "../components/hooks/input";
 
 const LoginPage = () => {
 
-    const [userData , setuserData] = useState({'username': "" , 'password': ""});
+    const [userData , setuserData] = useState<userInfo>({'username': "" , 'password': ""});
 
     const changeHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
         setuserData({...userData , [e.target.name]: e.target.value});
@@ -36,6 +36,7 @@ const LoginPage = () => {
     // }
 
     useEffect(() => {
+        
 
     }, [userData.username , userData.password])
 
