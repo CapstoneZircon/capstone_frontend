@@ -50,7 +50,7 @@ const HomePage =() => {
 
 
                     <div id = "Body" className="mt-3 mb-2 flex flex-col">
-                    <div id = "Body" className="mt-3 mb-2 flex flex-col">
+                    
 
                         <div className="row-span-2 basis-4/6 mx-3">
                             <Card className="w-auto h-auto">
@@ -196,7 +196,7 @@ const HomePage =() => {
             </div>
 
 
-        </div>
+ 
 		</div>
     )
 }; export default HomePage;
