@@ -7,16 +7,12 @@ import { Typography } from "@material-tailwind/react";
 import Chart from "chart.js"
 
 
-const HomePage =() =>{
+const HomePage =() => {
 
 
     return(
-<<<<<<< HEAD
 		
         <div className="bg-backg-gray w-auto h-screen">
-=======
-        <div className="bg-backg-gray border-2 border-red-600">
->>>>>>> 243aecc90af08b17a84eb22e2de4f5831ee74e23
             <nav id = "NavBar" className="text-center item-center container-lg">
                 <div className = "md-container w-full">
                     <div className="pt-3 flex flex-row space-x-3">
@@ -53,6 +49,7 @@ const HomePage =() =>{
             <div className="flex flex-col basis-4/6">
 
 
+                    <div id = "Body" className="mt-3 mb-2 flex flex-col">
                     <div id = "Body" className="mt-3 mb-2 flex flex-col">
 
                         <div className="row-span-2 basis-4/6 mx-3">
@@ -200,7 +197,6 @@ const HomePage =() =>{
 
 
         </div>
-        
-
+		</div>
     )
 }; export default HomePage;
