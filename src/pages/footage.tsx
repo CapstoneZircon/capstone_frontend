@@ -5,7 +5,7 @@ import { Card,CardBody,CardFooter, } from "@material-tailwind/react";
 import { Link } from 'react-router-dom';
 import { Clock } from "../components/Icon/clock";
 import ReactPlayer from 'react-player';
-import {BsChevronLeft} from "react-icons/bs";
+import {FiChevronLeft} from "react-icons/fi";
 import Video from "../components/Video/swap";
 
 const Footage =() =>{
@@ -22,12 +22,12 @@ const Footage =() =>{
         <div className="px-5 py-5 bg-backg-gray w-screen h-screen">
             <div className="px-2 py-2 bg-feedHome-bg">
 
-                <nav id="FootageNavbar" className="flex flex-row">
+                <nav id="FootageNavbar" className="flex flex-row mt-3">
                     <Link to='/home'>    
-                        <div className="col basis-1/12 py-3 px-6">  
+                        <div className="col basis-1/12 py-3 px-6 mt-0.5">  
                     
                             <a className="text-4xl text-black font-thin">
-                                <BsChevronLeft />
+                                <FiChevronLeft />
                             </a>
                     
                         </div> 

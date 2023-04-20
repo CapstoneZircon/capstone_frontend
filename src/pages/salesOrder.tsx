@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import {Button, CardBody, CardHeader} from "@material-tailwind/react"
 import { DatePicker } from 'react-widgets';
 import "react-widgets/styles.css";
+import {FiChevronLeft} from "react-icons/fi";
 
 const SaleOrder = () => {
     type Importer = {
@@ -70,8 +71,8 @@ const SaleOrder = () => {
 
                         <div className="flex flex-row">
                             <Link to='/home'>
-                                <div className = 'col basis-1/12 text-4xl px-6 py-6 text-white'>
-                                    <a> &#60; </a>
+                                <div className = 'col basis-1/12 text-4xl px-6 py-6 text-white mt-0.5'>
+                                    <a> <FiChevronLeft /></a>
                                 </div>
                             </Link>
                                 <div className = 'col basis-5/12 text-4xl px-6 py-6 text-white'>
@@ -87,7 +88,7 @@ const SaleOrder = () => {
                 <div className="bg-saleBody">
                     <div className =" flex flex-row">
 
-                        <span className = 'col basis-2/12 text-l px-4 py-4'>
+                        <span className = 'col basis-2/12 text-l px-4 py-4 ml-6'>
                         Date
                         <DatePicker
                             value={selectedDate}
@@ -97,14 +98,14 @@ const SaleOrder = () => {
 
                         </span>
 
-                        <div className = 'col basis-10/12 text-4xl px-4 py-7 text-justify text-end'>
+                        <div className = 'col basis-10/12 text-3xl px-4 py-7 text-end mr-6'>
                             <p> Total of {data.importers.length} sale orders</p>
                         </div>
                         
                     </div>
                 </div>
-                <div className = 'border-blue-400 border-2'>
-                    <table className = 'border-black border-2 mx-auto text-center '>
+                <div className = ''>
+                    <table className = 'border-black border-2 mx-auto giytext-center '>
                         <thead>
                             <tr>
                                 <th className = 'border-black border-2 px-5 py-2 w-2/12'>ชื่อรุ่น</th>
