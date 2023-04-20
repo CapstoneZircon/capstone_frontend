@@ -18,7 +18,7 @@ const LoginPage = () => {
 
     return(
 
-        <div className="flex flex-row bg-backg-gray py-40">
+        <div className="flex flex-row bg-backg-gray py-40 w-screen h-screen">
             <div className="basis-2/3 flex justify justify-center py-10">
                 <div className="my-5">
                     <Card className="w-96 border-red-600 border-2 text-center ">
