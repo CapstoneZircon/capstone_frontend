@@ -10,6 +10,7 @@ import SignUpPage from './pages/signup';
 
 
 const App = () => {
+  
 
   return (
       <Router>

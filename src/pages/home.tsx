@@ -11,8 +11,12 @@ const HomePage =() =>{
 
 
     return(
+<<<<<<< HEAD
 		
         <div className="bg-backg-gray w-auto h-screen">
+=======
+        <div className="bg-backg-gray border-2 border-red-600">
+>>>>>>> 243aecc90af08b17a84eb22e2de4f5831ee74e23
             <nav id = "NavBar" className="text-center item-center container-lg">
                 <div className = "md-container w-full">
                     <div className="pt-3 flex flex-row space-x-3">
