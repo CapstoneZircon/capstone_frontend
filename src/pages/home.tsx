@@ -150,9 +150,9 @@ const HomePage =() =>{
                             </Card>
                         </div>
 
-                <div className="flex flex-row mb-5 pb-5  justify-center mt-5">
-                    <div className="basis-2/5 mr-5 ml-3">
-                            <Card className="w-auto h-full my-3 border-red-600 border-3">
+                <div className="flex flex-row mb-5 pb-5 mt-5  ml-3">
+                    <div className="basis-1/2 justify-start">
+                            <Card className="h-full w-full my-3">
                                 <CardBody>
 
                                 </CardBody>
@@ -160,8 +160,8 @@ const HomePage =() =>{
 
                     </div>
 
-                    <div className="basis-1/5 ml-5">
-                            <Card className="w-full h-full my-3 border-red-600 border-3 grid">
+                    <div className="basis-1/2 ml-5 justify-end mr-3">
+                            <Card className="w-full h-full my-3 grid">
                                 <CardBody>
                                     <Typography> <div className="flex flex-row"> <div> <span className="mx-5 text-8xl font-extrabold"> 12 </span> </div> <div className="ml-10 w-32 h-auto"> <span className="text-2xl font-bold "> Orders need to be shiped </span></div></div> </Typography>
                                 </CardBody>
@@ -181,8 +181,8 @@ const HomePage =() =>{
                 </div>
                 <div className="row-span-4 basis-2/6 mx-3 my-3 ">
                             <Card className="w-auto h-full bg-feedHome-bg"> 
-                                <div className="my-4">
-                                    <Typography> <span className="ml-11 text-2xl font-semibold"> ENTERED HISTORY </span> </Typography>
+                                <div className="my-4 indent-8">
+                                    <Typography> <span className=" text-2xl font-semibold"> ENTERED HISTORY </span> </Typography>
                                 </div>
                             </Card>
                 </div>
