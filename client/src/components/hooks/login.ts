@@ -2,16 +2,16 @@ import React , {  Component , useEffect, useState } from 'react'
 import Axios from 'axios';
 
 export interface userInfo{
-    username: string;
+    email: string;
     password: string;
 }
 
-export default function LoginCheck({username, password}:userInfo){
+export default function LoginCheck({email, password}:userInfo){
 
     const [data , setData] = useState<userInfo | null>(null);
 
     try{
-        setData({username , password});
+        setData({email , password});
         console.log(data);
     }
     catch (error){

@@ -1,6 +1,8 @@
 import React ,{useState , useRef , useEffect} from "react";
 import {Link , Route , Routes , BrowserRouter} from 'react-router-dom'
 import { Button } from "@material-tailwind/react";
+import {createUserWithEmailAndPassword } from 'firebase/auth'
+import { auth } from "../firebase";
 import {
     Card,
     CardHeader,
@@ -16,41 +18,32 @@ import { userInfo } from "../components/hooks/login";
 
 const LoginPage = () => {
 
-    const [userData , setuserData] = useState<userInfo>({'username': "" , 'password': ""});
+    const [userData , setuserData] = useState<userInfo>({'email': "" , 'password': ""});
 
     const changeHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
         setuserData({...userData , [e.target.name]: e.target.value});
-        console.log(e.target.name);
-        console.log(e.target.value);
         
     }
 
-    // function testFunc(){
-    //     console.log(typeof InsertInput);
-    // }
-    // const handleChange = (event:React.ChangeEvent<HTMLInputElement> , state:string) => {
-    //     if (state === "0"){
-    //         setUserName({"username": event.target.value , "password": ""});
-    //         console.log(userName);
-    //     }else{
-    //         setpassword({"username": "" , "password": event.target.value});
-    //         console.log(password);
-    //     }
-    // }
+    const SubmitHandler = (e:React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log(userData);
+    }
+
 
     useEffect(() => {
         
 
-    }, [userData.username , userData.password])
+    }, [userData.email , userData.password])
 
     // console.log(userData);
     
     return(
 
-        <div className="flex flex-row bg-backg-gray py-40">
-            <div className="basis-2/3 flex justify justify-center py-10">
-                <div className="my-5">
-                    <Card className="w-96 border-red-600 border-2 text-center ">
+        <div className="h-screen flex flex-row justify-center items-center bg-backg-gray">
+            <div className="basis-2/4 flex justify justify-center ">
+                <div className="my-5" >
+                    <Card className="w-96  text-center">
                         <CardHeader className="pb-3 mb-3">
                             <Typography> <span className="text-2xl font-bold"> WareHouse  Department </span> </Typography>
                         </CardHeader>
@@ -58,7 +51,7 @@ const LoginPage = () => {
                             <img src="/images/yuanter.jpg" />
                         </CardBody>
                         <CardFooter>
-                            <div className="flex flex-row  item-center justify-center ">
+                            <div className="flex flex-row items-center justify-center ">
                                 <div className="mx-5 mt-7 ">
                                     <Typography> <span className="font-bold text-xl"> By: </span> </Typography>
                                 </div>
@@ -72,14 +65,14 @@ const LoginPage = () => {
                         
                     </Card>
                     <Link to="signup">
-                        <div className="text-white underline text-center mt-3">
+                        <div className="text-white underline text-center mt-3 font-bold text-lg">
                             Request for an account
                         </div>
                     </Link>
                 </div>
 
             </div>
-            <div className="basis-1/3  my-auto">
+            <div className="basis-1/3  my-auto ">
                 <Card className="w-96">
                     <CardHeader
                     variant="gradient"
@@ -91,19 +84,19 @@ const LoginPage = () => {
                     </Typography>
                     </CardHeader>
                     <CardBody className="flex flex-col gap-4">
-                    <Input name = "username" value={userData.username} onChange ={changeHandler} label="Email" size="lg" type="text"/>
-                    <Input name = "password" value={userData.password} onChange = {changeHandler} label="Password" size="lg" />
+                <form className=" py-5 flex flex-col gap-y-3" onSubmit={SubmitHandler}>
+                    <Input className="col" name = "email" value={userData.email} onChange ={changeHandler} label="Email" size="lg" type="text"/>
+                    <Input className="col" name = "password" type = "password" value={userData.password} onChange = {changeHandler} label="Password" size="lg" />
+                    <Button className="col mt-3" type="submit" variant="gradient" color = 'gray' fullWidth>
+                                Sign In
+                    </Button>
+                </form>
                     <div className="-ml-2.5">
                         <Checkbox label="Remember Me" />
                     </div>
                     </CardBody>
-                    <CardFooter className="pt-0">
-                        <Link to="/">
-                            <Button variant="gradient" color = 'gray' fullWidth>
-                                Sign In
-                            </Button>
-                        </Link>
-                    </CardFooter>
+
+                    
 
                 </Card>
 
