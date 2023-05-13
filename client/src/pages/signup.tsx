@@ -2,7 +2,8 @@ import React ,{useState} from "react";
 import {Link , Route , Routes , BrowserRouter} from 'react-router-dom'
 import { Button } from "@material-tailwind/react";
 import {createUserWithEmailAndPassword ,updateProfile } from 'firebase/auth'
-import { auth } from "../firebase";
+import { doc, setDoc } from "firebase/firestore"; 
+import { auth , db } from "../firebase";
 import {
     Card,
     CardHeader,
