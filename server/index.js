@@ -14,7 +14,7 @@ const db = mysql.createConnection({
 });
 
 app.get('/users', (req , res) => {
-    db.query("SELECT * FROM users", (err , result) => {
+    db.query("SELECT * FROM user", (err , result) => {
         if(err){
             console.log(err);
         }else{
@@ -24,11 +24,13 @@ app.get('/users', (req , res) => {
 });
 
 app.post('/register' ,(req , res) => {
-    const username = res.body.username;
+    const email = res.body.email;
+    const Name = res.body.Name;
+    const Surname = res.body.Surname;
     const password = res.body.password;
-    const role = res.body.role;
+    const Id = res.body.Id;
     
-    db.query("INSERT INTO users VALUE (?,?,?,?)" , [username , password , role , true], 
+    db.query("INSERT INTO user VALUE (?,?,?,?,?)" , [email , Name , Surname , , password , Id], 
     (err, res) => {
         if(err){
             console.log(err);

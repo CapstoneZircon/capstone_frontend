@@ -1,6 +1,8 @@
 import React ,{useState} from "react";
 import {Link , Route , Routes , BrowserRouter} from 'react-router-dom'
 import { Button } from "@material-tailwind/react";
+import {createUserWithEmailAndPassword ,updateProfile } from 'firebase/auth'
+import { auth } from "../firebase";
 import {
     Card,
     CardHeader,
@@ -15,37 +17,31 @@ import { Image } from "react-bootstrap";
 
 const SignUpPage = () => {
 
+    const [err, setErr] = useState(false);
+    const [userData , setuserData] = useState({'email': "" , 'password': "" , "Name": "" , "Surname": "" , "Id": ""});
+
+    const changeHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setuserData({...userData , [e.target.name]: e.target.value});
+    }
+
+    const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        
+        try{
+            const res = await createUserWithEmailAndPassword(auth, userData.email, userData.password)
+            console.log(res);
+
+        }catch(err:any){
+            setErr(err);
+        }
+
+    }
 
     return(
 
-        <div className="flex flex-row bg-backg-gray py-40">
-            <div className="basis-2/3 flex justify justify-center py-10">
-                <div className="my-5">
-                    <Card className="w-96 border-red-600 border-2 text-center ">
-                        <CardHeader className="pb-3 mb-3">
-                            <Typography> <span className="text-2xl font-bold"> WareHouse  Department </span> </Typography>
-                        </CardHeader>
-                        <CardBody>
-                            <img src="/images/yuanter.jpg" />
-                        </CardBody>
-                        <CardFooter>
-                            <div className="flex flex-row  item-center justify-center ">
-                                <div className="mx-5 mt-7 ">
-                                    <Typography> <span className="font-bold text-xl"> By: </span> </Typography>
-                                </div>
-                                <div>
-                                    <div className="flex item-center justify-center text-center">
-                                        <img className = "w-48 h-full" src="/images/Zircon_logo.png" />
-                                    </div>
-                                </div>
-                            </div>
-                        </CardFooter>
-                        
-                    </Card>
-                </div>
+        <div className="flex bg-backg-gray justify-center">
 
-            </div>
-            <div className="basis-1/3  my-auto">
+            <div className="my-auto h-screen flex items-center justify-center">
                 <Card className="w-96">
                     <CardHeader
                     variant="gradient"
@@ -56,20 +52,20 @@ const SignUpPage = () => {
                         Sign up
                     </Typography>
                     </CardHeader>
-                    <CardBody className="flex flex-col gap-4">
-                    <Input label="Email" size="lg" />
-                    <Input label="Password" size="lg" />
-                    <Input label="Name" size="lg" />
-                    <Input label="Surname" size="lg" />
-                    <Input label="Employee ID" size="lg" />
-                    </CardBody>
-                    <CardFooter className="pt-0">
-                        <Link to="..">
-                            <Button variant="gradient" color = 'gray' fullWidth>
+                    <CardBody>
+                    <form className="flex flex-col space-y-3" onSubmit={handleSubmit}>
+                        <Input className="block" name="email" onChange={changeHandler} value={userData.email} label="Email *" size="lg" />
+                        <Input name="password" onChange={changeHandler} value={userData.password} label="Password *" size="lg" type="password" />
+                        <Input name="Name" onChange={changeHandler} value={userData.Name} label="Name" size="lg" />
+                        <Input name="Surname" onChange={changeHandler} value={userData.Surname} label="Surname" size="lg" />
+                        <Input name="Id" onChange={changeHandler} value={userData.Id} label="Employee ID" size="lg" />
+                        <p className="text-red-600 text-xs italic"> * is required </p>
+                        <Button className="my-5" type="submit" variant="gradient" color = 'gray' fullWidth>
                                 Request
-                            </Button>
-                        </Link>
-                    </CardFooter>
+                        </Button>
+                        {err && <span className="text-red-400 text-md font-normal"> Something went wrong </span>}
+                    </form>
+                    </CardBody>
 
                 </Card>
 
