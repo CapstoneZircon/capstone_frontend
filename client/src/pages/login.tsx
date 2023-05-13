@@ -40,17 +40,10 @@ const LoginPage = () => {
     
     return(
 
-<<<<<<< HEAD
-        <div className="h-screen flex items-center justify-center bg-backg-gray">
-            <div className="basis-2/3 flex justify justify-center">
-                <div className="my-5">
-                    <Card className="w-96 border-red-600 border-2 text-center ">
-=======
         <div className="h-screen flex flex-row justify-center items-center bg-backg-gray">
             <div className="basis-2/4 flex justify justify-center ">
                 <div className="my-5" >
                     <Card className="w-96  text-center">
->>>>>>> 2857e65655d3829b13efddcadad87665df68e3fd
                         <CardHeader className="pb-3 mb-3">
                             <Typography> <span className="text-2xl font-bold"> WareHouse  Department </span> </Typography>
                         </CardHeader>
