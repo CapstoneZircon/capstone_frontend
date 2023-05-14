@@ -15,9 +15,11 @@ import {
 
   } from "@material-tailwind/react";
 import { Image } from "react-bootstrap";
+import { Navigate } from "react-router-dom";
 
 const SignUpPage = () => {
 
+    const [userStatus , setUserStatus] = useState(false);
     const [err, setErr] = useState(false);
     const [userData , setuserData] = useState({'email': "" , 'password': "" , "Name": "" , "Surname": "" , "Id": ""});
 
@@ -30,7 +32,15 @@ const SignUpPage = () => {
         
         try{
             const res = await createUserWithEmailAndPassword(auth, userData.email, userData.password)
-            console.log(res);
+            setUserStatus(true);
+            console.log(res)
+            alert(userStatus);
+
+            if(userStatus){
+                return(
+                    <Navigate to="/home" replace = {true} />
+                )
+            }
 
         }catch(err:any){
             setErr(err);
