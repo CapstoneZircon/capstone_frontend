@@ -1,9 +1,0 @@
-{
-  "devDependencies": {
-    "tailwindcss": "^3.3.2"
-  },
-  "dependencies": {
-    "firebase": "^9.22.0",
-    "react-bootstrap": "^2.7.4"
-  }
-}
