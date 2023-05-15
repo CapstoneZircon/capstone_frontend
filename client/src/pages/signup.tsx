@@ -1,6 +1,9 @@
 import React ,{useState} from "react";
 import {Link , Route , Routes , BrowserRouter} from 'react-router-dom'
 import { Button } from "@material-tailwind/react";
+import {createUserWithEmailAndPassword ,updateProfile } from 'firebase/auth'
+import { doc, setDoc } from "firebase/firestore"; 
+import { auth , db } from "../firebase";
 import {
     Card,
     CardHeader,
@@ -12,9 +15,39 @@ import {
 
   } from "@material-tailwind/react";
 import { Image } from "react-bootstrap";
+import { Navigate } from "react-router-dom";
 
 const SignUpPage = () => {
 
+    const [userStatus , setUserStatus] = useState(false);
+    const [err, setErr] = useState(false);
+    const [userData , setuserData] = useState({'email': "" , 'password': "" , "Name": "" , "Surname": "" , "Id": ""});
+
+    const changeHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setuserData({...userData , [e.target.name]: e.target.value});
+    }
+
+    const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        
+        try{
+            const res = await createUserWithEmailAndPassword(auth, userData.email, userData.password)
+            setUserStatus(true);
+            console.log(res)
+            alert(userStatus);
+
+            if(userStatus){
+                return(
+                    <Navigate to="/home" replace = {true} />
+                )
+            }
+
+        }catch(err:any){
+            setErr(err);
+        }
+
+    }
+    
 
     return(
 
@@ -43,9 +76,9 @@ const SignUpPage = () => {
                         
                     </Card>
                 </div>
-
             </div>
-            <div className="basis-1/3  my-auto">
+
+            <div className="my-auto h-screen flex items-center justify-center">
                 <Card className="w-96">
                     <CardHeader
                     variant="gradient"
@@ -56,28 +89,28 @@ const SignUpPage = () => {
                         Sign up
                     </Typography>
                     </CardHeader>
-                    <CardBody className="flex flex-col gap-4">
-                    <Input label="Email" size="lg" />
-                    <Input label="Password" size="lg" />
-                    <Input label="Name" size="lg" />
-                    <Input label="Surname" size="lg" />
-                    <Input label="Employee ID" size="lg" />
-                    </CardBody>
-                    <CardFooter className="pt-0">
-                        <Link to="..">
-                            <Button variant="gradient" color = 'gray' fullWidth>
+                    <CardBody>
+                    <form className="flex flex-col space-y-3" onSubmit={handleSubmit}>
+                        <Input className="block" name="email" onChange={changeHandler} value={userData.email} label="Email *" size="lg" />
+                        <Input name="password" onChange={changeHandler} value={userData.password} label="Password *" size="lg" type="password" />
+                        <Input name="Name" onChange={changeHandler} value={userData.Name} label="Name" size="lg" />
+                        <Input name="Surname" onChange={changeHandler} value={userData.Surname} label="Surname" size="lg" />
+                        <Input name="Id" onChange={changeHandler} value={userData.Id} label="Employee ID" size="lg" />
+                        <p className="text-red-600 text-xs italic"> * is required </p>
+                        <Button className="my-5" type="submit" variant="gradient" color = 'gray' fullWidth>
                                 Request
-                            </Button>
-                        </Link>
-                    </CardFooter>
+                        </Button>
+                        {err && <span className="text-red-400 text-md font-normal"> Something went wrong </span>}
+                    </form>
+                    </CardBody>
 
                 </Card>
 
-              </div>
+            </div>
 
 
 
-              </div>
+        </div>
 
 
     )
