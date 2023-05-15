@@ -1,9 +1,9 @@
 import React ,{useState , useRef , useEffect} from "react";
 import {Link ,useNavigate} from 'react-router-dom'
 import { Button } from "@material-tailwind/react";
-import {createUserWithEmailAndPassword } from 'firebase/auth'
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+
 import {
     Card,
     CardHeader,
@@ -39,7 +39,7 @@ const LoginPage = () => {
                     navigate("/home")
                 )
             }
-        
+
 
         }catch(err:any){
             const errorCode = err.code;

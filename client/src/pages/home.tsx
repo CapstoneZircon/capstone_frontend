@@ -12,9 +12,8 @@ const HomePage =() => {
 
     return(
 		
-        <div className="bg-backg-gray w-auto flex h-screen justify-center items-center border-2 border-red-400">
+        <div className="bg-backg-gray w-auto flex h-screen justify-center items-center">
  
-
             <div className="flex flex-row w-screen">
 
             <div className="flex flex-col basis-4/6">
