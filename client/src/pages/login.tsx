@@ -72,11 +72,7 @@ const LoginPage = () => {
                 </div>
 
             </div>
-<<<<<<< HEAD
             <div className="basis-1/3  my-auto mr-10">
-=======
-            <div className="basis-1/3  my-auto ">
->>>>>>> a8b4640b49917f2938694d8b2f0bf01017733081
                 <Card className="w-96">
                     <CardHeader
                     variant="gradient"
@@ -91,15 +87,11 @@ const LoginPage = () => {
                 <form className=" py-5 flex flex-col gap-y-3" onSubmit={SubmitHandler}>
                     <Input className="col" name = "email" value={userData.email} onChange ={changeHandler} label="Email" size="lg" type="text"/>
                     <Input className="col" name = "password" type = "password" value={userData.password} onChange = {changeHandler} label="Password" size="lg" />
-                    <Button className="col mt-3" type="submit" variant="gradient" color = 'gray' fullWidth>
-                                Sign In
-                    </Button>
                 </form>
                     <div className="-ml-2.5">
                         <Checkbox label="Remember Me" />
                     </div>
                     </CardBody>
-<<<<<<< HEAD
                     <CardFooter className="pt-0">
                         <Link to="home">
                             <Button variant="gradient" color = 'gray' fullWidth>
@@ -107,10 +99,6 @@ const LoginPage = () => {
                             </Button>
                         </Link>
                     </CardFooter>
-=======
-
-                    
->>>>>>> a8b4640b49917f2938694d8b2f0bf01017733081
 
                 </Card>
 
