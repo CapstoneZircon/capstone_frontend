@@ -40,7 +40,7 @@ app.post('/register' ,(req , res) => {
     })
 })
 
-app.listen('3001' , () => {
+app.listen('8080' , "0.0.0.0", () => {
     console.log('server is running');
 })
 

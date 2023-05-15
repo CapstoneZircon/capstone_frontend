@@ -12,39 +12,10 @@ const HomePage =() => {
 
     return(
 		
-        <div className="bg-backg-gray w-auto h-screen">
-            <nav id = "NavBar" className="text-center item-center container-lg">
-                <div className = "md-container w-full">
-                    <div className="pt-3 flex flex-row space-x-3">
+        <div className="bg-backg-gray w-auto flex h-screen justify-center items-center border-2 border-red-400">
+ 
 
-                        <div className="col basis-1/4">
-                            <Link to='/'>
-                                <Button variant="text" color = "white"> <a> Home </a> </Button>
-                            </Link>
-                        </div>
-
-                        <div className="col basis-1/4">
-                            <Link to='salesOrder'>
-                                <Button variant="text" color = "white"> <a> Sales </a> </Button>
-                            </Link>
-                        </div>
-
-                        <div className="col basis-1/4">
-                            <Link to='footage'>
-                                <Button variant="text" color = "white"> <a> Footage </a> </Button>
-                            </Link>
-                        </div>
-                        <div className="col basis-1/4">
-                            <Link to='/'>
-                                <Button variant="text" color = "white"> <a> Dashboard </a> </Button>
-                            </Link>
-                        </div>
-
-                    </div>
-                </div>
-            </nav>
-
-            <div className="flex flex-row">
+            <div className="flex flex-row w-screen">
 
             <div className="flex flex-col basis-4/6">
 
@@ -185,8 +156,8 @@ const HomePage =() => {
                 </div>
                 <div className="w-full row-span-4 basis-2/6 mx-3 my-3 ">
                             <Card className="w-auto h-full bg-feedHome-bg "> 
-                                <div className="my-4">
-                                    <Typography> <span className="ml-11 text-2xl font-semibold"> ENTERED HISTORY </span> </Typography>
+                                <div className="my-4 sm:text-center md:text-center lg:text-left">
+                                    <Typography> <span className="pl-5 sm:text-sm md:text-xl lg:text-xl font-semibold"> ENTERED HISTORY </span> </Typography>
                                 </div>
                             </Card>
                 </div>

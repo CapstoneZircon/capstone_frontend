@@ -1,8 +1,9 @@
 import React ,{useState , useRef , useEffect} from "react";
-import {Link , Route , Routes , BrowserRouter} from 'react-router-dom'
+import {Link ,useNavigate} from 'react-router-dom'
 import { Button } from "@material-tailwind/react";
 import {createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth } from "../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import {
     Card,
     CardHeader,
@@ -17,7 +18,9 @@ import { userInfo } from "../components/hooks/login";
 // import InsertInput from "../components/hooks/input";
 
 const LoginPage = () => {
-
+    const navigate = useNavigate();
+    const [error, setError] = useState(false);
+    const [errCode, setErrorCode] = useState("")
     const [userData , setuserData] = useState<userInfo>({'email': "" , 'password': ""});
 
     const changeHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -25,9 +28,29 @@ const LoginPage = () => {
         
     }
 
-    const SubmitHandler = (e:React.FormEvent<HTMLFormElement>) => {
+    const SubmitHandler = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(userData);
+        try{
+            const res = await signInWithEmailAndPassword(auth, userData.email, userData.password);
+            console.log(res.user.email);
+            console.log(userData.email);
+            if (res.user.email == userData.email){
+                return(
+                    navigate("/home")
+                )
+            }
+        
+
+        }catch(err:any){
+            const errorCode = err.code;
+            const errMessage = err.message;
+            setError(true);
+            setErrorCode(errMessage);
+
+            console.log(errMessage);
+                   
+        }
+        
     }
 
 
@@ -90,10 +113,9 @@ const LoginPage = () => {
                     <Button className="col mt-3" type="submit" variant="gradient" color = 'gray' fullWidth>
                                 Sign In
                     </Button>
+                    {error && <span className="text-red-400 text-md font-normal"> {errCode} </span>}
                 </form>
-                    <div className="-ml-2.5">
-                        <Checkbox label="Remember Me" />
-                    </div>
+                    
                     </CardBody>
 
                     
