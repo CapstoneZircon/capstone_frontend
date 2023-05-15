@@ -47,9 +47,9 @@ const LoginPage = () => {
     
     return(
 
-        <div className="flex flex-row bg-backg-gray py-40">
-            <div className="basis-2/3 flex justify justify-center py-10">
-                <div className="my-5">
+        <div className="flex flex-row bg-backg-gray py-40 min-h-screen w-auto">
+            <div className="basis-2/3 flex justify justify-center">
+                <div className="my-auto">
                     <Card className="w-96 border-red-600 border-2 text-center ">
                         <CardHeader className="pb-3 mb-3">
                             <Typography> <span className="text-2xl font-bold"> WareHouse  Department </span> </Typography>
@@ -79,7 +79,7 @@ const LoginPage = () => {
                 </div>
 
             </div>
-            <div className="basis-1/3  my-auto">
+            <div className="basis-1/3  my-auto mr-10">
                 <Card className="w-96">
                     <CardHeader
                     variant="gradient"
@@ -98,7 +98,7 @@ const LoginPage = () => {
                     </div>
                     </CardBody>
                     <CardFooter className="pt-0">
-                        <Link to="/">
+                        <Link to="home">
                             <Button variant="gradient" color = 'gray' fullWidth>
                                 Sign In
                             </Button>

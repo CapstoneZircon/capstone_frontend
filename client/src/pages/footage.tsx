@@ -19,7 +19,7 @@ const Footage =() =>{
     return (
         
         // <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
-        <div className="px-5 py-5 bg-backg-gray w-screen h-screen">
+        <div className="px-5 py-5 bg-backg-gray min-h-screen w-auto">
             <div className="px-2 py-2 bg-feedHome-bg">
 
                 <nav id="FootageNavbar" className="flex flex-row mt-3">
@@ -55,7 +55,7 @@ const Footage =() =>{
 
                     <div className="col basis-3/12 mr-12">
                         <div className="flex flex-col ">
-                            <div className="basis-3/12 ">
+                            <div className="basis-3/12 flex justify-center">
                                 <img src="/images/CCTV2.jpg" alt="CCTV2" onClick={sawpVideo}/>
                             </div>
 

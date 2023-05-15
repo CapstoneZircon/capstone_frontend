@@ -12,7 +12,7 @@ const HomePage =() => {
 
     return(
 		
-        <div className="bg-backg-gray w-auto h-screen">
+        <div className="bg-backg-gray w-auto min-h-screen">
             <nav id = "NavBar" className="text-center item-center container-lg">
                 <div className = "md-container w-full">
                     <div className="pt-3 flex flex-row space-x-3">
