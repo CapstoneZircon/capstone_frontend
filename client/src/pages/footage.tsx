@@ -1,13 +1,13 @@
-import React,{useState} from "react";
+import React,{useState , useContext} from "react";
 import { Button } from "@material-tailwind/react";
 import { Typography } from "@material-tailwind/react";
 import { Card,CardBody,CardFooter, } from "@material-tailwind/react";
 import { Link } from 'react-router-dom';
 import { Clock } from "../components/Icon/clock";
-import ReactPlayer from 'react-player';
 import {FiChevronLeft} from "react-icons/fi";
 import Video from "../components/Video/swap";
-
+import { Navbar } from "../components/navbar/navbar";
+import { AuthContext } from '../context/AuthContext';
 const Footage =() =>{
     const[videoState,setSorce] = useState<boolean>(false);
     const sawpVideo = () => {
@@ -19,10 +19,11 @@ const Footage =() =>{
     return (
         
         // <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
-        <div className="px-5 py-5 bg-backg-gray min-h-screen w-auto">
-            <div className="px-2 py-2 bg-feedHome-bg">
+        <div className="bg-backg-gray w-auto flex h-screen justify-center items-center ">
+            <div className="py-2 bg-feedHome-bg rounded-md mx-5">
 
                 <nav id="FootageNavbar" className="flex flex-row mt-3">
+
                     <Link to='/home'>    
                         <div className="col basis-1/12 py-3 px-6 mt-0.5">  
                     
@@ -41,7 +42,13 @@ const Footage =() =>{
                         </Typography>
                     </div>
 
+                    <div className="flex justify-end items-end">
+                        {/* <Navbar></Navbar> */}
+                    </div>
+
                 </nav>
+
+
         
                 <div id="FootageBody" className="flex flex-row">
 

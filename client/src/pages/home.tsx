@@ -1,30 +1,37 @@
 import React, { useEffect, useState } from "react";
 import {Button, CardBody, CardFooter, CardHeader} from "@material-tailwind/react"
-import ButtonFeed from "../components/Button/ButtonFeed";
 import {Card} from "@material-tailwind/react"
 import { Link } from "react-router-dom";
-import { Typography } from "@material-tailwind/react";
-import Chart from "chart.js"
-
+import { auth } from "../firebase";
+import {signOut} from "firebase/auth"
+import {
+	Typography,
+  } from "@material-tailwind/react";
+import { Navbar } from "../components/navbar/navbar";
 
 const HomePage =() => {
 
-
     return(
-		
-        <div className="bg-backg-gray w-auto flex h-screen justify-center items-center">
+
+		<div className="bg-backg-gray w-auto  h-screen">
+			<div className="flex flex-row-reverse">
+					<Navbar></Navbar>		
+			</div>
+					
+        <div className="flex flex-col justify-center items-center">
  
-            <div className="flex flex-row w-screen">
+            <div className="flex flex-row w-screen ">
 
-            <div className="flex flex-col basis-4/6">
+            <div className="flex flex-col basis-4/6 ">
 
 
-                    <div id = "Body" className="mt-3 mb-2 flex flex-col">
+                    <div id = "Body" className="mt-3 mb-2 flex flex-col ">
+
                     
 
                         <div className="row-span-2 basis-4/6 mx-3">
                             <Card className="w-auto h-auto">
-                                <div className="text-2xl font-extrabold ml-11 mt-4 "> <h2> IN - OUT Visualize <a href="/"> &#10093; </a></h2> </div>
+                                <div className="text-2xl font-extrabold ml-11 mt-4 "> <h2> IN - OUT Visualize <a href="/footage"> &#10093; </a></h2> </div>
 
                                 <CardBody className="flex flex-col items-center w-full h-96 justify-center my-5">
                             
@@ -167,6 +174,7 @@ const HomePage =() => {
 
 
  
+		</div>
 		</div>
     )
 }; export default HomePage;

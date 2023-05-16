@@ -4,6 +4,7 @@ import {Button, CardBody, CardHeader} from "@material-tailwind/react"
 import { DatePicker } from 'react-widgets';
 import "react-widgets/styles.css";
 import {FiChevronLeft} from "react-icons/fi";
+import { Navbar } from "../components/navbar/navbar";
 
 const SaleOrder = () => {
     type Importer = {
@@ -66,10 +67,14 @@ const SaleOrder = () => {
     return(
         <div className="">
            <nav id = "SalesOrderNavBar" className="container-lg bg-saleNev-bg">
+            
                 <div className = "md-container w-full">
+               
                     <div className="space-x-3 ">
+                      
 
                         <div className="flex flex-row">
+                          
                             <Link to='/home'>
                                 <div className = 'col basis-1/12 text-4xl px-6 py-6 text-white mt-0.5'>
                                     <a> <FiChevronLeft /></a>

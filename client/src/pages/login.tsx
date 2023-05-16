@@ -18,6 +18,9 @@ import { userInfo } from "../components/hooks/login";
 // import InsertInput from "../components/hooks/input";
 
 const LoginPage = () => {
+
+    const admin = process.env.REACT_APP_ADMIN;
+    const [isAdmin , setAdmin] = useState(false);
     const navigate = useNavigate();
     const [error, setError] = useState(false);
     const [errCode, setErrorCode] = useState("")
@@ -32,9 +35,10 @@ const LoginPage = () => {
         e.preventDefault();
         try{
             const res = await signInWithEmailAndPassword(auth, userData.email, userData.password);
-            console.log(res.user.email);
-            console.log(userData.email);
             if (res.user.email == userData.email){
+                if (res.user.email == admin){
+                    setAdmin(true);
+                }
                 return(
                     navigate("/home")
                 )
@@ -44,6 +48,7 @@ const LoginPage = () => {
         }catch(err:any){
             const errorCode = err.code;
             const errMessage = err.message;
+
             setError(true);
             setErrorCode(errMessage);
 
@@ -87,11 +92,7 @@ const LoginPage = () => {
                         </CardFooter>
                         
                     </Card>
-                    <Link to="signup">
-                        <div className="text-white underline text-center mt-3 font-bold text-lg">
-                            Request for an account
-                        </div>
-                    </Link>
+
                 </div>
 
             </div>

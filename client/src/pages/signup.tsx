@@ -1,21 +1,16 @@
 import React ,{useState} from "react";
-import {Link , Route , Routes , BrowserRouter, useNavigate} from 'react-router-dom'
+import {Link , useNavigate} from 'react-router-dom'
 import { Button } from "@material-tailwind/react";
-import {createUserWithEmailAndPassword ,updateProfile } from 'firebase/auth'
+import {createUserWithEmailAndPassword} from 'firebase/auth'
 import { doc, setDoc } from "firebase/firestore"; 
 import { auth , db } from "../firebase";
 import {
     Card,
     CardHeader,
     CardBody,
-    CardFooter,
     Typography,
     Input,
-    Checkbox,
-
   } from "@material-tailwind/react";
-import { Image } from "react-bootstrap";
-import { Navigate } from "react-router-dom";
 
 const SignUpPage = () => {
 
@@ -23,7 +18,7 @@ const SignUpPage = () => {
 
     const [userStatus , setUserStatus] = useState(false);
     const [err, setErr] = useState(false);
-    const [userData , setuserData] = useState({'email': "" , 'password': "" , "Name": "" , "Surname": "" , "Id": ""});
+    const [userData , setuserData] = useState({'email': "" , 'password': "" , "Name": "" , "Surname": "" , "Id": "" });
 
     const changeHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
         setuserData({...userData , [e.target.name]: e.target.value});
@@ -50,6 +45,7 @@ const SignUpPage = () => {
             }
         }catch(err:any){
             setErr(err);
+            console.log(err);
         }
 
     }

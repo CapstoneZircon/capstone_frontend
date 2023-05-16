@@ -4,8 +4,10 @@ import { getAnalytics } from "firebase/analytics";
 import {getAuth} from 'firebase/auth'
 import { getFirestore } from "firebase/firestore";
 
+const API_KEY = process.env.REACT_APP_API_KEY;
+
 const firebaseConfig = {
-  apiKey: "AIzaSyC_Zz51vIAk3EGcuSaFRtXJf2qlARjNYSw",
+  apiKey: API_KEY,
   authDomain: "warehousezircon.firebaseapp.com",
   projectId: "warehousezircon",
   storageBucket: "warehousezircon.appspot.com",
@@ -18,4 +20,4 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const analytics = getAnalytics(app);
 export const auth = getAuth();
-export const db = getFirestore();
+export const db = getFirestore(app);
