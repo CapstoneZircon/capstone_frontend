@@ -12,7 +12,7 @@ import colorStatus from "../components/saleOrder/colorStatus";
 const SaleOrder = () => {
     const [saleData, setData] = useState([])
       useEffect(() => {
-          Axios.get('http://localhost:3001/saleOrder').then((response) => {
+          Axios.get('http://localhost:8080/saleOrder').then((response) => {
             setData(response.data);
           
 
