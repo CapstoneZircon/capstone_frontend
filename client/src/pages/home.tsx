@@ -152,10 +152,11 @@ const HomePage =() => {
                             </Card>
                         </div>
 
-                <div className="flex flex-col lg:flex-row mb-5 border-4 justify-center mt-2 ">
+                <div className="flex flex-col lg:flex-row mb-5 justify-center mt-2 ">
+					{/* <div className="flex mx-3 lg:basis-1/2 lg:mr-5 lg:ml-3"> */}
                     <div className="flex mx-3 lg:basis-1/2 lg:mr-5 lg:ml-3">
-							<Card className="w-full h-60 mt-3 grid ">
-                                <CardBody className="h-44">
+							<Card className="w-full h-52 mt-3 grid ">
+                                <CardBody className="h-40">
                                     <Typography> <div className="flex flex-row"> <div> <span className="mx-5 text-8xl font-extrabold"> 12 </span> </div> <div className="ml-10 w-32 h-auto"> <span className="text-2xl font-bold "> Orders need to be shiped </span></div></div> </Typography>
 									<Typography> <span className="flex justify-center text-md font-bold text-red-600 mt-2"> 3 Orders was delayed </span></Typography>
 								</CardBody>
@@ -166,9 +167,10 @@ const HomePage =() => {
 
                     </div>
 
-                    <div className=" flex mx-3 mt-5 lg:basis-1/2 lg:mr-3 lg:ml-5 lg:mt-0 ">
-                            <Card className="w-full h-60 mt-3 grid ">
-                                <CardBody className="h-44">
+                    {/* <div className=" flex mx-3 mt-8 lg:basis-1/2 lg:mr-3 lg:ml-5 lg:mt-0 "> */}
+					<div className=" flex mx-3 mt-8 lg:basis-1/2 lg:mr-3 lg:ml-5 lg:mt-0 ">
+                            <Card className="w-full h-52 my-3 grid ">
+                                <CardBody className="h-40">
                                     <Typography> <div className="flex flex-row"> <div> <span className="mx-5 text-8xl font-extrabold"> 12 </span> </div> <div className="ml-10 w-32 h-auto"> <span className="text-2xl font-bold "> Orders need to be shiped </span></div></div> </Typography>
 									<Typography> <span className="flex justify-center text-md font-bold text-red-600 mt-2"> 3 Orders was delayed </span></Typography>
 								</CardBody>
