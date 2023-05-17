@@ -5,10 +5,18 @@ import {Card} from "@material-tailwind/react"
 import { Link } from "react-router-dom";
 import { Typography } from "@material-tailwind/react";
 import Chart from "chart.js"
+import Axios from 'axios'
 
 
 const HomePage =() => {
+	const [userhistoryList, setuserHistoryList] = useState([]);
+	
 
+	useEffect(() => {
+			Axios.get('http://localhost:8080/historys-users').then((response) => {
+				setuserHistoryList(response.data);
+			});
+    })
 
     return(
 		
@@ -188,6 +196,44 @@ const HomePage =() => {
                                 <div className="my-4">
                                     <Typography> <span className="ml-11 text-2xl font-semibold"> ENTERED HISTORY </span> </Typography>
                                 </div>
+
+								{userhistoryList.map((val, key) =>{
+									// const Date = String(val["Date"]).substring(0,10);
+									const date = new Date(val["Date"]);
+									const date_str = String(date).substring(4,15);
+									
+									return(
+										<Card className=" my-1 mx-5 py-2">
+											<div className="flex flex-row ml-5">
+												<div className="basis-1/2">
+													<Typography> <span className="text-lg font-semibold"> Name: {val["Name"]} </span> </Typography>
+												</div>
+												<div className="basis-1/2">
+													<Typography> <span className="text-lg font-semibold"> Position: {val["Position"]} </span> </Typography>
+												</div>
+											</div>
+
+											<div className="flex flex-row ml-5">
+												<div className="basis-1/2">
+													<Typography> <span className="text-lg font-semibold"> UID_Card: {val["UID_Card"]} </span> </Typography>
+												</div>
+												<div className="basis-1/2">
+													<Typography> <span className="text-lg font-semibold"> Status: {val["Status"]} </span> </Typography>
+												</div>
+											</div>
+
+											<div className="flex flex-row ml-5">
+												<div className="basis-1/2">
+													<Typography> <span className="text-lg font-semibold"> Date: {date_str} </span> </Typography>
+												</div>
+												<div className="basis-1/2">
+													<Typography> <span className="text-lg font-semibold"> Time: {val["Time"]} </span> </Typography>
+												</div>
+											</div>
+											
+										</Card>
+									)
+								})}
                             </Card>
                 </div>
 

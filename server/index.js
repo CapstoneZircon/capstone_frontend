@@ -23,12 +23,32 @@ app.get('/users', (req , res) => {
     })
 });
 
+app.get('/historys', (req , res) => {
+    db.query("SELECT * FROM history", (err , result) => {
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    })
+});
+
+app.get('/historys-users', (req , res) => {
+    db.query("SELECT h.Date, h.Time, h.UID_Card, h.Status, u.Name, u.Position FROM history AS h LEFT JOIN user AS u ON h.UID_Card = u.UID_Card ORDER BY h.Date, h.Time", (err , result) => {
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    })
+});
+
 app.post('/register' ,(req , res) => {
-    const email = res.body.email;
-    const Name = res.body.Name;
-    const Surname = res.body.Surname;
-    const password = res.body.password;
-    const Id = res.body.Id;
+    const email = req.body.email;
+    const Name = req.body.Name;
+    const Surname = req.body.Surname;
+    const password = req.body.password;
+    const Id = req.body.Id;
     
     db.query("INSERT INTO user VALUE (?,?,?,?,?)" , [email , Name , Surname , , password , Id], 
     (err, res) => {
@@ -40,7 +60,7 @@ app.post('/register' ,(req , res) => {
     })
 })
 
-app.listen('3001' , () => {
+app.listen('8080', "0.0.0.0", () => {
     console.log('server is running');
 })
 
