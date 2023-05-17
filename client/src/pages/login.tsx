@@ -40,10 +40,10 @@ const LoginPage = () => {
     
     return(
 
-        <div className="h-screen flex flex-row justify-center items-center bg-backg-gray">
-            <div className="basis-2/4 flex justify justify-center ">
-                <div className="my-5" >
-                    <Card className="w-96  text-center">
+        <div className="flex flex-row bg-backg-gray py-40 min-h-screen w-auto">
+            <div className="basis-2/3 flex justify justify-center">
+                <div className="my-auto">
+                    <Card className="w-96 border-red-600 border-2 text-center ">
                         <CardHeader className="pb-3 mb-3">
                             <Typography> <span className="text-2xl font-bold"> WareHouse  Department </span> </Typography>
                         </CardHeader>
@@ -72,7 +72,7 @@ const LoginPage = () => {
                 </div>
 
             </div>
-            <div className="basis-1/3  my-auto ">
+            <div className="basis-1/3  my-auto mr-10">
                 <Card className="w-96">
                     <CardHeader
                     variant="gradient"
@@ -87,16 +87,18 @@ const LoginPage = () => {
                 <form className=" py-5 flex flex-col gap-y-3" onSubmit={SubmitHandler}>
                     <Input className="col" name = "email" value={userData.email} onChange ={changeHandler} label="Email" size="lg" type="text"/>
                     <Input className="col" name = "password" type = "password" value={userData.password} onChange = {changeHandler} label="Password" size="lg" />
-                    <Button className="col mt-3" type="submit" variant="gradient" color = 'gray' fullWidth>
-                                Sign In
-                    </Button>
                 </form>
                     <div className="-ml-2.5">
                         <Checkbox label="Remember Me" />
                     </div>
                     </CardBody>
-
-                    
+                    <CardFooter className="pt-0">
+                        <Link to="home">
+                            <Button variant="gradient" color = 'gray' fullWidth>
+                                Sign In
+                            </Button>
+                        </Link>
+                    </CardFooter>
 
                 </Card>
 

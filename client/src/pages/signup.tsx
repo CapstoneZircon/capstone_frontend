@@ -15,9 +15,11 @@ import {
 
   } from "@material-tailwind/react";
 import { Image } from "react-bootstrap";
+import { Navigate } from "react-router-dom";
 
 const SignUpPage = () => {
 
+    const [userStatus , setUserStatus] = useState(false);
     const [err, setErr] = useState(false);
     const [userData , setuserData] = useState({'email': "" , 'password': "" , "Name": "" , "Surname": "" , "Id": ""});
 
@@ -30,17 +32,51 @@ const SignUpPage = () => {
         
         try{
             const res = await createUserWithEmailAndPassword(auth, userData.email, userData.password)
-            console.log(res);
+            setUserStatus(true);
+            console.log(res)
+            alert(userStatus);
+
+            if(userStatus){
+                return(
+                    <Navigate to="/home" replace = {true} />
+                )
+            }
 
         }catch(err:any){
             setErr(err);
         }
 
     }
+    
 
     return(
 
-        <div className="flex bg-backg-gray justify-center">
+        <div className="flex flex-row bg-backg-gray py-40 min-h-screen w-auto">
+            <div className="basis-2/3 flex justify justify-center py-10">
+                <div className="my-5">
+                    <Card className="w-96 border-red-600 border-2 text-center ">
+                        <CardHeader className="pb-3 mb-3">
+                            <Typography> <span className="text-2xl font-bold"> WareHouse  Department </span> </Typography>
+                        </CardHeader>
+                        <CardBody>
+                            <img src="/images/yuanter.jpg" />
+                        </CardBody>
+                        <CardFooter>
+                            <div className="flex flex-row  item-center justify-center ">
+                                <div className="mx-5 mt-7 ">
+                                    <Typography> <span className="font-bold text-xl"> By: </span> </Typography>
+                                </div>
+                                <div>
+                                    <div className="flex item-center justify-center text-center">
+                                        <img className = "w-48 h-full" src="/images/Zircon_logo.png" />
+                                    </div>
+                                </div>
+                            </div>
+                        </CardFooter>
+                        
+                    </Card>
+                </div>
+            </div>
 
             <div className="my-auto h-screen flex items-center justify-center">
                 <Card className="w-96">
@@ -70,11 +106,11 @@ const SignUpPage = () => {
 
                 </Card>
 
-              </div>
+            </div>
 
 
 
-              </div>
+        </div>
 
 
     )

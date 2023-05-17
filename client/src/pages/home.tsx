@@ -20,31 +20,31 @@ const HomePage =() => {
 
     return(
 		
-        <div className="bg-backg-gray w-auto h-screen">
+        <div className="bg-backg-gray w-auto min-h-screen">
             <nav id = "NavBar" className="text-center item-center container-lg">
                 <div className = "md-container w-full">
-                    <div className="pt-3 flex flex-row space-x-3">
+                    <div className="pt-3 flex flex-row space-x-1">
 
                         <div className="col basis-1/4">
                             <Link to='/'>
-                                <Button variant="text" color = "white"> <a> Home </a> </Button>
+                                <Button variant="text" color = "white"> <a>Home</a> </Button>
                             </Link>
                         </div>
 
                         <div className="col basis-1/4">
                             <Link to='salesOrder'>
-                                <Button variant="text" color = "white"> <a> Sales </a> </Button>
+                                <Button variant="text" color = "white"> <a>Sales</a> </Button>
                             </Link>
                         </div>
 
                         <div className="col basis-1/4">
                             <Link to='footage'>
-                                <Button variant="text" color = "white"> <a> Footage </a> </Button>
+                                <Button variant="text" color = "white"> <a>Footage</a> </Button>
                             </Link>
                         </div>
                         <div className="col basis-1/4">
                             <Link to='/'>
-                                <Button variant="text" color = "white"> <a> Dashboard </a> </Button>
+                                <Button variant="text" color = "white"> <a>Dashboard</a> </Button>
                             </Link>
                         </div>
 
@@ -60,8 +60,8 @@ const HomePage =() => {
                     <div id = "Body" className="mt-3 mb-2 flex flex-col">
                     
 
-                        <div className="row-span-2 basis-4/6 mx-3">
-                            <Card className="w-auto h-auto">
+                        <div className="row-span-2 basis-4/6 mx-3 ">
+                            <Card className="w-auto h-auto ">
                                 <div className="text-2xl font-extrabold ml-11 mt-4 "> <h2> IN - OUT Visualize <a href="/"> &#10093; </a></h2> </div>
 
                                 <CardBody className="flex flex-col items-center w-full h-96 justify-center my-5">
@@ -160,9 +160,10 @@ const HomePage =() => {
                             </Card>
                         </div>
 
-                <div className="flex flex-row mb-5 justify-center mt-2">
-                    <div className="basis-1/2 mr-5 ml-3">
-							<Card className="w-full h-52 my-3 grid ">
+                <div className="flex flex-col lg:flex-row mb-5 justify-center mt-2 ">
+					{/* <div className="flex mx-3 lg:basis-1/2 lg:mr-5 lg:ml-3"> */}
+                    <div className="flex mx-3 lg:basis-1/2 lg:mr-5 lg:ml-3">
+							<Card className="w-full h-52 mt-3 grid ">
                                 <CardBody className="h-40">
                                     <Typography> <div className="flex flex-row"> <div> <span className="mx-5 text-8xl font-extrabold"> 12 </span> </div> <div className="ml-10 w-32 h-auto"> <span className="text-2xl font-bold "> Orders need to be shiped </span></div></div> </Typography>
 									<Typography> <span className="flex justify-center text-md font-bold text-red-600 mt-2"> 3 Orders was delayed </span></Typography>
@@ -174,7 +175,8 @@ const HomePage =() => {
 
                     </div>
 
-                    <div className=" basis-1/2 mr-3 ml-5">
+                    {/* <div className=" flex mx-3 mt-8 lg:basis-1/2 lg:mr-3 lg:ml-5 lg:mt-0 "> */}
+					<div className=" flex mx-3 mt-8 lg:basis-1/2 lg:mr-3 lg:ml-5 lg:mt-0 ">
                             <Card className="w-full h-52 my-3 grid ">
                                 <CardBody className="h-40">
                                     <Typography> <div className="flex flex-row"> <div> <span className="mx-5 text-8xl font-extrabold"> 12 </span> </div> <div className="ml-10 w-32 h-auto"> <span className="text-2xl font-bold "> Orders need to be shiped </span></div></div> </Typography>
@@ -194,7 +196,7 @@ const HomePage =() => {
                 <div className="w-full row-span-4 basis-2/6 mx-3 my-3 ">
                             <Card className="w-auto h-full bg-feedHome-bg "> 
                                 <div className="my-4">
-                                    <Typography> <span className="ml-11 text-2xl font-semibold"> ENTERED HISTORY </span> </Typography>
+                                    <Typography> <span className="ml-11 text-sm lg:text-2xl font-semibold"> ENTERED HISTORY </span> </Typography>
                                 </div>
 
 								{userhistoryList.map((val, key) =>{
