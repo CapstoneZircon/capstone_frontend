@@ -9,6 +9,7 @@ import { response } from "express";
 import colorStatus from "../components/saleOrder/colorStatus";
 import { Navbar } from "../components/navbar/navbar";
 
+
 const SaleOrder = () => {
     const [saleData, setData] = useState([])
       useEffect(() => {

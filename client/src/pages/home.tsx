@@ -8,6 +8,7 @@ import Axios from 'axios'
 import { auth } from "../firebase";
 import {signOut} from "firebase/auth"
 import { Navbar } from "../components/navbar/navbar";
+import {Vistualize} from "../components/home/vistual";
 
 const HomePage =() => {
 	const [userhistoryList, setuserHistoryList] = useState([]);
@@ -31,107 +32,14 @@ const HomePage =() => {
             <div className="flex flex-row w-screen ">
 
             <div className="flex flex-col basis-4/6 ">
-
-
                     <div id = "Body" className="mt-3 mb-2 flex flex-col ">
-
-                    
 
                         <div className="row-span-2 basis-4/6 mx-3">
                             <Card className="w-auto h-auto">
-                                <div className="text-2xl font-extrabold ml-11 mt-4 "> <h2> IN - OUT Visualize <a href="/footage"> &#10093; </a></h2> </div>
+                                <div className="text-2xl font-extrabold ml-11 mt-4 "> <h2> IN - OUT Visualize </h2> </div>
 
-                                <CardBody className="flex flex-col items-center w-full h-96 justify-center my-5">
-                            
-		<h2 className="text-xl font-bold">Products Beheaviors</h2>
-		<span className="text-sm font-semibold text-gray-500">2023</span>
-		<div className="flex items-end flex-grow w-full mt-2 space-x-2 sm:space-x-3">
-			<div className="relative flex flex-col items-center flex-grow pb-5 group">
-				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$37,500</span>
-				<div className="relative flex justify-center w-full h-8 bg-red-200"></div>
-				<div className="relative flex justify-center w-full h-6 bg-green-300"></div>
-				<div className="relative flex justify-center w-full h-16 bg-backg-gray"></div>
-				<span className="absolute bottom-0 text-xs font-bold">Jan</span>
-			</div>
-			<div className="relative flex flex-col items-center flex-grow pb-5 group">
-				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$45,000</span>
-				<div className="relative flex justify-center w-full h-10 bg-red-200"></div>
-				<div className="relative flex justify-center w-full h-6 bg-green-300"></div>
-				<div className="relative flex justify-center w-full h-20 bg-backg-gray"></div>
-				<span className="absolute bottom-0 text-xs font-bold">Feb</span>
-			</div>
-			<div className="relative flex flex-col items-center flex-grow pb-5 group">
-				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$47,500</span>
-				<div className="relative flex justify-center w-full h-10 bg-red-200"></div>
-				<div className="relative flex justify-center w-full h-8 bg-green-300"></div>
-				<div className="relative flex justify-center w-full h-20 bg-backg-gray"></div>
-				<span className="absolute bottom-0 text-xs font-bold">Mar</span>
-			</div>
-			<div className="relative flex flex-col items-center flex-grow pb-5 group">
-				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$50,000</span>
-				<div className="relative flex justify-center w-full h-10 bg-red-200"></div>
-				<div className="relative flex justify-center w-full h-6 bg-green-300"></div>
-				<div className="relative flex justify-center w-full h-24 bg-backg-gray"></div>
-				<span className="absolute bottom-0 text-xs font-bold">Apr</span>
-			</div>
-			<div className="relative flex flex-col items-center flex-grow pb-5 group">
-				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$47,500</span>
-				<div className="relative flex justify-center w-full h-10 bg-red-200"></div>
-				<div className="relative flex justify-center w-full h-8 bg-green-300"></div>
-				<div className="relative flex justify-center w-full h-20 bg-backg-gray"></div>
-				<span className="absolute bottom-0 text-xs font-bold">May</span>
-			</div>
-			<div className="relative flex flex-col items-center flex-grow pb-5 group">
-				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$55,000</span>
-				<div className="relative flex justify-center w-full h-12 bg-red-200"></div>
-				<div className="relative flex justify-center w-full h-8 bg-green-300"></div>
-				<div className="relative flex justify-center w-full h-24 bg-backg-gray"></div>
-				<span className="absolute bottom-0 text-xs font-bold">Jun</span>
-			</div>
-			<div className="relative flex flex-col items-center flex-grow pb-5 group">
-				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$60,000</span>
-				<div className="relative flex justify-center w-full h-12 bg-red-200"></div>
-				<div className="relative flex justify-center w-full h-16 bg-green-300"></div>
-				<div className="relative flex justify-center w-full h-20 bg-backg-gray"></div>
-				<span className="absolute bottom-0 text-xs font-bold">Jul</span>
-			</div>
-			<div className="relative flex flex-col items-center flex-grow pb-5 group">
-				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$57,500</span>
-				<div className="relative flex justify-center w-full h-12 bg-red-200"></div>
-				<div className="relative flex justify-center w-full h-10 bg-green-300"></div>
-				<div className="relative flex justify-center w-full h-24 bg-backg-gray"></div>
-				<span className="absolute bottom-0 text-xs font-bold">Aug</span>
-			</div>
-			<div className="relative flex flex-col items-center flex-grow pb-5 group">
-				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$67,500</span>
-				<div className="relative flex justify-center w-full h-12 bg-red-200"></div>
-				<div className="relative flex justify-center w-full h-10 bg-green-300"></div>
-				<div className="relative flex justify-center w-full h-32 bg-backg-gray"></div>
-				<span className="absolute bottom-0 text-xs font-bold">Sep</span>
-			</div>
-			<div className="relative flex flex-col items-center flex-grow pb-5 group">
-				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$65,000</span>
-				<div className="relative flex justify-center w-full h-12 bg-red-200"></div>
-				<div className="relative flex justify-center w-full h-12 bg-green-300"></div>
-				<div className="relative flex justify-center w-full bg-backg-gray h-28"></div>
-				<span className="absolute bottom-0 text-xs font-bold">Oct</span>
-			</div>
-			<div className="relative flex flex-col items-center flex-grow pb-5 group">
-				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$70,000</span>
-				<div className="relative flex justify-center w-full h-8 bg-red-200"></div>
-				<div className="relative flex justify-center w-full h-8 bg-green-300"></div>
-				<div className="relative flex justify-center w-full h-40 bg-backg-gray"></div>
-				<span className="absolute bottom-0 text-xs font-bold">Nov</span>
-			</div>
-			<div className="relative flex flex-col items-center flex-grow pb-5 group">
-				<span className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">$75,000</span>
-				<div className="relative flex justify-center w-full h-12 bg-red-200"></div>
-				<div className="relative flex justify-center w-full h-8 bg-green-300"></div>
-				<div className="relative flex justify-center w-full h-40 bg-backg-gray "></div>
-				<span className="absolute bottom-0 text-xs font-bold">Dec</span>
-			</div>
-		</div>
-
+                                <CardBody>
+									<Vistualize></Vistualize>
                                 </CardBody>
 
                             </Card>
@@ -146,7 +54,7 @@ const HomePage =() => {
 									<Typography> <span className="flex justify-center text-md font-bold text-red-600 mt-2"> 3 Orders was delayed </span></Typography>
 								</CardBody>
                                 <CardFooter className="text-center w-full h-full rounded-md bg-order-bg content-end">
-                                    <a href="/"><Typography> <span className="text-white font-extrabold text-xl"> See all sales orders </span> </Typography></a>
+                                    <a href="/salesOrder"><Typography> <span className="text-white font-extrabold text-xl"> See all sales orders </span> </Typography></a>
                                 </CardFooter>
                             </Card>
 
@@ -160,7 +68,7 @@ const HomePage =() => {
 									<Typography> <span className="flex justify-center text-md font-bold text-red-600 mt-2"> 3 Orders was delayed </span></Typography>
 								</CardBody>
                                 <CardFooter className="text-center w-full h-full rounded-md bg-order-bg content-end">
-                                    <a href="/"><Typography> <span className="text-white font-extrabold text-xl"> See all sales orders </span> </Typography></a>
+                                    <a href="/salesOrder"><Typography> <span className="text-white font-extrabold text-xl"> See all sales orders </span> </Typography></a>
                                 </CardFooter>
                             </Card>
                     </div>
@@ -173,7 +81,7 @@ const HomePage =() => {
                 <div className="w-full row-span-4 basis-2/6 mx-3 my-3 ">
                             <Card className="w-auto h-full bg-feedHome-bg "> 
                                 <div className="my-4 sm:text-center md:text-center lg:text-left">
-                                    <Typography> <span className="pl-5 sm:text-sm md:text-xl lg:text-xl font-semibold"> ENTERED HISTORY </span> </Typography>
+                                    <Typography> <span className="pl-5 sm:text-sm md:text-xl lg:text-xl font-semibold"> ENTERED HISTORY <a href="/footage"> &#10093; </a></span> </Typography>
                                 </div>
 
 								{userhistoryList.map((val, key) =>{
