@@ -4,14 +4,10 @@ import {Button, CardBody, CardHeader} from "@material-tailwind/react"
 import { DatePicker } from 'react-widgets';
 import "react-widgets/styles.css";
 import {FiChevronLeft} from "react-icons/fi";
-<<<<<<< HEAD
-import Axios from 'axios'
+import Axios from 'axios';
 import { response } from "express";
 import colorStatus from "../components/saleOrder/colorStatus";
-
-=======
 import { Navbar } from "../components/navbar/navbar";
->>>>>>> 582debf2bb75525093127fd5003406c0ba74a632
 
 const SaleOrder = () => {
     const [saleData, setData] = useState([])
