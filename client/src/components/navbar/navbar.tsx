@@ -24,20 +24,17 @@ import { Link } from 'react-router-dom';
 export const Navbar = () => {
     const {currentUser} = useContext(AuthContext);
     const [currentData , setCurrentData] = useState<any>([])
+	const getData = () => {
+		const unsub = onSnapshot(doc(db , "users" , currentUser.uid) , (doc)=>{
+			setCurrentData(doc.data())
+		});
 
+		return ()=> {
+			unsub();
+		};
+	};
+	
     useEffect(() => {
-        const getData = () => {
-            const unsub = onSnapshot(doc(db , "users" , currentUser.uid) , (doc)=>{
-                setCurrentData(doc.data())
-            });
-
-            return ()=> {
-                unsub();
-            };
-        };
-
-        getData();
-        
     }, [currentUser.id]);
 
     console.log(Object.entries(currentData))
@@ -53,7 +50,10 @@ export const Navbar = () => {
 						<MenuItem className="flex items-center gap-2">
 							<UserCircleIcon strokeWidth={2} className="h-4 w-4" />
 									<Typography variant="small" className="font-normal">
-											{currentUser.email}
+										<button onClick={getData}>
+										 {currentUser.email}
+										</button>
+											
 									</Typography>
 						
 						</MenuItem>

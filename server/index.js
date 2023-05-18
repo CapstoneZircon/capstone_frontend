@@ -13,24 +13,13 @@ const db = mysql.createConnection({
     "database" : "capstone"
 });
 
-// app.get('/users', (req , res) => {
-//     db.query("SELECT * FROM user", (err , result) => {
-//         if(err){
-//             console.log(err);
-//         }else{
-//             res.send(result);
-//         }
-//     })
-// });
-
-app.get('/saleorder',(req , res) => {
-    db.query("select * FROM saleOrder", (err , result) => {
+app.get('/users', (req , res) => {
+    db.query("SELECT * FROM user", (err , result) => {
         if(err){
             console.log(err);
         }else{
             res.send(result);
         }
-
     })
 });
 
@@ -44,6 +33,8 @@ app.get('/saleorder',(req , res) => {
 
     })
 });
+
+
 
 app.get('/historys', (req , res) => {
     db.query("SELECT * FROM history", (err , result) => {
