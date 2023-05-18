@@ -47,7 +47,7 @@ app.get('/historys', (req , res) => {
 });
 
 app.get('/historys-users', (req , res) => {
-    db.query("SELECT h.Date, h.Time, h.UID_Card, h.Status, u.Name, u.Position FROM history AS h LEFT JOIN user AS u ON h.UID_Card = u.UID_Card ORDER BY h.Date, h.Time", (err , result) => {
+    db.query("SELECT h.Date, h.Time, h.UID_Card, h.Status, u.Name, u.Position FROM history AS h LEFT JOIN user AS u ON h.UID_Card = u.UID_Card ORDER BY h.Date DESC, h.Time DESC", (err , result) => {
         if(err){
             console.log(err);
         }else{
