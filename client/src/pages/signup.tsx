@@ -1,27 +1,24 @@
 import React ,{useState} from "react";
-import {Link , Route , Routes , BrowserRouter} from 'react-router-dom'
+import {Link , useNavigate} from 'react-router-dom'
 import { Button } from "@material-tailwind/react";
-import {createUserWithEmailAndPassword ,updateProfile } from 'firebase/auth'
+import {createUserWithEmailAndPassword} from 'firebase/auth'
 import { doc, setDoc } from "firebase/firestore"; 
 import { auth , db } from "../firebase";
 import {
     Card,
     CardHeader,
     CardBody,
-    CardFooter,
     Typography,
     Input,
-    Checkbox,
-
   } from "@material-tailwind/react";
-import { Image } from "react-bootstrap";
-import { Navigate } from "react-router-dom";
 
 const SignUpPage = () => {
 
+    const navigate = useNavigate();
+
     const [userStatus , setUserStatus] = useState(false);
     const [err, setErr] = useState(false);
-    const [userData , setuserData] = useState({'email': "" , 'password': "" , "Name": "" , "Surname": "" , "Id": ""});
+    const [userData , setuserData] = useState({'email': "" , 'password': "" , "Name": "" , "Surname": "" , "Id": "" });
 
     const changeHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
         setuserData({...userData , [e.target.name]: e.target.value});
@@ -34,49 +31,28 @@ const SignUpPage = () => {
             const res = await createUserWithEmailAndPassword(auth, userData.email, userData.password)
             setUserStatus(true);
             console.log(res)
-            alert(userStatus);
 
+            await setDoc(doc(db, "users", res.user.uid), {
+                uid: res.user.uid,
+                email: res.user.email,
+                name: userData.Name,
+                surname: userData.Surname,
+                employeeId: userData.Id,
+            })
+    
             if(userStatus){
-                return(
-                    <Navigate to="/home" replace = {true} />
-                )
+                navigate("/home")
             }
-
         }catch(err:any){
             setErr(err);
+            console.log(err);
         }
 
     }
-    
 
     return(
 
-        <div className="flex flex-row bg-backg-gray py-40 min-h-screen w-auto">
-            <div className="basis-2/3 flex justify justify-center py-10">
-                <div className="my-5">
-                    <Card className="w-96 border-red-600 border-2 text-center ">
-                        <CardHeader className="pb-3 mb-3">
-                            <Typography> <span className="text-2xl font-bold"> WareHouse  Department </span> </Typography>
-                        </CardHeader>
-                        <CardBody>
-                            <img src="/images/yuanter.jpg" />
-                        </CardBody>
-                        <CardFooter>
-                            <div className="flex flex-row  item-center justify-center ">
-                                <div className="mx-5 mt-7 ">
-                                    <Typography> <span className="font-bold text-xl"> By: </span> </Typography>
-                                </div>
-                                <div>
-                                    <div className="flex item-center justify-center text-center">
-                                        <img className = "w-48 h-full" src="/images/Zircon_logo.png" />
-                                    </div>
-                                </div>
-                            </div>
-                        </CardFooter>
-                        
-                    </Card>
-                </div>
-            </div>
+        <div className="flex bg-backg-gray justify-center">
 
             <div className="my-auto h-screen flex items-center justify-center">
                 <Card className="w-96">
@@ -96,7 +72,8 @@ const SignUpPage = () => {
                         <Input name="Name" onChange={changeHandler} value={userData.Name} label="Name" size="lg" />
                         <Input name="Surname" onChange={changeHandler} value={userData.Surname} label="Surname" size="lg" />
                         <Input name="Id" onChange={changeHandler} value={userData.Id} label="Employee ID" size="lg" />
-                        <p className="text-red-600 text-xs italic"> * is required </p>
+                        <p className="text-red-600 text-xs italic"> * is required <span className="text-black font-bold"> / </span>
+                         <span className="text-black"> already have account </span> <Link to='/'> <span className="text-indigo-400 text-xs"> sign in </span> </Link></p>
                         <Button className="my-5" type="submit" variant="gradient" color = 'gray' fullWidth>
                                 Request
                         </Button>
@@ -106,11 +83,11 @@ const SignUpPage = () => {
 
                 </Card>
 
-            </div>
+              </div>
 
 
 
-        </div>
+              </div>
 
 
     )

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import {Button, CardBody, CardFooter, CardHeader} from "@material-tailwind/react"
-import ButtonFeed from "../components/Button/ButtonFeed";
 import {Card} from "@material-tailwind/react"
 import { Link } from "react-router-dom";
 import { Typography } from "@material-tailwind/react";
 import Chart from "chart.js"
 import Axios from 'axios'
-
+import { auth } from "../firebase";
+import {signOut} from "firebase/auth"
+import { Navbar } from "../components/navbar/navbar";
 
 const HomePage =() => {
 	const [userhistoryList, setuserHistoryList] = useState([]);
@@ -19,50 +20,26 @@ const HomePage =() => {
     })
 
     return(
-		
-        <div className="bg-backg-gray w-auto min-h-screen">
-            <nav id = "NavBar" className="text-center item-center container-lg">
-                <div className = "md-container w-full">
-                    <div className="pt-3 flex flex-row space-x-1">
 
-                        <div className="col basis-1/4">
-                            <Link to='/'>
-                                <Button variant="text" color = "white"> <a>Home</a> </Button>
-                            </Link>
-                        </div>
+		<div className="bg-backg-gray w-auto  h-screen">
+			<div className="flex flex-row-reverse">
+					<Navbar></Navbar>		
+			</div>
+					
+        <div className="flex flex-col justify-center items-center">
+ 
+            <div className="flex flex-row w-screen ">
 
-                        <div className="col basis-1/4">
-                            <Link to='salesOrder'>
-                                <Button variant="text" color = "white"> <a>Sales</a> </Button>
-                            </Link>
-                        </div>
-
-                        <div className="col basis-1/4">
-                            <Link to='footage'>
-                                <Button variant="text" color = "white"> <a>Footage</a> </Button>
-                            </Link>
-                        </div>
-                        <div className="col basis-1/4">
-                            <Link to='/'>
-                                <Button variant="text" color = "white"> <a>Dashboard</a> </Button>
-                            </Link>
-                        </div>
-
-                    </div>
-                </div>
-            </nav>
-
-            <div className="flex flex-row">
-
-            <div className="flex flex-col basis-4/6">
+            <div className="flex flex-col basis-4/6 ">
 
 
-                    <div id = "Body" className="mt-3 mb-2 flex flex-col">
+                    <div id = "Body" className="mt-3 mb-2 flex flex-col ">
+
                     
 
-                        <div className="row-span-2 basis-4/6 mx-3 ">
-                            <Card className="w-auto h-auto ">
-                                <div className="text-2xl font-extrabold ml-11 mt-4 "> <h2> IN - OUT Visualize <a href="/"> &#10093; </a></h2> </div>
+                        <div className="row-span-2 basis-4/6 mx-3">
+                            <Card className="w-auto h-auto">
+                                <div className="text-2xl font-extrabold ml-11 mt-4 "> <h2> IN - OUT Visualize <a href="/footage"> &#10093; </a></h2> </div>
 
                                 <CardBody className="flex flex-col items-center w-full h-96 justify-center my-5">
                             
@@ -195,8 +172,8 @@ const HomePage =() => {
                 </div>
                 <div className="w-full row-span-4 basis-2/6 mx-3 my-3 ">
                             <Card className="w-auto h-full bg-feedHome-bg "> 
-                                <div className="my-4">
-                                    <Typography> <span className="ml-11 text-sm lg:text-2xl font-semibold"> ENTERED HISTORY </span> </Typography>
+                                <div className="my-4 sm:text-center md:text-center lg:text-left">
+                                    <Typography> <span className="pl-5 sm:text-sm md:text-xl lg:text-xl font-semibold"> ENTERED HISTORY </span> </Typography>
                                 </div>
 
 								{userhistoryList.map((val, key) =>{
@@ -245,6 +222,7 @@ const HomePage =() => {
 
 
  
+		</div>
 		</div>
     )
 }; export default HomePage;

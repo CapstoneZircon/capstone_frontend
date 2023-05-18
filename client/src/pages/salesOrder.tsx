@@ -4,10 +4,14 @@ import {Button, CardBody, CardHeader} from "@material-tailwind/react"
 import { DatePicker } from 'react-widgets';
 import "react-widgets/styles.css";
 import {FiChevronLeft} from "react-icons/fi";
+<<<<<<< HEAD
 import Axios from 'axios'
 import { response } from "express";
 import colorStatus from "../components/saleOrder/colorStatus";
 
+=======
+import { Navbar } from "../components/navbar/navbar";
+>>>>>>> 582debf2bb75525093127fd5003406c0ba74a632
 
 const SaleOrder = () => {
     const [saleData, setData] = useState([])
@@ -26,10 +30,14 @@ const SaleOrder = () => {
     return(
         <div className="">
            <nav id = "SalesOrderNavBar" className="container-lg bg-saleNev-bg">
+            
                 <div className = "md-container w-full">
+               
                     <div className="space-x-3 ">
+                      
 
                         <div className="flex flex-row">
+                          
                             <Link to='/home'>
                                 <div className = 'col basis-1/12 text-4xl px-6 py-6 text-white mt-0.5'>
                                     <a> <FiChevronLeft /></a>
