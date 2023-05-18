@@ -2,7 +2,7 @@ import React ,{useState} from "react";
 import {Link , useNavigate} from 'react-router-dom'
 import { Button } from "@material-tailwind/react";
 import {createUserWithEmailAndPassword} from 'firebase/auth'
-import { doc, setDoc } from "firebase/firestore"; 
+import { collection, doc, setDoc } from "firebase/firestore"; 
 import { auth , db } from "../firebase";
 import {
     Card,
@@ -15,6 +15,8 @@ import {
 const SignUpPage = () => {
 
     const navigate = useNavigate();
+
+    const docRef = collection(db, "users")
 
     const [userStatus , setUserStatus] = useState(false);
     const [err, setErr] = useState(false);
@@ -32,7 +34,7 @@ const SignUpPage = () => {
             setUserStatus(true);
             console.log(res)
 
-            await setDoc(doc(db, "users", res.user.uid), {
+            await setDoc(doc(docRef, res.user.uid), {
                 uid: res.user.uid,
                 email: res.user.email,
                 name: userData.Name,
