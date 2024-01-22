@@ -20,7 +20,5 @@
     "noEmit": true,
     "jsx": "preserve"
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts", "node_modules/@headlessui/react"]
 }

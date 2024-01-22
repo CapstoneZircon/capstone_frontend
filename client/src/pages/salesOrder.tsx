@@ -5,9 +5,8 @@ import { DatePicker } from 'react-widgets';
 import "react-widgets/styles.css";
 import {FiChevronLeft} from "react-icons/fi";
 import Axios from 'axios';
-import { response } from "express";
 import colorStatus from "../components/saleOrder/colorStatus";
-import { Navbar } from "../components/navbar/navbar";
+import  Navbar  from "../components/navbar/navbar";
 
 
 const SaleOrder = () => {

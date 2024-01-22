@@ -1,136 +1,193 @@
 import React, { useEffect, useState } from "react";
-import {Button, CardBody, CardFooter, CardHeader} from "@material-tailwind/react"
-import {Card} from "@material-tailwind/react"
+import { Button, CardBody, CardFooter, CardHeader } from "@material-tailwind/react"
+import { Card } from "@material-tailwind/react"
 import { Link } from "react-router-dom";
 import { Typography } from "@material-tailwind/react";
-import Chart from "chart.js"
-import Axios from 'axios'
-import { auth } from "../firebase";
-import {signOut} from "firebase/auth"
-import { Navbar } from "../components/navbar/navbar";
-import {Vistualize} from "../components/home/vistual";
+import DonutChart from "../components/Chart/DonutChart";
+import Navbar from "../components/navbar/navbar";
 
-const HomePage =() => {
-	const [userhistoryList, setuserHistoryList] = useState([]);
-	
+const HomePage = () => {
+	type Importer = {
+		[key: string]: string[];
+	};
+
+	const [data, setData] = useState<{ importers: Importer[] }>({
+		importers: [
+			{
+				picture: [] as string[],
+				name: [] as string[],
+				status: [] as string[],
+				timestamp: [] as string[],
+			},
+		],
+	});
 
 	useEffect(() => {
-			Axios.get('http://localhost:8080/historys-users').then((response) => {
-				setuserHistoryList(response.data);
-			});
-    })
+		setData((prevData) => {
+			const newImporters = [];
+			for (let i = 0; i < 5; i++) {
+				const picture = "/images/Employee-resize.jpg";
+				const names = [
+					"Alice",
+					"Bob",
+					"Charlie",
+					"David",
+					// Add more names as needed
+				];
 
-    return(
+				const name = names[Math.floor(Math.random() * names.length)];
+				const status =
+					i % 4 === 0
+						? "detect"
+						: i % 3 === 0
+							? "abnormal"
+							: i % 2 === 0
+								? "in"
+								: "out";
+				const timestamp = `${Math.floor(Math.random() * 24)}:${Math.floor(
+					Math.random() * 60
+				)}`;
 
-		<div className="bg-backg-gray w-auto  h-screen">
-			<div className="flex flex-row-reverse">
-					<Navbar></Navbar>		
+				const newImporter = {
+					picture: [picture],
+					name: [name],
+					status: [status],
+					timestamp: [timestamp],
+				};
+
+				newImporters.push(newImporter);
+			}
+
+			return {
+				importers: [...newImporters],
+			};
+		});
+	}, []);
+
+	const columnNames = Object.keys(data.importers[0]);
+	const [selectedDate, setSelectedDate] = useState<any>(new Date());
+
+
+	return (
+
+		<div className="bg-white min-h-screen flex z-10">
+
+			<Navbar></Navbar>
+
+
+			<div className="flex-1 p-4 pl-[165px]">
+				<div className="pt-10 pl-10 pb-3">
+					<Typography> <span className="text-6xl font-bold"> Dashboard </span> </Typography>
+				</div>
+				<div className="flex pt-5 pl-1">
+					<div>
+						<div className="pl-10 relative">
+							<Card className="rounded-3xl w-[420px] h-[400px] bg-light-gray ">
+								<CardHeader className="m-0 p-2 pt-4 rounded-t-2xl rounded-b-none bg-light-gray border-b-2 border-dark-gray shadow-none">
+									<div>
+										<Typography>
+											<span className="text-2xl font-bold ml-3"> Security Number Overview </span>
+										</Typography>
+									</div>
+								</CardHeader>
+								<CardBody className="p-2 flex justify-center items-center">
+									<div className="w-80 h-80 relative mt-3">
+										<DonutChart />
+
+									</div>
+								</CardBody>
+								<div className="absolute bottom-14 left-[270px] text-sm text-gray-600">
+									within 7 days
+								</div>
+							</Card>
+						</div>
+
+
+						<div className="pl-10">
+							<Card className="rounded-3xl w-[420px] h-[400px] mt-16 bg-light-gray ">
+								<CardBody className="h-full mb-4">
+									<div className="">
+										<Typography> <span className="text-2xl font-bold"> Lastest Activity </span> </Typography>
+									</div>
+									<div className="flex justify-center items-center h-full">
+										<div className="w-1/2">
+											<img src="/images/Employee-resize.jpg" className="object-cover object-top h-eqw rounded-full" alt="Employee" />
+										</div>
+										<div className="w-1/2 flex flex-col justify-center items-start pl-10 text-black">
+											<Typography> <div className="text-4xl font-black"> Jin D. </div> </Typography>
+											<Typography> <div className="text-2xl font-medium mt-1"> 2 min ago </div> </Typography>
+										</div>
+									</div>
+								</CardBody>
+								<CardFooter className="border-t-2 border-dark-gray mt-auto">
+									<div className="">
+										<Typography> <span className="flex justify-center items-end text-5xl font-bold py-3"> Check-out </span> </Typography>
+									</div>
+								</CardFooter>
+							</Card>
+						</div>
+					</div>
+
+						<Card className="rounded-3xl h-auto  min-w-[1160px] w-auto ml-20 bg-light-gray">
+							<CardBody>
+								<div className="p-3">
+									<Typography> <span className="text-5xl font-bold"> History </span> </Typography>
+								</div>
+								<div className="w-full h-full">
+									<table className="w-full h-full">
+										<thead>
+											<tr>
+												<th className="px-5 pt-5 w-40 text-3xl "></th>
+												<th className="px-5 pt-5 w-auto text-3xl text-start pl-5">Name</th>
+												<th className="px-5 pt-5 w-1/4 text-3xl">Status</th>
+												<th className="px-5 pt-5 w-1/4 text-3xl">Time</th>
+											</tr>
+										</thead>
+										<tbody>
+											{data.importers.map((importer, index) => (
+												<tr key={index} className="h-32">
+													{columnNames.map((columnName) => (
+														<td key={columnName}
+															className={`px-5 py-2 ${columnName === "name" ? "text-left" : "text-center"
+																}`}
+														>
+															{columnName === "picture" ? (
+																<img
+																	src={importer[columnName][0]}
+																	className="object-cover object-top w-24 h-24 rounded-full mx-auto"
+																	alt="Employee"
+																/>
+															) : columnName === "status" ? (
+																<span
+																	className={`text-2xl font-bold flex items-center justify-center w-3/5 h-14 p-2 ${importer[columnName][0] === "abnormal"
+																			? "inline-flex items-center rounded-xl bg-red-50 px-2 py-1 text-red-700 ring-1 ring-inset ring-red-600/70"
+																			: importer[columnName][0] === "detect"
+																				? "inline-flex items-center rounded-xl bg-yellow-100 px-2 py-1 text-yellow-900 ring-1 ring-inset ring-yellow-600/70"
+																				: "inline-flex items-center rounded-xl bg-green-50 px-2 py-1 text-green-700 ring-1 ring-inset ring-green-600/70"
+																		}`}
+																>
+																	{importer[columnName][0]}
+																</span>
+															) : (
+																<Typography> <span className="text-4xl font-bold"> {importer[columnName][0]} </span> </Typography>
+
+															)}
+														</td>
+													))}
+												</tr>
+											))}
+										</tbody>
+									</table>
+								</div>
+
+							</CardBody>
+						</Card>
+				</div>
+
 			</div>
-					
-        <div className="flex flex-col justify-center items-center">
- 
-            <div className="flex flex-row w-screen ">
-
-            <div className="flex flex-col basis-4/6 ">
-                    <div id = "Body" className="mt-3 mb-2 flex flex-col ">
-
-                        <div className="row-span-2 basis-4/6 mx-3">
-                            <Card className="w-auto h-auto">
-                                <div className="text-2xl font-extrabold ml-11 mt-4 "> <h2> IN - OUT Visualize </h2> </div>
-
-                                <CardBody>
-									<Vistualize></Vistualize>
-                                </CardBody>
-
-                            </Card>
-                        </div>
-
-                <div className="flex flex-col lg:flex-row mb-5 justify-center mt-2 ">
-					{/* <div className="flex mx-3 lg:basis-1/2 lg:mr-5 lg:ml-3"> */}
-                    <div className="flex mx-3 lg:basis-1/2 lg:mr-5 lg:ml-3">
-							<Card className="w-full h-52 mt-3 grid ">
-                                <CardBody className="h-40">
-                                    <Typography> <div className="flex flex-row"> <div> <span className="mx-5 text-8xl font-extrabold"> 12 </span> </div> <div className="ml-10 w-32 h-auto"> <span className="text-2xl font-bold "> Orders need to be shiped </span></div></div> </Typography>
-									<Typography> <span className="flex justify-center text-md font-bold text-red-600 mt-2"> 3 Orders was delayed </span></Typography>
-								</CardBody>
-                                <CardFooter className="text-center w-full h-full rounded-md bg-order-bg content-end">
-                                    <a href="/salesOrder"><Typography> <span className="text-white font-extrabold text-xl"> See all sales orders </span> </Typography></a>
-                                </CardFooter>
-                            </Card>
-
-                    </div>
-
-                    {/* <div className=" flex mx-3 mt-8 lg:basis-1/2 lg:mr-3 lg:ml-5 lg:mt-0 "> */}
-					<div className=" flex mx-3 mt-8 lg:basis-1/2 lg:mr-3 lg:ml-5 lg:mt-0 ">
-                            <Card className="w-full h-52 my-3 grid ">
-                                <CardBody className="h-40">
-                                    <Typography> <div className="flex flex-row"> <div> <span className="mx-5 text-8xl font-extrabold"> 12 </span> </div> <div className="ml-10 w-32 h-auto"> <span className="text-2xl font-bold "> Orders need to be shiped </span></div></div> </Typography>
-									<Typography> <span className="flex justify-center text-md font-bold text-red-600 mt-2"> 3 Orders was delayed </span></Typography>
-								</CardBody>
-                                <CardFooter className="text-center w-full h-full rounded-md bg-order-bg content-end">
-                                    <a href="/salesOrder"><Typography> <span className="text-white font-extrabold text-xl"> See all sales orders </span> </Typography></a>
-                                </CardFooter>
-                            </Card>
-                    </div>
-                    </div>
-
-                </div>
-
-               
-                </div>
-                <div className="w-full row-span-4 basis-2/6 mx-3 my-3 ">
-                            <Card className="w-auto h-full bg-feedHome-bg "> 
-                                <div className="my-4 sm:text-center md:text-center lg:text-left">
-                                    <Typography> <span className="pl-5 sm:text-sm md:text-xl lg:text-xl font-semibold"> ENTERED HISTORY <a href="/footage"> &#10093; </a></span> </Typography>
-                                </div>
-
-								{userhistoryList.map((val, key) =>{
-									// const Date = String(val["Date"]).substring(0,10);
-									const date = new Date(val["Date"]);
-									const date_str = String(date).substring(4,15);
-									
-									return(
-										<Card className=" my-1 mx-5 py-2">
-											<div className="flex flex-row ml-5">
-												<div className="basis-1/2">
-													<Typography> <span className="text-lg font-semibold"> Name: {val["Name"]} </span> </Typography>
-												</div>
-												<div className="basis-1/2">
-													<Typography> <span className="text-lg font-semibold"> Position: {val["Position"]} </span> </Typography>
-												</div>
-											</div>
-
-											<div className="flex flex-row ml-5">
-												<div className="basis-1/2">
-													<Typography> <span className="text-lg font-semibold"> UID_Card: {val["UID_Card"]} </span> </Typography>
-												</div>
-												<div className="basis-1/2">
-													<Typography> <span className="text-lg font-semibold"> Status: {val["Status"]} </span> </Typography>
-												</div>
-											</div>
-
-											<div className="flex flex-row ml-5">
-												<div className="basis-1/2">
-													<Typography> <span className="text-lg font-semibold"> Date: {date_str} </span> </Typography>
-												</div>
-												<div className="basis-1/2">
-													<Typography> <span className="text-lg font-semibold"> Time: {val["Time"]} </span> </Typography>
-												</div>
-											</div>
-											
-										</Card>
-									)
-								})}
-                            </Card>
-                </div>
-
-                
-
-            </div>
-
-
- 
 		</div>
-		</div>
-    )
+
+
+
+	)
 }; export default HomePage;

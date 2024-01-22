@@ -1,8 +1,10 @@
-import React ,{useState , useRef , useEffect} from "react";
-import {Link ,useNavigate} from 'react-router-dom'
+import React, { useState, useRef, useEffect } from "react";
+import { Link, useNavigate } from 'react-router-dom'
 import { Button } from "@material-tailwind/react";
-import { auth, db } from "../firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth, db_firestore } from "../firebase";
+import { signInWithEmailAndPassword,getAuth, signOut } from "firebase/auth";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
 
 import {
     Card,
@@ -11,41 +13,42 @@ import {
     CardFooter,
     Typography,
     Input,
+    IconButton,
     Checkbox,
 
-  } from "@material-tailwind/react";
+} from "@material-tailwind/react";
 import { userInfo } from "../components/hooks/login";
 // import InsertInput from "../components/hooks/input";
 
 const LoginPage = () => {
 
     const admin = process.env.REACT_APP_ADMIN;
-    const [isAdmin , setAdmin] = useState(false);
+    const [isAdmin, setAdmin] = useState(false);
     const navigate = useNavigate();
     const [error, setError] = useState(false);
     const [errCode, setErrorCode] = useState("")
-    const [userData , setuserData] = useState<userInfo>({'email': "" , 'password': ""});
+    const [userData, setuserData] = useState<userInfo>({ 'email': "", 'password': "" });
 
-    const changeHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
-        setuserData({...userData , [e.target.name]: e.target.value});
-        
+    const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setuserData({ ...userData, [e.target.name]: e.target.value });
+
     }
 
-    const SubmitHandler = async (e:React.FormEvent<HTMLFormElement>) => {
+    const SubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        try{
+        try {
             const res = await signInWithEmailAndPassword(auth, userData.email, userData.password);
-            if (res.user.email == userData.email){
-                if (res.user.email == admin){
+            if (res.user.email == userData.email) {
+                if (res.user.email == admin) {
                     setAdmin(true);
                 }
-                return(
+                return (
                     navigate("/home")
                 )
             }
 
 
-        }catch(err:any){
+        } catch (err: any) {
             const errorCode = err.code;
             const errMessage = err.message;
 
@@ -53,23 +56,33 @@ const LoginPage = () => {
             setErrorCode(errMessage);
 
             console.log(errMessage);
-                   
+
         }
-        
+
     }
 
 
     useEffect(() => {
-        
 
-    }, [userData.email , userData.password])
+
+    }, [userData.email, userData.password])
 
     // console.log(userData);
-    
-    return(
+    const [showPassword, setShowPassword] = useState(false);
+    const auth = getAuth();
+	const handleLogout = async () => {
+		try {
+			await signOut(auth);
 
-        <div className="h-screen flex flex-row justify-center items-center bg-backg-gray">
-            <div className="basis-2/4 flex justify justify-center ">
+		} catch (error) {
+			console.error('Error logging out:', error);
+		}
+	};
+    handleLogout()
+    return (
+
+        <div className="min-h-screen flex flex-row justify-center items-center bg-backg-gray">
+            <div className="basis-2/4 flex justify justify-center">
                 <div className="my-5" >
                     <Card className="w-96  text-center">
                         <CardHeader className="pb-3 mb-3">
@@ -85,49 +98,51 @@ const LoginPage = () => {
                                 </div>
                                 <div>
                                     <div className="flex item-center justify-center text-center">
-                                        <img className = "w-48 h-full" src="/images/Zircon_logo.png" />
+                                        <img className="w-48 h-full" src="/images/Zircon_logo.png" />
                                     </div>
                                 </div>
                             </div>
                         </CardFooter>
-                        
+
                     </Card>
 
                 </div>
 
             </div>
-            <div className="basis-1/3  my-auto ">
+            <div className="basis-1/3  my-auto">
                 <Card className="w-96">
                     <CardHeader
-                    variant="gradient"
-                    color="blue"
-                    className="mb-4 grid h-28 place-items-center"
+                        variant="gradient"
+                        color="blue"
+                        className="mb-4 grid h-28 place-items-center"
                     >
-                    <Typography variant="h3" color="white">
-                        Login Page
-                    </Typography>
+                        <Typography variant="h3" color="white">
+                            Login Page
+                        </Typography>
                     </CardHeader>
                     <CardBody className="flex flex-col gap-4">
-                <form className=" py-5 flex flex-col gap-y-3" onSubmit={SubmitHandler}>
-                    <Input className="col" name = "email" value={userData.email} onChange ={changeHandler} label="Email" size="lg" type="text"/>
-                    <Input className="col" name = "password" type = "password" value={userData.password} onChange = {changeHandler} label="Password" size="lg" />
-                    <Button className="col mt-3" type="submit" variant="gradient" color = 'gray' fullWidth>
+                        <form className=" py-5 flex flex-col gap-y-3" onSubmit={SubmitHandler}>
+                            <Input className="col" name="email" value={userData.email} onChange={changeHandler} label="Email" size="lg" type="text" />
+                                <Input className="col mr-16" name="password" type={showPassword ? "text" : "password"}
+                                    icon={<IconButton onClick={() => setShowPassword(!showPassword)} className="-my-1" variant="text" size="sm">{showPassword ? <FaEye /> : <FaEyeSlash />}</IconButton>}
+                                    value={userData.password} onChange={changeHandler} label="Password" size="lg" />
+                            <Button className="col mt-3" type="submit" variant="gradient" color='gray' fullWidth>
                                 Sign In
-                    </Button>
-                    {error && <span className="text-red-400 text-md font-normal"> {errCode} </span>}
-                </form>
-                    
+                            </Button>
+                            {error && <span className="text-red-400 text-md font-normal"> {errCode} </span>}
+                        </form>
+
                     </CardBody>
 
-                    
+
 
                 </Card>
 
-              </div>
+            </div>
 
 
 
-              </div>
+        </div>
 
 
     )

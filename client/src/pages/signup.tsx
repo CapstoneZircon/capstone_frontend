@@ -3,7 +3,7 @@ import {Link , useNavigate} from 'react-router-dom'
 import { Button } from "@material-tailwind/react";
 import {createUserWithEmailAndPassword} from 'firebase/auth'
 import { collection, doc, setDoc } from "firebase/firestore"; 
-import { auth , db } from "../firebase";
+import { auth , db_firestore } from "../firebase";
 import {
     Card,
     CardHeader,
@@ -16,7 +16,7 @@ const SignUpPage = () => {
 
     const navigate = useNavigate();
 
-    const docRef = collection(db, "users")
+    const docRef = collection(db_firestore, "users")
 
     const [userStatus , setUserStatus] = useState(false);
     const [err, setErr] = useState(false);

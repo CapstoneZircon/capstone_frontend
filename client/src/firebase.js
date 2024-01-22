@@ -8,16 +8,16 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 
 const firebaseConfig = {
   apiKey: API_KEY,
-  authDomain: "warehousezircon.firebaseapp.com",
-  projectId: "warehousezircon",
-  storageBucket: "warehousezircon.appspot.com",
-  messagingSenderId: "80256510318",
-  appId: "1:80256510318:web:893c1ff0c85ff96589797f",
-  measurementId: "G-69JWN7GLHD"
+  authDomain: "capstone-warehouse.firebaseapp.com",
+  projectId: "capstone-warehouse",
+  storageBucket: "capstone-warehouse.appspot.com",
+  messagingSenderId: "991601461414",
+  appId: "1:991601461414 :web :cc9b3337d8422a35dd0c67",
+  measurementId: "G-GCGS47KZGV"
 };
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
-export const analytics = getAnalytics(app);
+export const app_firebase = initializeApp(firebaseConfig);
+export const analytics = getAnalytics(app_firebase);
 export const auth = getAuth();
-export const db = getFirestore(app);
+export const db_firestore = getFirestore(app_firebase);

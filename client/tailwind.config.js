@@ -6,6 +6,10 @@ module.exports = withMT({
   theme: {
 
     colors : {
+      "light-gray" : '#F9FBFD',
+      "mid-gray" : '#D9D9D9',
+      "dark-gray" : '#B3B3B3',
+      "hover-gray" : '#155e75',
 
       "backg-gray" : '#B2B2B2',
 
@@ -17,6 +21,8 @@ module.exports = withMT({
 
 
       "order-bg" : '#8C8176',
+
+      "date-bg" : '#B2B2B2'
 
     },
 
