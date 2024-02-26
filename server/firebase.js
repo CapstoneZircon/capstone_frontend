@@ -4,7 +4,7 @@ const { getAuth } = require('firebase/auth');
 const { getFirestore} = require('firebase/firestore');
 
 const firebaseConfig = {
-  apiKey: "",
+  apiKey: "AIzaSyAdecG1lXgCG72ve0kzsXnAUtsdVHc19m0",
   authDomain: "capstone-warehouse.firebaseapp.com",
   projectId: "capstone-warehouse",
   storageBucket: "capstone-warehouse.appspot.com",
@@ -16,7 +16,7 @@ const firebaseConfig = {
 // Initialize Firebase
 // Initialize Firebase
 const app_firebase = initializeApp(firebaseConfig);
-const auth = getAuth(app_firestore);
-const db_firestore = getFirestore(app_firestore);
+const auth = getAuth(app_firebase);
+const db_firestore = getFirestore(app_firebase);
 
-module.exports = { app_firestore, auth, db_firestore };
+module.exports = { app_firebase, auth, db_firestore };

@@ -16,7 +16,7 @@ const ButtonLink: React.FC<ButtonLinkProps> = ({ to, onClick, children, activeCl
   return (
     <Link to={to} onClick={onClick}>
       <button
-        className={`flex justify-center items-center w-[149px] h-[129px] ${activeClass || ''} hover:bg-dark-gray transition-colors duration-200 ${className || ''}`}>
+        className={`flex justify-center items-center w-[149px] h-[129px] ${activeClass || ''} hover:bg-light-gray hover:bg-opacity-50 transition-colors duration-100 ${className || ''}`}>
       {children}
       </button>
     </Link>

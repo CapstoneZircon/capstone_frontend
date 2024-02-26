@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardBody, CardFooter, CardHeader } from "@material-tailwind/react";
 import { Typography } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Navbar from "../components/navbar/navbar";
 import { Pagination } from "antd";
-import ReactPlayer from 'react-player';
 import { formatDistanceToNow } from 'date-fns';
 
 interface VideoData {
@@ -19,18 +18,31 @@ const ITEMS_PER_PAGE = 6;
 const Footages = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [videoData, setVideoData] = useState<VideoData[]>([]);
-  const [loading, setLoading] = useState(true); // Added loading state
+  const [loading, setLoading] = useState(true);
+  const { state } = useLocation();
+  const returnValue = state;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/all_videos");
+        const cachedData = localStorage.getItem('videoData');
+        if (cachedData) {
+          setVideoData(JSON.parse(cachedData));
+        }
+        
+        const response = await fetch("http://localhost:8080/api/all_videos_url");
         const data = await response.json();
         setVideoData(data);
-        setLoading(false); // Set loading to false when data is loaded
+        localStorage.setItem('videoData', JSON.stringify(data));
+        console.log("cachedData",cachedData)
+        if (returnValue.currentPage) {
+          setCurrentPage(returnValue.currentPage);
+        }
+        
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching video data:", error);
-        setLoading(false); // Set loading to false on error as well
+        setLoading(false);
       }
     };
 
@@ -95,8 +107,8 @@ const Footages = () => {
         </div>
         <div className="grid grid-cols-3 gap-x-12 gap-y-10 ml-11 mt-5 mr-7">
           {getCurrentItems().map((video: VideoData, index: number) => (
-            <Link to={`/footage/${video.fileName}`} key={index}>
-              <Card key={index} className=" bg-light-gray rounded-3xl z-10">
+            <Link to={`/footage/${video.fileName}`} state={5} key={index}>
+              <Card key={index} className="bg-light-gray rounded-3xl z-10">
                 <CardHeader className="h-72 w-auto mt-4 mx-4 rounded-xl">
                   <img src={video.thumbnailURL} alt={video.fileName} />
                 </CardHeader>
@@ -106,6 +118,7 @@ const Footages = () => {
                 </CardBody>
               </Card>
             </Link>
+
           ))}
         </div>
         <CardFooter className="flex justify-center mt-5">

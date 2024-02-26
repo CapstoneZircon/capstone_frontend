@@ -11,6 +11,10 @@ module.exports = withMT({
       "dark-gray" : '#B3B3B3',
       "hover-gray" : '#155e75',
 
+      "normal" : "#90FF7E",
+      "clarified" : "#FFE55C ",
+      "abnormal" : "#F64E60",
+
       "backg-gray" : '#B2B2B2',
 
       "FeedButton" : '#155e75',

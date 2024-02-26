@@ -1,19 +1,34 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 
 const DonutChart = () => {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
+  const [counts, setCounts] = useState<any>(null); // Define state for counts
 
   useEffect(() => {
-    if (!chartRef.current) return; // Null check
+    const fetchData = async () => {
+      try {
+        // Fetch counts for each status
+        const countsResponse = await fetch("http://localhost:8080/api/rfid_record_counts");
+        const countsData = await countsResponse.json();
+        setCounts(countsData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (!chartRef.current || !counts) return; // Null check for chartRef and counts
 
     const data = {
       labels: ['Normal', 'Clarified', 'Abnormal'],
       datasets: [{
-        data: [70, 20, 10],
+        data: [counts.CheckInOut, counts.Clarified, counts.Abnormal], // Use counts data here
         backgroundColor: ['#90FF7E', '#FFE55C', '#FF5C5C'],
         hoverBackgroundColor: ['#90FF7E', '#FFE55C', '#FF5C5C'],
-       
       }],
     };
 
@@ -23,7 +38,7 @@ const DonutChart = () => {
       plugins: {
         legend: {
           display: true,
-          position: 'bottom' as const, // Explicitly specify 'bottom' as the type
+          position: 'bottom' as const,
           labels: {
             usePointStyle: true,
             pointStyle: 'circle',
@@ -49,7 +64,7 @@ const DonutChart = () => {
         myChart.destroy();
       };
     }
-  }, [chartRef.current]);
+  }, [chartRef.current, counts]);
 
   return (
     <div style={{ textAlign: 'center' }}>

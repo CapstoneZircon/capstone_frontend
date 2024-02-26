@@ -6,68 +6,37 @@ import { Typography } from "@material-tailwind/react";
 import DonutChart from "../components/Chart/DonutChart";
 import Navbar from "../components/navbar/navbar";
 
-const HomePage = () => {
-	type Importer = {
-		[key: string]: string[];
-	};
+interface Record {
+	name: string;
+	picture: string;
+	Status: string;
+	TimeInOut: string;
+	[key: string]: any;
+}
 
-	const [data, setData] = useState<{ importers: Importer[] }>({
-		importers: [
-			{
-				picture: [] as string[],
-				name: [] as string[],
-				status: [] as string[],
-				timestamp: [] as string[],
-			},
-		],
-	});
+const HomePage = () => {
+
+	const [recentRecords, setRecentRecords] = useState<Record[]>([]);
 
 	useEffect(() => {
-		setData((prevData) => {
-			const newImporters = [];
-			for (let i = 0; i < 5; i++) {
-				const picture = "/images/Employee-resize.jpg";
-				const names = [
-					"Alice",
-					"Bob",
-					"Charlie",
-					"David",
-					// Add more names as needed
-				];
-
-				const name = names[Math.floor(Math.random() * names.length)];
-				const status =
-					i % 4 === 0
-						? "detect"
-						: i % 3 === 0
-							? "abnormal"
-							: i % 2 === 0
-								? "in"
-								: "out";
-				const timestamp = `${Math.floor(Math.random() * 24)}:${Math.floor(
-					Math.random() * 60
-				)}`;
-
-				const newImporter = {
-					picture: [picture],
-					name: [name],
-					status: [status],
-					timestamp: [timestamp],
-				};
-
-				newImporters.push(newImporter);
+		const fetchData = async () => {
+			try {
+				// Fetch most recent RFID records for dashboard
+				const recordsResponse = await fetch("http://localhost:8080/api/rfid_record_Dashboard");
+				const recordsData = await recordsResponse.json();
+				setRecentRecords(recordsData);
+			} catch (error) {
+				console.error("Error fetching data:", error);
 			}
+		};
 
-			return {
-				importers: [...newImporters],
-			};
-		});
+		fetchData();
 	}, []);
 
-	const columnNames = Object.keys(data.importers[0]);
-	const [selectedDate, setSelectedDate] = useState<any>(new Date());
+	const columnNames = recentRecords.length > 0 ? Object.keys(recentRecords[0]) : [];
+	const firstRecord = recentRecords.length > 0 ? recentRecords[0] : null;
 
-
+	console.log(firstRecord?.status)
 	return (
 
 		<div className="bg-white min-h-screen flex z-10">
@@ -79,56 +48,58 @@ const HomePage = () => {
 				<div className="pt-10 pl-10 pb-3">
 					<Typography> <span className="text-6xl font-bold"> Dashboard </span> </Typography>
 				</div>
-				<div className="flex pt-5 pl-1">
-					<div>
-						<div className="pl-10 relative">
-							<Card className="rounded-3xl w-[420px] h-[400px] bg-light-gray ">
-								<CardHeader className="m-0 p-2 pt-4 rounded-t-2xl rounded-b-none bg-light-gray border-b-2 border-dark-gray shadow-none">
-									<div>
-										<Typography>
-											<span className="text-2xl font-bold ml-3"> Security Number Overview </span>
-										</Typography>
-									</div>
-								</CardHeader>
-								<CardBody className="p-2 flex justify-center items-center">
-									<div className="w-80 h-80 relative mt-3">
-										<DonutChart />
+				{firstRecord && (
+					<div className="flex pt-5 pl-1">
+						<div>
+							<div className="pl-10 relative">
+								<Card className="rounded-2xl w-[420px] h-[400px] bg-light-gray ">
+									<CardHeader className="m-0 p-2 pt-3 rounded-t-2xl rounded-b-none bg-light-gray border-b-2 border-mid-gray shadow-none">
+										<div>
+											<Typography>
+												<span className="text-2xl font-bold ml-3"> Security Number Overview </span>
+											</Typography>
+										</div>
+									</CardHeader>
+									<CardBody className="p-2 flex justify-center items-center">
+										<div className="w-80 h-80 relative mt-3">
+											<DonutChart />
 
+										</div>
+									</CardBody>
+									<div className="absolute bottom-14 left-[270px] text-sm text-gray-600">
+										within 7 days
 									</div>
-								</CardBody>
-								<div className="absolute bottom-14 left-[270px] text-sm text-gray-600">
-									within 7 days
-								</div>
-							</Card>
+								</Card>
+							</div>
+
+
+							<div className="pl-10">
+								<Card className="rounded-2xl w-[420px] h-[400px] mt-16 bg-light-gray ">
+									<CardBody className="mb-4">
+										<div className="">
+											<Typography> <span className="text-3xl font-bold"> Lastest Activity </span> </Typography>
+										</div>
+										<div className="flex justify-end items-center h-auto py-6 ">
+											<div className="w-40 relative">
+												<img src={firstRecord?.picture} className="object-cover object-top h-eqw rounded-full" alt="Employee" />
+												<span className={`absolute -bottom-3 -left-14 ${firstRecord?.Status === "Abnormal" ? "bg-red-500 text-white" : firstRecord?.Status === "Clarified" ? "bg-clarified" : "bg-normal"} rounded-full px-4 py-2 flex items-center justify-center text-xl font-bold`}>
+													<Typography> <span className="text-xl font-bold"> {firstRecord?.Status} </span> </Typography>
+												</span>
+											</div>
+										</div>
+										<div className=" flex flex-col justify-center items-start mt-5 text-black">
+											<Typography> <div className="text-5xl font-black"> {firstRecord?.name} </div> </Typography>
+											<Typography> <div className="text-2xl font-medium mt-3"> {firstRecord?.TimeInOut} </div> </Typography>
+										</div>
+									</CardBody>
+									{/* <CardFooter className=" border-mid-gray mt-auto">
+										
+									</CardFooter> */}
+								</Card>
+							</div>
 						</div>
 
-
-						<div className="pl-10">
-							<Card className="rounded-3xl w-[420px] h-[400px] mt-16 bg-light-gray ">
-								<CardBody className="h-full mb-4">
-									<div className="">
-										<Typography> <span className="text-2xl font-bold"> Lastest Activity </span> </Typography>
-									</div>
-									<div className="flex justify-center items-center h-full">
-										<div className="w-1/2">
-											<img src="/images/Employee-resize.jpg" className="object-cover object-top h-eqw rounded-full" alt="Employee" />
-										</div>
-										<div className="w-1/2 flex flex-col justify-center items-start pl-10 text-black">
-											<Typography> <div className="text-4xl font-black"> Jin D. </div> </Typography>
-											<Typography> <div className="text-2xl font-medium mt-1"> 2 min ago </div> </Typography>
-										</div>
-									</div>
-								</CardBody>
-								<CardFooter className="border-t-2 border-dark-gray mt-auto">
-									<div className="">
-										<Typography> <span className="flex justify-center items-end text-5xl font-bold py-3"> Check-out </span> </Typography>
-									</div>
-								</CardFooter>
-							</Card>
-						</div>
-					</div>
-
-						<Card className="rounded-3xl h-auto  min-w-[1160px] w-auto ml-20 bg-light-gray">
+						<Card className="rounded-2xl h-auto  min-w-[1160px] w-auto ml-20 bg-light-gray">
 							<CardBody>
 								<div className="p-3">
 									<Typography> <span className="text-5xl font-bold"> History </span> </Typography>
@@ -144,7 +115,7 @@ const HomePage = () => {
 											</tr>
 										</thead>
 										<tbody>
-											{data.importers.map((importer, index) => (
+											{recentRecords.map((record, index) => (
 												<tr key={index} className="h-32">
 													{columnNames.map((columnName) => (
 														<td key={columnName}
@@ -153,23 +124,25 @@ const HomePage = () => {
 														>
 															{columnName === "picture" ? (
 																<img
-																	src={importer[columnName][0]}
-																	className="object-cover object-top w-24 h-24 rounded-full mx-auto"
+																	src={record[columnName]}
+																	className="object-cover object-top w-20 h-20 rounded-full mx-auto"
 																	alt="Employee"
 																/>
-															) : columnName === "status" ? (
+															) : columnName === "Status" ? (
 																<span
-																	className={`text-2xl font-bold flex items-center justify-center w-3/5 h-14 p-2 ${importer[columnName][0] === "abnormal"
-																			? "inline-flex items-center rounded-xl bg-red-50 px-2 py-1 text-red-700 ring-1 ring-inset ring-red-600/70"
-																			: importer[columnName][0] === "detect"
-																				? "inline-flex items-center rounded-xl bg-yellow-100 px-2 py-1 text-yellow-900 ring-1 ring-inset ring-yellow-600/70"
-																				: "inline-flex items-center rounded-xl bg-green-50 px-2 py-1 text-green-700 ring-1 ring-inset ring-green-600/70"
+																	className={`text-2xl font-bold flex items-center justify-center w-3/5 h-14 px-4 ${record[columnName] === "Abnormal"
+																		? "inline-flex items-center rounded-xl bg-abnormal text-white"
+																		: record[columnName] === "Clarified"
+																			? "inline-flex items-center rounded-xl bg-clarified "
+																			: "inline-flex items-center rounded-xl bg-normal"
 																		}`}
 																>
-																	{importer[columnName][0]}
+																	{record[columnName]}
 																</span>
-															) : (
-																<Typography> <span className="text-4xl font-bold"> {importer[columnName][0]} </span> </Typography>
+															) :columnName === "TimeInOut" ? (
+																<Typography> <span className="text-[26px] font-bold"> {record[columnName]} </span> </Typography>
+																):(
+																<Typography> <span className="text-4xl font-bold"> {record[columnName]} </span> </Typography>
 
 															)}
 														</td>
@@ -182,8 +155,8 @@ const HomePage = () => {
 
 							</CardBody>
 						</Card>
-				</div>
-
+					</div>
+				)}
 			</div>
 		</div>
 

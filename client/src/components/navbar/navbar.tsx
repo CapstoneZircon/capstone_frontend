@@ -10,7 +10,7 @@ const Navbar = () => {
 	const [isLogoutModalOpen, setLogoutModalOpen] = useState(false);
 
 	const getButtonClass = (path: any) => {
-		return location.pathname.startsWith(path)? "bg-dark-gray" : "bg-mid-gray";
+		return location.pathname.startsWith(path)? "bg-light-gray" : "bg-none";
 		// return location.pathname === path ? "bg-dark-gray" : "bg-mid-gray";
 	};
 	const auth = getAuth();
@@ -26,7 +26,7 @@ const Navbar = () => {
 	return (
 		<nav
 			id="SideBar"
-			className="flex flex-col fixed h-full w-[149px] bg-mid-gray  text-white"
+			className="flex flex-col fixed h-full w-[149px] bg-gradient-to-b from-[#ED1B23] via-[#F16233] via-70% to-[#F8490F]-opacity-[14] text-white"
 		>
 			<div className="flex justify-center items-center py-[9px]">
 				<Link to="/home">
@@ -43,9 +43,9 @@ const Navbar = () => {
 				<ButtonLink to="/footage" activeClass={getButtonClass("/footage")}><img src="/images/home-icon.jpg" alt="Home" className="w-[60px] h-[60px]" /></ButtonLink>
 			</div>
 			<div id="Sidebar-personalinfo" className="flex flex-col justify-end grow">
-				<div className="bg-mid-gray">
+				<div className="">
 					<ButtonLink to={location.pathname} activeClass="group hover:bg-mid-gray" onClick={() => setLogoutModalOpen(true)} className="mt-2">
-						<ArrowLeftEndOnRectangleIcon className="text-white w-[60px] h-60 group-hover:text-red-600"/>
+						<ArrowLeftEndOnRectangleIcon className="text-white w-[60px] h-60 group-hover:text-red-600 transition-colors duration-200"/>
 					</ButtonLink>
 					<LogoutModal showModal={isLogoutModalOpen} closeModal={() => setLogoutModalOpen(false)} handleLogout={handleLogout} />
 				</div>

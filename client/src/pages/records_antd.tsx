@@ -6,18 +6,17 @@ import { Pagination } from 'antd';
 const Records = () => {
 
   type Importer = {
-    [key: string]: string[];
+    [key: string]: string;
   };
 
   const [data, setData] = useState<{ importers: Importer[] }>({
     importers: [
       {
-        picture: [] as string[],
-        name: [] as string[],
-        UID: [] as string[],
-        status: [] as string[],
-        timestamp_in: [] as string[],
-        timestamp_out: [] as string[],
+        picture: "",
+        name: "",
+        UID: "",
+        Status: "",
+        TimeInOut: "",
       },
     ],
   });
@@ -25,53 +24,24 @@ const Records = () => {
   const [pageSize, setPageSize] = useState(5); // Default page size
 
   useEffect(() => {
-    setData((prevData) => {
-      const newImporters = [];
-      for (let i = 0; i < 100; i++) {
-        const picture = "/images/Employee-resize.jpg";
-        const names = ["Alice", "Bob", "Charlie", "David"];
-
-        const name = names[Math.floor(Math.random() * names.length)];
-        const status =
-          i % 4 === 0
-            ? "detect"
-            : i % 3 === 0
-              ? "abnormal"
-              : i % 2 === 0
-                ? "in"
-                : "out";
-        const timestamp_in = `${Math.floor(Math.random() * 24)}:${Math.floor(
-          Math.random() * 60
-        )}`;
-        // Add 12 hours to timestamp_in for timestamp_out
-        const timestamp_out = `${(parseInt(
-          timestamp_in.split(":")[0]
-        ) +
-          12) %
-          24}:${Math.floor(Math.random() * 60)}`;
-        // Generate UID with 1 letter and 4 digits
-        const uid = `${String.fromCharCode(65 + i)}${Math.floor(
-          1000 + Math.random() * 9000
-        )}`;
-        const newImporter = {
-          picture: [picture],
-          name: [name],
-          UID: [uid],
-          status: [status],
-          timestamp_in: [timestamp_in],
-          timestamp_out: [timestamp_out],
-        };
-
-        newImporters.push(newImporter);
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/rfid_record'); // Assuming your API endpoint is '/api/rfid_record'
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const responseData = await response.json();
+        console.log(responseData)
+        setData({ importers: responseData });
+      } catch (error) {
+        console.error('Error fetching data:', error);
       }
+    };
 
-      return {
-        importers: [...newImporters],
-      };
-    });
+    fetchData();
   }, []);
-  const columnNames = Object.keys(data.importers.length > 0 ?data.importers[0]:[]);
-
+  const columnNames = Object.keys(data.importers.length > 0 ? data.importers[0] : []);
+  console.log("columnNames", columnNames)
   const [active, setActive] = React.useState(1);
 
   const onChangePage = (page: number) => {
@@ -82,13 +52,17 @@ const Records = () => {
     setPageSize(size);
     setActive(1); // Reset to the first page when page size changes
   };
-  
+
   const itemsPerPage = pageSize;
   const startIndex = (active - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedImporters = data.importers.length > 0 ? data.importers.slice(startIndex, endIndex) : [];
   const totalPages = Math.ceil(data.importers.length / itemsPerPage);
-
+  paginatedImporters.forEach((importer, index) => {
+    columnNames.map((columnName) => {
+      console.log(importer[columnName], typeof (importer[columnName]))
+    });
+  });
   const MAX_VISIBLE_PAGES = 5;
   const startPage = Math.max(1, active - Math.floor(MAX_VISIBLE_PAGES / 2));
   const endPage = Math.min(totalPages, startPage + MAX_VISIBLE_PAGES - 1);
@@ -115,12 +89,11 @@ const Records = () => {
                       <th className="px-5 pt-5 pb-4 pl-5 w-auto text-3xl text-start">
                         Name
                       </th>
-                      <th className="px-5 pt-5 pb-4 pl-5 w-1/6 text-3xl text-start">
+                      <th className="px-5 pt-5 pb-4 pl-5 w-1/12 text-3xl text-start">
                         UID
                       </th>
-                      <th className="px-5 pt-5 pb-4 w-1/6 text-3xl">Status</th>
-                      <th className="px-5 pt-5 pb-4 w-1/6 text-3xl">In-Time</th>
-                      <th className="px-5 pt-5 pb-4 w-1/6 text-3xl">OUT-Time</th>
+                      <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">Status</th>
+                      <th className="px-5 pt-5 pb-4 w-3/12 text-3xl">InOutTime</th>
                     </tr>
                   </thead>
                   {data.importers.length > 0 ? (
@@ -137,26 +110,34 @@ const Records = () => {
                             >
                               {columnName === "picture" ? (
                                 <img
-                                  src={importer[columnName][0]}
+                                  src={importer[columnName]}
                                   className="object-cover object-top w-24 h-24 rounded-full mx-auto"
                                   alt="Employee"
                                 />
-                              ) : columnName === "status" ? (
+                              ) : columnName === "Status" ? (
+                                // <span
+                                //   className={`text-2xl font-bold flex items-center justify-center w-4/5 h-14 p-2 ${importer[columnName] === "Abnormal"
+                                //     ? "inline-flex items-center rounded-xl bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/70"
+                                //     : importer[columnName] === "detect" ||  importer[columnName] === "Forget to scan when exit"
+                                //       ? "inline-flex items-center rounded-xl bg-yellow-100 text-yellow-900 ring-1 ring-inset ring-yellow-600/70"
+                                //       : "inline-flex items-center rounded-xl bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/70"
+                                //     }`}
+                                // >
                                 <span
-                                  className={`text-2xl font-bold flex items-center justify-center w-3/5 h-14 ${importer[columnName][0] === "abnormal"
-                                    ? "inline-flex items-center rounded-xl bg-red-50 px-2 py-1 text-red-700 ring-1 ring-inset ring-red-600/70"
-                                    : importer[columnName][0] === "detect"
-                                      ? "inline-flex items-center rounded-xl bg-yellow-100 px-2 py-1 text-yellow-900 ring-1 ring-inset ring-yellow-600/70"
-                                      : "inline-flex items-center rounded-xl bg-green-50 px-2 py-1 text-green-700 ring-1 ring-inset ring-green-600/70"
+                                  className={`text-2xl font-bold flex items-center justify-center h-14 px-4 ${importer[columnName] === "Abnormal"
+                                    ? "inline-flex items-center rounded-xl bg-abnormal text-white"
+                                    : importer[columnName] === "Clarified" 
+                                      ? "inline-flex items-center rounded-xl bg-clarified "
+                                      : "inline-flex items-center rounded-xl bg-normal"
                                     }`}
                                 >
-                                  {importer[columnName][0]}
+                                  {importer[columnName]}
                                 </span>
                               ) : (
                                 <Typography>
 
                                   <span className="text-4xl font-bold">
-                                    {importer[columnName][0]}
+                                    {importer[columnName]}
                                   </span>
                                 </Typography>
                               )}
@@ -168,7 +149,7 @@ const Records = () => {
                         <>
                           {Array.from({ length: 5 - paginatedImporters.length }, (_, index) => (
                             <tr key={`empty-row-${index}`} className="h-32">
-                            
+
                             </tr>
                           ))}
                         </>
