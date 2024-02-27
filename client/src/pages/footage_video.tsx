@@ -22,7 +22,7 @@ const VideoFootagePage: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/all_videos_url");
+        const response = await fetch("http://localhost:8080/api/all_videos_url_test");
         const data = await response.json();
         setVideoData(data);
         const index = data.findIndex((video: VideoData) => video.fileName === videoId);

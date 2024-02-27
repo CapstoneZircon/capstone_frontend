@@ -81,7 +81,7 @@ const HomePage = () => {
 										</div>
 										<div className="flex justify-end items-center h-auto py-6 ">
 											<div className="w-40 relative">
-												<img src={firstRecord?.picture} className="object-cover object-top h-eqw rounded-full" alt="Employee" />
+												<img src={firstRecord?.picture} className="object-cover object-bottom rounded-full" alt="Employee" />
 												<span className={`absolute -bottom-3 -left-14 ${firstRecord?.Status === "Abnormal" ? "bg-red-500 text-white" : firstRecord?.Status === "Clarified" ? "bg-clarified" : "bg-normal"} rounded-full px-4 py-2 flex items-center justify-center text-xl font-bold`}>
 													<Typography> <span className="text-xl font-bold"> {firstRecord?.Status} </span> </Typography>
 												</span>

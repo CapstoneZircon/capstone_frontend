@@ -11,6 +11,7 @@ interface VideoData {
   downloadURL: string;
   createdTime: string;
   thumbnailURL: string;
+  status:string;
 }
 
 const ITEMS_PER_PAGE = 6;
@@ -30,12 +31,12 @@ const Footages = () => {
           setVideoData(JSON.parse(cachedData));
         }
         
-        const response = await fetch("http://localhost:8080/api/all_videos_url");
+        const response = await fetch("http://localhost:8080/api/all_videos_url_test");
         const data = await response.json();
         setVideoData(data);
         localStorage.setItem('videoData', JSON.stringify(data));
         console.log("cachedData",cachedData)
-        if (returnValue.currentPage) {
+        if (returnValue && returnValue.currentPage) {
           setCurrentPage(returnValue.currentPage);
         }
         
@@ -110,11 +111,14 @@ const Footages = () => {
             <Link to={`/footage/${video.fileName}`} state={5} key={index}>
               <Card key={index} className="bg-light-gray rounded-3xl z-10">
                 <CardHeader className="h-72 w-auto mt-4 mx-4 rounded-xl">
-                  <img src={video.thumbnailURL} alt={video.fileName} />
+                  <img src="/images/default_warehouse.jpg" alt={video.fileName} />
                 </CardHeader>
-                <CardBody className="h-[72px] pt-2">
+                <CardBody className="h-[72px] pt-2 relative">
                   <Typography className="text-2xl font-bold">{video.fileName}</Typography>
                   <Typography className="text-sm font-normal">{getDaysAgo(video.createdTime)}</Typography>
+                  <span className={`absolute right-6 bottom-4 ${video?.status === "Abnormal" ? "bg-abnormal text-white" : video?.status === "Clarified" ? "bg-clarified" : "bg-normal"} rounded-full px-4 py-1 flex items-center justify-center text-xl font-bold`}>
+													<Typography> <span className="text-base font-bold"> {video?.status} </span> </Typography>
+												</span>
                 </CardBody>
               </Card>
             </Link>
