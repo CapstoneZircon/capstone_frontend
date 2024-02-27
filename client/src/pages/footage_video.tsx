@@ -6,72 +6,78 @@ import ReactPlayer from "react-player";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
 interface VideoData {
-  fileName: string;
-  downloadURL: string;
-  createdTime: string;
+    fileName: string;
+    downloadURL: string;
+    createdTime: string;
+    event: string;
+    name: string;
+    UID: string;
+    status: string;
+    timeInOut: string;
+
 }
 
 const VideoFootagePage: React.FC = () => {
-  const { videoId } = useParams<{ videoId?: string }>();
-  const [videoData, setVideoData] = useState<VideoData[]>([]);
-  const [currentVideoIndex, setCurrentVideoIndex] = useState<number>(-1);
-  const [loading, setLoading] = useState(true);
-  const [returnValue, setReturnValue] = useState(1);
-  const navigate = useNavigate();
+    const { videoId } = useParams<{ videoId?: string }>();
+    const [videoData, setVideoData] = useState<VideoData[]>([]);
+    const [currentVideoIndex, setCurrentVideoIndex] = useState<number>(-1);
+    const [loading, setLoading] = useState(true);
+    const [returnValue, setReturnValue] = useState(1);
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/api/all_videos_url_test");
-        const data = await response.json();
-        setVideoData(data);
-        const index = data.findIndex((video: VideoData) => video.fileName === videoId);
-        if (index !== -1) {
-          setCurrentVideoIndex(index);
-          setReturnValue(Math.ceil((index+1) / 6));
-          setLoading(false);
-        } else {
-          console.error("Video not found");
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("http://localhost:8080/api/all_videos_url_test");
+                const data = await response.json();
+                setVideoData(data);
+                const index = data.findIndex((video: VideoData) => video.fileName === videoId);
+                if (index !== -1) {
+                    setCurrentVideoIndex(index);
+                    setReturnValue(Math.ceil((index + 1) / 6));
+                    setLoading(false);
+                } else {
+                    console.error("Video not found");
+                }
+            } catch (error) {
+                console.error("Error fetching video data:", error);
+            }
+        };
+
+        fetchData();
+    }, [videoId]);
+    console.log(returnValue)
+    // Debounce function
+    const debounce = (func: Function, delay: number) => {
+        let timeoutId: NodeJS.Timeout;
+        return (...args: any[]) => {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => func.apply(null, args), delay);
+        };
+    };
+
+    // Debounce the video change handlers
+
+
+    const handlePreviousVideo = () => {
+        if (currentVideoIndex > 0) {
+            setLoading(true);
+            setCurrentVideoIndex(currentVideoIndex - 1);
+            const prevVideoId = videoData[currentVideoIndex - 1].fileName;
+            navigate(`/footage/${prevVideoId}`);
         }
-      } catch (error) {
-        console.error("Error fetching video data:", error);
-      }
     };
 
-    fetchData();
-  }, [videoId]);
-  console.log(returnValue)
-  // Debounce function
-  const debounce = (func: Function, delay: number) => {
-    let timeoutId: NodeJS.Timeout;
-    return (...args: any[]) => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => func.apply(null, args), delay);
+    const handleNextVideo = () => {
+        if (currentVideoIndex < videoData.length - 1) {
+            setLoading(true);
+            setCurrentVideoIndex(currentVideoIndex + 1);
+            const nextVideoId = videoData[currentVideoIndex + 1].fileName;
+            navigate(`/footage/${nextVideoId}`);
+        }
     };
-  };
-
-  // Debounce the video change handlers
-  
-
-  const handlePreviousVideo = () => {
-    if (currentVideoIndex > 0) {
-        setLoading(true);
-        setCurrentVideoIndex(currentVideoIndex - 1);
-        const prevVideoId = videoData[currentVideoIndex - 1].fileName;
-        navigate(`/footage/${prevVideoId}`);
-    }
-  };
-
-  const handleNextVideo = () => {
-    if (currentVideoIndex < videoData.length - 1) {
-        setLoading(true);
-        setCurrentVideoIndex(currentVideoIndex + 1);
-        const nextVideoId = videoData[currentVideoIndex + 1].fileName;
-        navigate(`/footage/${nextVideoId}`);
-    }
-  };
-  const debouncedHandlePreviousVideo = debounce(handlePreviousVideo, 1000);
-  const debouncedHandleNextVideo = debounce(handleNextVideo, 1000);
+    const debouncedHandlePreviousVideo = debounce(handlePreviousVideo, 1000);
+    const debouncedHandleNextVideo = debounce(handleNextVideo, 1000);
 
     if (loading) {
         // Display loading screen while data is being fetched
@@ -141,9 +147,30 @@ const VideoFootagePage: React.FC = () => {
                                             onReady={() => setLoading(false)}
                                         />
                                     </div>
-                                    <Typography className="p-6">
-                                        <span className="text-4xl font-semibold "> {videoData[currentVideoIndex].fileName.replace(".mp4", "")} {videoData[currentVideoIndex].createdTime} </span>
-                                    </Typography>
+                                    <div className="flex relative mt-6">
+                                        <span className={`absolute top-1/2 -translate-y-1/2 left-6 rounded-full w-5 h-5 flex items-center justify-center text-xl font-bold ${videoData[currentVideoIndex].status === "Abnormal" ? "bg-abnormal text-white" : videoData[currentVideoIndex].status === "Clarified" ? "bg-clarified" : "bg-normal"} `}></span>
+                                        <Typography className="pl-14    ">
+                                            <span className="text-4xl font-semibold">{videoData[currentVideoIndex].createdTime}</span>
+                                        </Typography>
+                                        <Typography className="pl-6 text-end grow">
+                                            <span className="text-3xl font-semibold">Responsible: {videoData[currentVideoIndex].name} UID: {videoData[currentVideoIndex].UID}</span>
+                                        </Typography>
+                                    </div>
+                                    <div className="flex relative mt-6">
+                                        <div className="grow">
+                                            <Typography className="pl-6 pt-3">
+                                                <span className="text-2xl font-semibold "> event: {videoData[currentVideoIndex].event} </span>
+                                            </Typography>
+                                            <Typography className="pl-6">
+                                                <span className="text-2xl font-semibold "> note: - </span>
+                                            </Typography>
+                                        </div >
+                                        <div className="flex items-center justify-center">
+                                        <Button className=" bg-normal text-lg text-black text font-black">
+                                            Clarify
+                                        </Button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <button

@@ -250,7 +250,7 @@ app.get('/api/all_videos_url_test', async (req, res) => {
         for (const videoItem of videoList.items) {
             try {
                 // Extract date and time from the video file name
-                const videoFileName = videoItem.name.replace('.avi',"");
+                const videoFileName = videoItem.name.replace('.mp4',"");
                 // Find a matching document in Firestore based on the extracted date and time
                 const matchingRecord = querySnapshot.docs.find(doc => {
                     const docFileNameParts = doc.id.split(" ")[0];
