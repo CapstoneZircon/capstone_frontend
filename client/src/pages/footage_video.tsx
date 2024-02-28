@@ -92,7 +92,7 @@ const VideoFootagePage: React.FC = () => {
                             </Button>
                         </Link>
                         <Typography>
-                            <span className="text-6xl font-bold ml-5"> Abnormally Footage </span>
+                            <span className="text-6xl font-bold ml-5"> Anomaly Footage </span>
                         </Typography>
                     </div>
                     <div className="flex justify-center items-center flex-1 h-[900px]">
@@ -121,7 +121,7 @@ const VideoFootagePage: React.FC = () => {
                     </Link>
 
                     <Typography>
-                        <span className="text-6xl font-bold ml-5"> Abnormally Footage </span>
+                        <span className="text-6xl font-bold ml-5"> Anomaly Footage </span>
                     </Typography>
                 </div>
                 <div>

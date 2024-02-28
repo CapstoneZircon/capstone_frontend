@@ -79,7 +79,7 @@ const Footages = () => {
         <div className="flex-1 p-3 pl-[165px]">
           <div className="pt-10 pl-10 pb-3">
             <Typography>
-              <span className="text-6xl font-bold"> Abnormally Footage </span>
+              <span className="text-6xl font-bold"> Anomaly Footage </span>
             </Typography>
           </div>
           <div className="flex justify-center items-center flex-1 h-[900px]">
