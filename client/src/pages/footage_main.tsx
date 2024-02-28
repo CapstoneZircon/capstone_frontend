@@ -103,7 +103,7 @@ const Footages = () => {
       <div className="flex-1 p-3 pl-[165px]">
         <div className="pt-10 pl-10 pb-3">
           <Typography>
-            <span className="text-6xl font-bold"> Abnormally Footage </span>
+            <span className="text-6xl font-bold"> Anomaly Footage </span>
           </Typography>
         </div>
         <div className="grid grid-cols-3 gap-x-12 gap-y-10 ml-11 mt-5 mr-7">

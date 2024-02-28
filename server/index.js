@@ -327,14 +327,9 @@ app.get('/api/rfid_record', async (req, res) => {
             )
           );
         
-        const filteredRecords = queryRfid_record.docs.filter(doc => {
-            const data = doc.data();
-            return data.Status === 'Abnormal' || data.Status === 'Check-out';
-        });
-
         const tableData = [];
         
-        filteredRecords.forEach((doc) => {
+        queryRfid_record.forEach((doc) => {
             console.log(doc.data())
             tableData.push({
                 picture: "/images/default_profile.jpg",
