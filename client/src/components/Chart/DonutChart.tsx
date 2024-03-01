@@ -42,9 +42,9 @@ const DonutChart = () => {
           labels: {
             usePointStyle: true,
             pointStyle: 'circle',
-            padding: 17,
+            padding: 10,
             font: {
-              size: 16
+              size: 13
             }
           },
         },

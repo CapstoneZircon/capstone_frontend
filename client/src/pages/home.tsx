@@ -15,16 +15,18 @@ interface Record {
 }
 
 const HomePage = () => {
-
+	const [loading, setLoading] = useState(true);
 	const [recentRecords, setRecentRecords] = useState<Record[]>([]);
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				// Fetch most recent RFID records for dashboard
+				setLoading(loading)
 				const recordsResponse = await fetch("http://localhost:8080/api/rfid_record_Dashboard");
 				const recordsData = await recordsResponse.json();
 				setRecentRecords(recordsData);
+				setLoading(false)
 			} catch (error) {
 				console.error("Error fetching data:", error);
 			}
@@ -130,7 +132,7 @@ const HomePage = () => {
 																/>
 															) : columnName === "Status" ? (
 																<span
-																	className={`text-2xl font-bold flex items-center justify-center w-3/5 h-14 px-4 ${record[columnName] === "Abnormal"
+																	className={`text-2xl font-bold flex items-center justify-center w-8/12 h-14 px-4 ${record[columnName] === "Abnormal"
 																		? "inline-flex items-center rounded-xl bg-abnormal text-white"
 																		: record[columnName] === "Clarified"
 																			? "inline-flex items-center rounded-xl bg-clarified "
@@ -142,7 +144,7 @@ const HomePage = () => {
 															) :columnName === "TimeInOut" ? (
 																<Typography> <span className="text-[26px] font-bold"> {record[columnName]} </span> </Typography>
 																):(
-																<Typography> <span className="text-4xl font-bold"> {record[columnName]} </span> </Typography>
+																<Typography> <span className="text-3xl font-bold"> {record[columnName]} </span> </Typography>
 
 															)}
 														</td>

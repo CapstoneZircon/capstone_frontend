@@ -4,6 +4,7 @@ import Navbar from "../components/navbar/navbar";
 import { Typography, Button } from "@material-tailwind/react";
 import ReactPlayer from "react-player";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
+import ClarifyModal from "../components/Video/Clarify_modal";
 
 interface VideoData {
     fileName: string;
@@ -24,6 +25,7 @@ const VideoFootagePage: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [returnValue, setReturnValue] = useState(1);
     const navigate = useNavigate();
+    const [isClarifyModalOpen, setClarifyModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -156,7 +158,7 @@ const VideoFootagePage: React.FC = () => {
                                             <span className="text-3xl font-semibold">Responsible: {videoData[currentVideoIndex].name} UID: {videoData[currentVideoIndex].UID}</span>
                                         </Typography>
                                     </div>
-                                    <div className="flex relative mt-6">
+                                    <div className="flex relative mt-6 justify-end">
                                         <div className="grow">
                                             <Typography className="pl-6 pt-3">
                                                 <span className="text-2xl font-semibold "> event: {videoData[currentVideoIndex].event} </span>
@@ -166,9 +168,10 @@ const VideoFootagePage: React.FC = () => {
                                             </Typography>
                                         </div >
                                         <div className="flex items-center justify-center">
-                                        <Button className=" bg-normal text-lg text-black text font-black">
+                                        <Button className=" bg-dark-gray text-lg text-white text font-black" onClick={() => setClarifyModalOpen(true)}>
                                             Clarify
                                         </Button>
+                                        <ClarifyModal showModal={isClarifyModalOpen} closeModal={() => setClarifyModalOpen(false)} />
                                         </div>
                                     </div>
                                 </div>
