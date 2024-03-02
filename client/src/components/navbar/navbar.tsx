@@ -10,7 +10,7 @@ const Navbar = () => {
 	const [isLogoutModalOpen, setLogoutModalOpen] = useState(false);
 
 	const getButtonClass = (path: any) => {
-		return location.pathname.startsWith(path) ? "bg-white text-red-500 hover:bg-light-gray" : "bg-none text-white hover:bg-light-gray";
+		return location.pathname.startsWith(path) ? "bg-white text-red-500 hover:bg-none" : "bg-none text-white hover:bg-light-gray";
 		// return location.pathname === path ? "bg-dark-gray" : "bg-mid-gray";
 	};
 	const auth = getAuth();
