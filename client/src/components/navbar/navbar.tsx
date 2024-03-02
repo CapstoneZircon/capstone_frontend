@@ -10,7 +10,7 @@ const Navbar = () => {
 	const [isLogoutModalOpen, setLogoutModalOpen] = useState(false);
 
 	const getButtonClass = (path: any) => {
-		return location.pathname.startsWith(path) ? "bg-light-gray text-red-500" : "bg-none text-white";
+		return location.pathname.startsWith(path) ? "bg-white text-red-500 hover:bg-light-gray" : "bg-none text-white hover:bg-light-gray";
 		// return location.pathname === path ? "bg-dark-gray" : "bg-mid-gray";
 	};
 	const auth = getAuth();
@@ -51,7 +51,7 @@ const Navbar = () => {
 			</div>
 			<div id="Sidebar-personalinfo" className="flex flex-col justify-end grow">
 				<div className="">
-					<ButtonLink to={location.pathname} activeClass="group hover:bg-mid-gray " onClick={() => setLogoutModalOpen(true)} className="mt-2">
+					<ButtonLink to={location.pathname} activeClass="group " onClick={() => setLogoutModalOpen(true)} className="mt-2">
 					<svg xmlns="http://www.w3.org/2000/svg" width="60px" height="60px" viewBox="0 0 24 24" className='group-hover:text-red-600 transition-colors duration-200'><path fill="currentColor" d="m17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5M4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4z"/></svg>
 						{/* <ArrowLeftEndOnRectangleIcon className="text-white w-[60px] h-60 group-hover:text-red-600 transition-colors duration-200" /> */}
 					</ButtonLink>
