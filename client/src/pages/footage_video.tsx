@@ -8,9 +8,11 @@ import ClarifyModal from "../components/Video/Clarify_modal";
 
 interface VideoData {
     fileName: string;
+    docName: string;
     downloadURL: string;
     createdTime: string;
     event: string;
+    Note: string;
     name: string;
     UID: string;
     status: string;
@@ -27,6 +29,30 @@ const VideoFootagePage: React.FC = () => {
     const navigate = useNavigate();
     const [isClarifyModalOpen, setClarifyModalOpen] = useState(false);
 
+    const handleUpdateNote  = async (document: string, newNote: string, password: string) => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/updateNote/RFID_Record/${document}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ Note: newNote, Password: password}),
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log(data);
+            setClarifyModalOpen(false)
+            // Optionally, you can handle success or display a message to the user
+        } catch (error) {
+            console.error('Error updating data:', error);
+            return
+            // Optionally, you can handle errors or display a message to the user
+        }
+    };
+    
+      
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -43,6 +69,7 @@ const VideoFootagePage: React.FC = () => {
                 }
             } catch (error) {
                 console.error("Error fetching video data:", error);
+                
             }
         };
 
@@ -164,14 +191,14 @@ const VideoFootagePage: React.FC = () => {
                                                 <span className="text-2xl font-semibold "> event: {videoData[currentVideoIndex].event} </span>
                                             </Typography>
                                             <Typography className="pl-6">
-                                                <span className="text-2xl font-semibold "> note: - </span>
+                                                <span className="text-2xl font-semibold "> note: {videoData[currentVideoIndex].Note} </span>
                                             </Typography>
                                         </div >
                                         <div className="flex items-center justify-center">
                                         <Button className=" bg-dark-gray text-lg text-white text font-black" onClick={() => setClarifyModalOpen(true)}>
                                             Clarify
                                         </Button>
-                                        <ClarifyModal showModal={isClarifyModalOpen} closeModal={() => setClarifyModalOpen(false)} />
+                                        <ClarifyModal showModal={isClarifyModalOpen} closeModal={() => setClarifyModalOpen(false)} videoDocumentId={videoData[currentVideoIndex].docName} updateData={handleUpdateNote}/>
                                         </div>
                                     </div>
                                 </div>

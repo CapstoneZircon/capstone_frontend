@@ -1,7 +1,7 @@
 import React ,{useState} from "react";
 import {Link , useNavigate} from 'react-router-dom'
 import { Button } from "@material-tailwind/react";
-import {createUserWithEmailAndPassword} from 'firebase/auth'
+import {signInWithEmailAndPassword} from 'firebase/auth'
 import { collection, doc, setDoc } from "firebase/firestore"; 
 import { auth , db_firestore } from "../firebase";
 import {
@@ -30,7 +30,7 @@ const SignUpPage = () => {
         e.preventDefault();
         
         try{
-            const res = await createUserWithEmailAndPassword(auth, userData.email, userData.password)
+            const res = await signInWithEmailAndPassword(auth, userData.email, userData.password)
             setUserStatus(true);
             console.log(res)
 

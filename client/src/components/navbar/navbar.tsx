@@ -1,11 +1,13 @@
 import React, { useContext, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
 import ButtonLink from './ButtonLink';
 import LogoutModal from './LogoutModal';
 import { ArrowLeftEndOnRectangleIcon } from '@heroicons/react/24/outline';
 
+
 const Navbar = () => {
+	const navigate = useNavigate();
 	const location = useLocation();
 	const [isLogoutModalOpen, setLogoutModalOpen] = useState(false);
 
@@ -13,16 +15,28 @@ const Navbar = () => {
 		return location.pathname.startsWith(path) ? "bg-white text-red-500 hover:bg-none" : "bg-none text-white hover:bg-light-gray";
 		// return location.pathname === path ? "bg-dark-gray" : "bg-mid-gray";
 	};
-	const auth = getAuth();
-
 	const handleLogout = async () => {
 		try {
-			await signOut(auth);
+		  const response = await fetch('http://localhost:8080/api/signout', {
+			method: 'POST',
+		
+		  });
+	  
+		  if (response.ok) {
+			console.log("logout ok")
+			// Sign-out successful
 			setLogoutModalOpen(false);
+			navigate("/");
+		  } else {
+			// Handle sign-out failure
+			const errorData = await response.json();
+			console.error('Failed to sign out:', errorData.error);
+		  }
 		} catch (error) {
-			console.error('Error logging out:', error);
+		  console.error('Error logging out:', error);
 		}
-	};
+	  };
+	  
 	return (
 		<nav
 			id="SideBar"

@@ -20,65 +20,54 @@ import {
 import { userInfo } from "../components/hooks/login";
 // import InsertInput from "../components/hooks/input";
 
-const LoginPage = () => {
-
+const LoginPage = ({ onLogin }: { onLogin: () => void }) => {
     const admin = process.env.REACT_APP_ADMIN;
-    const [isAdmin, setAdmin] = useState(false);
     const navigate = useNavigate();
     const [error, setError] = useState(false);
-    const [errCode, setErrorCode] = useState("")
-    const [userData, setuserData] = useState<userInfo>({ 'email': "", 'password': "" });
+    const [errCode, setErrorCode] = useState("");
+    const [userData, setUserData] = useState({ email: "", password: "" });
+    const [showPassword, setShowPassword] = useState(false);
 
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setuserData({ ...userData, [e.target.name]: e.target.value });
-
+        setUserData({ ...userData, [e.target.name]: e.target.value });
     }
 
-    const SubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const res = await signInWithEmailAndPassword(auth, userData.email, userData.password);
-            if (res.user.email == userData.email) {
-                if (res.user.email == admin) {
-                    setAdmin(true);
+            const response = await fetch('http://localhost:8080/api/signin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const user = data.user;
+                if (user) {
+                    console.log("User signed in:", user.email);
+                    if (user.email === admin) {
+                        // Set isAdmin state or perform other actions if needed
+                    }
+                    // Call the onLogin function passed as prop from App component
+                    onLogin();
+                    navigate("/home");
+                } else {
+                    console.log("No user is signed in");
                 }
-                return (
-                    navigate("/home")
-                )
+            } else {
+                const errorData = await response.json();
+                console.error('Failed to sign in:', errorData.error);
+                setError(true);
+                setErrorCode(errorData.error);
             }
-
-
-        } catch (err: any) {
-            const errorCode = err.code;
-            const errMessage = err.message;
-
-            setError(true);
-            setErrorCode(errMessage);
-
-            console.log(errMessage);
-
+        } catch (error) {
+            console.error('Error signing in user:', error);
         }
+    };
 
-    }
-
-
-    useEffect(() => {
-
-
-    }, [userData.email, userData.password])
-
-    // console.log(userData);
-    const [showPassword, setShowPassword] = useState(false);
-    const auth = getAuth();
-	const handleLogout = async () => {
-		try {
-			await signOut(auth);
-
-		} catch (error) {
-			console.error('Error logging out:', error);
-		}
-	};
-    handleLogout()
     return (
 
         <div className="min-h-screen flex flex-row justify-center items-center bg-backg-gray">
@@ -121,7 +110,7 @@ const LoginPage = () => {
                         </Typography>
                     </CardHeader>
                     <CardBody className="flex flex-col gap-4">
-                        <form className=" py-5 flex flex-col gap-y-3" onSubmit={SubmitHandler}>
+                        <form className=" py-5 flex flex-col gap-y-3" onSubmit={submitHandler}>
                             <Input className="col" name="email" value={userData.email} onChange={changeHandler} label="Email" size="lg" type="text" />
                                 <Input className="col mr-16" name="password" type={showPassword ? "text" : "password"}
                                     icon={<IconButton onClick={() => setShowPassword(!showPassword)} className="-my-1" variant="text" size="sm">{showPassword ? <FaEye /> : <FaEyeSlash />}</IconButton>}

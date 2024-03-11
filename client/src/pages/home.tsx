@@ -38,7 +38,6 @@ const HomePage = () => {
 	const columnNames = recentRecords.length > 0 ? Object.keys(recentRecords[0]) : [];
 	const firstRecord = recentRecords.length > 0 ? recentRecords[0] : null;
 
-	console.log(firstRecord?.status)
 	return (
 
 		<div className="bg-white min-h-screen flex z-10">
