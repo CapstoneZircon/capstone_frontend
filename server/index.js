@@ -335,7 +335,7 @@ app.put('/api/updateNote/RFID_Record/:document', async (req, res) => {
                 if (!docSnap.exists()) {
                     return res.status(404).json({ success: false, message: 'Document not found' });
                 }
-                await updateDoc(docRef, { Note });
+                await updateDoc(docRef, { Note, Status: "Clarified"});
                 console.log("update scuessfully",Note)
                 res.status(200).json({ success: true, message: 'Note updated successfully content: ' + Note });
             } catch (reauthError) {

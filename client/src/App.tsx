@@ -43,7 +43,8 @@ const App = () => {
 
   const ProtectedRoute = ({ children }: any) => {
     if (!authenticated) {
-      return <Navigate to="/" />;
+      // return <Navigate to="/" />;
+      return children;
     }
     return children;
   };

@@ -7,27 +7,26 @@ interface ClarifyModalProps {
     closeModal: () => void;
     videoDocumentId: string;
     updateData: (document: string, newNote: string, password: string) => Promise<void>; // Add updateData prop
+    Incorretpassword: boolean;
 }
 
-const ClarifyModal: FC<ClarifyModalProps> = ({ showModal, closeModal, videoDocumentId, updateData }) => {
+const ClarifyModal: FC<ClarifyModalProps> = ({ showModal, closeModal, videoDocumentId, updateData, Incorretpassword }) => {
     const cancelButtonRef = useRef<HTMLButtonElement>(null);
     const [note, setNote] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [passwordIncorrect, setPasswordIncorrect] = useState<boolean>(true); // State to track if password is incorrect
+    // const [passwordIncorrect, setPasswordIncorrect] = useState<boolean>(true); // State to track if password is incorrect
 
     const handleClarify = async () => {
         // Call the updateData function with videoDocumentId, note, and password
         try {
             await updateData(videoDocumentId, note, password);
-            setPasswordIncorrect(false); // Reset password incorrect state
-            // Optionally, you can handle success or display a message to the user
-            // closeModal(); // Close the modal after updating the note
+
         } catch (error: any) {
             console.error('Error updating note:', error);
             // Optionally, you can handle errors or display a message to the user
             console.log("hi40111 ja")
             if (error.response.status === 401) {
-                setPasswordIncorrect(true); // Set password incorrect state
+
             }
         }
     };
@@ -98,7 +97,7 @@ const ClarifyModal: FC<ClarifyModalProps> = ({ showModal, closeModal, videoDocum
                                         />
                                     </div>
 
-                                    {passwordIncorrect && ( // Conditionally render the error message
+                                    {Incorretpassword && ( // Conditionally render the error message
                                         <p className="mt-2 text-sm text-red-500">
                                             Incorrect password. Please try again.
                                         </p>

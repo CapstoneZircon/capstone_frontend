@@ -28,15 +28,16 @@ const VideoFootagePage: React.FC = () => {
     const [returnValue, setReturnValue] = useState(1);
     const navigate = useNavigate();
     const [isClarifyModalOpen, setClarifyModalOpen] = useState(false);
+    const [passwordIncorrect, setPasswordIncorrect] = useState<boolean>(false);
 
-    const handleUpdateNote  = async (document: string, newNote: string, password: string) => {
+    const handleUpdateNote = async (document: string, newNote: string, password: string) => {
         try {
             const response = await fetch(`http://localhost:8080/api/updateNote/RFID_Record/${document}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ Note: newNote, Password: password}),
+                body: JSON.stringify({ Note: newNote, Password: password }),
             });
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -44,15 +45,18 @@ const VideoFootagePage: React.FC = () => {
             const data = await response.json();
             console.log(data);
             setClarifyModalOpen(false)
+            setPasswordIncorrect(false)
+            // window.location.reload();
             // Optionally, you can handle success or display a message to the user
         } catch (error) {
             console.error('Error updating data:', error);
+            setPasswordIncorrect(true)
             return
             // Optionally, you can handle errors or display a message to the user
         }
     };
-    
-      
+
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -69,7 +73,7 @@ const VideoFootagePage: React.FC = () => {
                 }
             } catch (error) {
                 console.error("Error fetching video data:", error);
-                
+
             }
         };
 
@@ -86,7 +90,6 @@ const VideoFootagePage: React.FC = () => {
     };
 
     // Debounce the video change handlers
-
 
     const handlePreviousVideo = () => {
         if (currentVideoIndex > 0) {
@@ -172,13 +175,13 @@ const VideoFootagePage: React.FC = () => {
                                             width="1280px"
                                             height="720px"
                                             controls={true}
-                                            playing={!loading} // Only play the video when not in loading state
+                                            playing={!loading}
                                             onReady={() => setLoading(false)}
                                         />
                                     </div>
                                     <div className="flex relative mt-6">
                                         <span className={`absolute top-1/2 -translate-y-1/2 left-6 rounded-full w-5 h-5 flex items-center justify-center text-xl font-bold ${videoData[currentVideoIndex].status === "Abnormal" ? "bg-abnormal text-white" : videoData[currentVideoIndex].status === "Clarified" ? "bg-clarified" : "bg-normal"} `}></span>
-                                        <Typography className="pl-14    ">
+                                        <Typography className="pl-14">
                                             <span className="text-4xl font-semibold">{videoData[currentVideoIndex].createdTime}</span>
                                         </Typography>
                                         <Typography className="pl-6 text-end grow">
@@ -187,7 +190,7 @@ const VideoFootagePage: React.FC = () => {
                                     </div>
                                     <div className="flex relative mt-6 justify-end">
                                         <div className="grow">
-                                            <Typography className="pl-6 pt-3">
+                                            <Typography className="pl-6">
                                                 <span className="text-2xl font-semibold "> event: {videoData[currentVideoIndex].event} </span>
                                             </Typography>
                                             <Typography className="pl-6">
@@ -195,10 +198,14 @@ const VideoFootagePage: React.FC = () => {
                                             </Typography>
                                         </div >
                                         <div className="flex items-center justify-center">
-                                        <Button className=" bg-dark-gray text-lg text-white text font-black" onClick={() => setClarifyModalOpen(true)}>
-                                            Clarify
-                                        </Button>
-                                        <ClarifyModal showModal={isClarifyModalOpen} closeModal={() => setClarifyModalOpen(false)} videoDocumentId={videoData[currentVideoIndex].docName} updateData={handleUpdateNote}/>
+                                            {videoData[currentVideoIndex].status === "Abnormal" ? (
+                                                <Button className="bg-normal text-xl text-black font-black" onClick={() => setClarifyModalOpen(true)}>
+                                                    Clarify
+                                                </Button>
+                                            ) : (<Button  disabled={true} className="bg-dark-gray text-xl text-black font-black" onClick={() => setClarifyModalOpen(true)}>
+                                                Clarified
+                                            </Button>)}
+                                            <ClarifyModal showModal={isClarifyModalOpen} closeModal={() => setClarifyModalOpen(false)} videoDocumentId={videoData[currentVideoIndex].docName} updateData={handleUpdateNote} Incorretpassword={passwordIncorrect} />
                                         </div>
                                     </div>
                                 </div>
