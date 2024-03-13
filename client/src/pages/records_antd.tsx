@@ -236,7 +236,7 @@ const Records = () => {
                                 //     }`}
                                 // >
                                 <span
-                                  className={`text-2xl font-bold flex items-center justify-center h-14 w-8/12 ${importer[columnName] === "Abnormal"
+                                  className={`text-2xl font-bold flex items-center justify-center h-14 w-8/12  ${importer[columnName] === "Abnormal"
                                     ? "inline-flex items-center rounded-xl bg-abnormal text-white"
                                     : importer[columnName] === "Clarified"
                                       ? "inline-flex items-center rounded-xl bg-clarified "

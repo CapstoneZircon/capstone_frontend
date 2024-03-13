@@ -53,13 +53,13 @@ const LogoutModal: FC<LogoutModalProps> = ({ showModal, closeModal, handleLogout
                                 <div>
                                     <div className="text-left">
                                         <Dialog.Title as="h3" className="text-lg font-semibold leading-6 text-gray-900">
-                                            Log Out of Your Account?
+                                            Sign Out of Your Account?
                                         </Dialog.Title>
                                     </div>
                                     <div className="mt-4">
                                         <p className="text-sm text-gray-500">
-                                            Are you sure you want to logout? <br />
-                                            You will be redirected to the login page.
+                                            Are you sure you want to Sign out? <br />
+                                            You will be redirected to the Sign in page.
                                         </p>
                                     </div>
                                     <div className="mt-4 flex justify-start">
