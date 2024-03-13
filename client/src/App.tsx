@@ -14,37 +14,47 @@ import { AuthContext } from './context/AuthContext';
 import { Navigate } from 'react-router-dom';
 
 const App = () => {
-  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
+  // Retrieve authenticated status from localStorage, default to false if not found
+  const [authenticated, setAuthenticated] = useState<boolean>(() => {
+    const storedAuthenticated = localStorage.getItem('authenticated');
+    return storedAuthenticated ? JSON.parse(storedAuthenticated) : false;
+  });
 
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
         const response = await fetch('http://localhost:8080/api/check-auth', {
           method: 'GET',
-          credentials: 'include', // Include cookies for authentication
+          credentials: 'include',
         });
         if (response.ok) {
           setAuthenticated(true);
+          localStorage.setItem('authenticated', JSON.stringify(true)); 
         } else {
           setAuthenticated(false);
+          localStorage.removeItem('authenticated'); 
         }
       } catch (error) {
         console.error('Error checking authentication:', error);
         setAuthenticated(false);
+        localStorage.removeItem('authenticated');
       }
     };
 
     checkAuthentication();
-  }, []);
+  }, [location.pathname]);
 
   const handleLogin = () => {
     setAuthenticated(true);
+    localStorage.setItem('authenticated', JSON.stringify(true));
   };
 
+
   const ProtectedRoute = ({ children }: any) => {
+    console.log("authenticated: ",authenticated)
+
     if (!authenticated) {
-      // return <Navigate to="/" />;
-      return children;
+      return <Navigate to="/" />;
     }
     return children;
   };
@@ -52,7 +62,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<LoginPage onLogin={handleLogin} />} />
+      <Route path="/" element={<LoginPage onLogin={handleLogin} />} />
         <Route path='/home' element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
         <Route path='/records' element={<ProtectedRoute><Records /></ProtectedRoute>} />
         <Route path='/footage' element={<ProtectedRoute><Footage /></ProtectedRoute>} />

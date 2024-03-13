@@ -31,7 +31,7 @@ const Footages = () => {
           setVideoData(JSON.parse(cachedData));
         }
         
-        const response = await fetch("http://localhost:8080/api/all_videos_url_test");
+        const response = await fetch("http://localhost:8080/api/all_videos_url");
         const data = await response.json();
         setVideoData(data);
         localStorage.setItem('videoData', JSON.stringify(data));

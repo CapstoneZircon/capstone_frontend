@@ -12,7 +12,7 @@ module.exports = withMT({
       "hover-gray" : '#155e75',
 
       "normal" : "#90FF7E",
-      "clarified" : "#FFE55C ",
+      "clarified" : "#FFE55C",
       "abnormal" : "#F64E60",
 
       "backg-gray" : '#B2B2B2',

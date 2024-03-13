@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/navbar/navbar';
-import { Typography, Card, CardBody, CardFooter } from '@material-tailwind/react';
+import { Typography, Card, CardBody, CardFooter, Checkbox } from '@material-tailwind/react';
 import { Pagination } from 'antd';
 
 const Records = () => {
-
+  type SelectedStatusGroups = {
+    Abnormal: boolean;
+    Clarified: boolean;
+    CheckInOut: boolean;
+  };
   type Importer = {
     [key: string]: string;
   };
@@ -19,6 +23,11 @@ const Records = () => {
         TimeInOut: "",
       },
     ],
+  });
+  const [selectedStatusGroups, setSelectedStatusGroups] = useState({
+    Abnormal: true,
+    Clarified: true,
+    CheckInOut: true,
   });
 
   const [pageSize, setPageSize] = useState(5); // Default page size
@@ -55,20 +64,36 @@ const Records = () => {
     setActive(1); // Reset to the first page when page size changes
   };
 
+  const handleCheckboxChange = (statusGroup: keyof SelectedStatusGroups) => {
+    setSelectedStatusGroups({
+      ...selectedStatusGroups,
+      [statusGroup]: !selectedStatusGroups[statusGroup],
+    });
+    setActive(1);
+  };
+
+
+  const filteredData = Array.isArray(data.importers) ? data.importers.filter((item: Importer) => {
+    if (selectedStatusGroups.Abnormal && item.Status === 'Abnormal') return true;
+    if (selectedStatusGroups.Clarified && item.Status === 'Clarified') return true;
+    if (selectedStatusGroups.CheckInOut && (item.Status === 'Check-in' || item.Status === 'Check-out')) return true;
+    return false;
+  }) : [];
+  console.log("filteredData : ", filteredData)
+
   const itemsPerPage = pageSize;
   const startIndex = (active - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedImporters = data.importers.length > 0 ? data.importers.slice(startIndex, endIndex) : [];
-  const totalPages = Math.ceil(data.importers.length / itemsPerPage);
+  const paginatedImporters = filteredData.length > 0 ? filteredData.slice(startIndex, endIndex) : [];
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   paginatedImporters.forEach((importer, index) => {
     columnNames.map((columnName) => {
       console.log(importer[columnName], typeof (importer[columnName]))
     });
   });
-  const MAX_VISIBLE_PAGES = 5;
-  const startPage = Math.max(1, active - Math.floor(MAX_VISIBLE_PAGES / 2));
-  const endPage = Math.min(totalPages, startPage + MAX_VISIBLE_PAGES - 1);
-  const visiblePageNumbers = Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
+
+
+
   if (loading) {
     return (
       <div className="flex">
@@ -83,22 +108,22 @@ const Records = () => {
           <div className="flex-1 ml-11 mr-9 mt-5 h-[865px]">
             <Card className="rounded-3xl h-full w-full bg-light-gray">
               <CardBody className="max-h-full flex-1">
+
                 <div className="w-full h-full">
                   <table className="w-full h-full mt-4">
                     <thead>
                       <tr>
                         <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
-                        <th className="px-5 pt-5 pb-4 pl-5 w-auto text-3xl text-start">
+                        <th className="px-5 pt-5 pb-4 pl-5 w-4/12 text-3xl text-start">
                           Name
                         </th>
-                        <th className="px-5 pt-5 pb-4 pl-5 w-1/12 text-3xl text-start">
+                        <th className="px-5 pt-5 pb-4 pl-5 w-3/12 text-3xl text-start">
                           UID
                         </th>
                         <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">Status</th>
                         <th className="px-5 pt-5 pb-4 w-3/12 text-3xl">Time</th>
                       </tr>
                     </thead>
-                    <div></div>
                   </table>
                   <div role="status">
                     <svg aria-hidden="true" className="w-16 h-16 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600 left-1/2  top-1/2 absolute" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -117,7 +142,7 @@ const Records = () => {
                     total={data.importers.length}
                     pageSize={itemsPerPage}
                     showSizeChanger={false}
-                    onShowSizeChange={onChangePageSize}
+                    // onShowSizeChange={onChangePageSize}
                     pageSizeOptions={['5', '10', '20']}
                   />
                 </div>
@@ -133,29 +158,56 @@ const Records = () => {
       <Navbar></Navbar>
 
       <div className="flex-1 p-4 pl-[165px]">
-        <div className="pt-10 pl-10 pb-3">
-          <Typography>
+        <div className="pt-10 pl-10 pb-3 flex flex-row">
+          <Typography className="grow">
             <span className="text-6xl font-bold"> RFID Records </span>
           </Typography>
+          <div className="space-x-2 mr-20 mt-12">
+                <Checkbox
+                  id="abnormalCheckbox"
+                  checked={selectedStatusGroups.Abnormal}
+                  onChange={() => handleCheckboxChange('Abnormal')}
+                  label="Abnormal"
+                  className='checked:bg-abnormal checked:border-abnormal'
+                />
+                <Checkbox
+                  id="clarifiedCheckbox"
+                  checked={selectedStatusGroups.Clarified}
+                  onChange={() => handleCheckboxChange('Clarified')}
+                  label="Clarified"
+                  className='checked:bg-clarified checked:border-clarified'
+                />
+                <Checkbox
+                  id="checkInOutCheckbox"
+                  checked={selectedStatusGroups.CheckInOut}
+                  onChange={() => handleCheckboxChange('CheckInOut')}
+                  label="Check In-Out"
+                  className='checked:bg-normal checked:border-normal'
+                />
+              </div>
         </div>
-        <div className="flex-1 ml-11 mr-9 mt-5 h-[865px]">
+        
+        <div className="flex-1 ml-11 mr-9 -mt-2 h-[865px]">
+        
           <Card className="rounded-3xl h-full w-full bg-light-gray">
-            <CardBody className="max-h-full flex-1">
+            <CardBody className="max-h-full flex-1 relative">
+              
+
               <div className="w-full h-full">
-                <table className="w-full h-full mt-4">
-                  <thead>
-                    <tr>
-                      <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
-                      <th className="px-5 pt-5 pb-4 pl-5 w-auto text-3xl text-start">
-                        Name
-                      </th>
-                      <th className="px-5 pt-5 pb-4 pl-5 w-1/12 text-3xl text-start">
-                        UID
-                      </th>
-                      <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">Status</th>
-                      <th className="px-5 pt-5 pb-4 w-3/12 text-3xl">Time</th>
-                    </tr>
-                  </thead>
+                <table className="w-full h-full mt-0">
+                <thead>
+                      <tr>
+                        <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
+                        <th className="px-5 pt-5 pb-4 pl-5 w-5/12 text-3xl text-start">
+                          Name
+                        </th>
+                        <th className="px-5 pt-5 pb-4 pl-5 w-2/12 text-3xl text-start">
+                          UID
+                        </th>
+                        <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">Status</th>
+                        <th className="px-5 pt-5 pb-4 w-3/12 text-3xl">Time</th>
+                      </tr>
+                    </thead>
                   {data.importers.length > 0 ? (
                     <tbody className="">
                       {paginatedImporters.map((importer, index) => (
@@ -226,7 +278,7 @@ const Records = () => {
                 <Pagination
                   current={active}
                   onChange={onChangePage}
-                  total={data.importers.length}
+                  total={filteredData.length}
                   pageSize={itemsPerPage}
                   showSizeChanger={false}
                   onShowSizeChange={onChangePageSize}

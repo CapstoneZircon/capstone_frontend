@@ -46,7 +46,7 @@ const VideoFootagePage: React.FC = () => {
             console.log(data);
             setClarifyModalOpen(false)
             setPasswordIncorrect(false)
-            // window.location.reload();
+            window.location.reload();
             // Optionally, you can handle success or display a message to the user
         } catch (error) {
             console.error('Error updating data:', error);
@@ -60,7 +60,7 @@ const VideoFootagePage: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:8080/api/all_videos_url_test");
+                const response = await fetch("http://localhost:8080/api/all_videos_url");
                 const data = await response.json();
                 setVideoData(data);
                 const index = data.findIndex((video: VideoData) => video.fileName === videoId);

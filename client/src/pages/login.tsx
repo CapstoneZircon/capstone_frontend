@@ -21,6 +21,7 @@ import { userInfo } from "../components/hooks/login";
 // import InsertInput from "../components/hooks/input";
 
 const LoginPage = ({ onLogin }: { onLogin: () => void }) => {
+    // const LoginPage = () => {
     const admin = process.env.REACT_APP_ADMIN;
     const navigate = useNavigate();
     const [error, setError] = useState(false);

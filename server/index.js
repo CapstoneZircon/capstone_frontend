@@ -8,8 +8,13 @@ const { getAuth, signInWithEmailAndPassword, signOut, EmailAuthProvider, reauthe
 const cors = require('cors');
 const express = require("express");
 
+const corsOptions = {
+    origin: 'http://localhost:3001',
+    credentials: true, // Allow credentials
+  };
+
 const app = express();
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.post('/api/signin', async (req, res) => {
@@ -128,92 +133,6 @@ app.get('/api/all_videos', async (req, res) => {
 app.get('/api/all_videos_url', async (req, res) => {
     try {
         const storage = getStorage();
-        const videosRef = ref(storage, 'Video');
-        const thumbnailsFolderRef = ref(storage, 'Thumbnail'); // Add reference to the Thumbnail folder
-
-        const [videoList, thumbnailsList] = await Promise.all([
-            listAll(videosRef),
-            listAll(thumbnailsFolderRef),
-        ]);
-
-        const videoData = [];
-
-        for (const videoItem of videoList.items) {
-            try {
-                // Extract file name from the full path
-                const fileName = videoItem.name.split('/').pop();
-
-                // Generate the download URL
-                const downloadURL = await getDownloadURL(videoItem);
-
-                // Get storage metadata
-                const metadata = await getMetadata(videoItem);
-                const createdTimeString = metadata.timeCreated;
-                const dateTime = new Date(createdTimeString);
-
-                // Format the date and time for Thai locale
-                const createdTime = dateTime.toLocaleString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric',
-                    hour12: false,
-                });
-
-                // Find the corresponding thumbnail for the video
-                const thumbnailFileJPG = thumbnailsList.items.find(
-                    (thumbnailItem) =>
-                        thumbnailItem._location.path_.endsWith(`/${fileName.replace(/\.[^/.]+$/, '.jpg')}`)
-                );
-
-                // Find the corresponding PNG thumbnail for the video
-                const thumbnailFilePNG = thumbnailsList.items.find(
-                    (thumbnailItem) =>
-                        thumbnailItem._location.path_.endsWith(`/${fileName.replace(/\.[^/.]+$/, '.png')}`)
-                );
-
-                const lFileJPG = videoList.items.find(
-                    (videoList) =>
-                        videoList.name.endsWith(`/${fileName.replace(/\.[^/.]+$/, '.mp4')}`)
-                );
-                console.log('Thumbnail file (JPG):', thumbnailFileJPG);
-                console.log('Thumbnail file (PNG):', thumbnailFilePNG);
-
-                // If a matching thumbnail is found, generate the thumbnail URL
-                let thumbnailURL = null;
-
-                if (thumbnailFileJPG) {
-                    console.log(thumbnailFileJPG)
-                    thumbnailURL = await getDownloadURL(thumbnailFileJPG);
-                } else if (thumbnailFilePNG) {
-                    console.log(thumbnailFilePNG)
-                    thumbnailURL = await getDownloadURL(thumbnailFilePNG);
-                }
-
-
-                // Add the relevant information to the response array
-                videoData.push({
-                    fileName,
-                    downloadURL,
-                    createdTime,
-                    thumbnailURL, // Add thumbnail URL to the response
-                });
-            } catch (error) {
-                console.error('Error processing video item:', error);
-            }
-        }
-
-        res.json(videoData);
-    } catch (error) {
-        console.error('Error fetching video data:', error);
-        res.status(500).send('Internal Server Error');
-    }
-});
-
-app.get('/api/all_videos_url_test', async (req, res) => {
-    try {
-        const storage = getStorage();
         const videosRef = ref(storage, 'Abnormal_Videos');
 
         const videoList = await listAll(videosRef);
@@ -234,12 +153,12 @@ app.get('/api/all_videos_url_test', async (req, res) => {
                 const videoFileName = videoItem.name.replace('.mp4', "");
                 // Find a matching document in Firestore based on the extracted date and time
                 const matchingRecord = querySnapshot.docs.find(doc => {
-                    const docFileNameParts = doc.id.split(" ")[0];
-                    const docTimeArray = doc.id.split(" ")[1].split(".");
-                    const docTime = docTimeArray[0] + "." + docTimeArray[1] + "." + docTimeArray[2]
-                    const docFileName = docFileNameParts + " " + docTime
+                    // const docFileNameParts = doc.id.split(" ")[0];
+                    // const docTimeArray = doc.id.split(" ")[1].split(".");
+                    // const docTime = docTimeArray[0] + "." + docTimeArray[1] + "." + docTimeArray[2]
+                    // const docFileName = docFileNameParts + " " + docTime
                     const docName = doc.id;
-                    return videoFileName === docFileName;
+                    return videoFileName === docName;
 
                 });
 

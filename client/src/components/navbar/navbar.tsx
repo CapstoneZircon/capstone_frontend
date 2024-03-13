@@ -40,7 +40,7 @@ const Navbar = () => {
 	return (
 		<nav
 			id="SideBar"
-			className="flex flex-col fixed h-full w-[149px] bg-gradient-to-b from-[#ED1B23] via-[#F16233] via-70% to-[#F8490F]-opacity-[14] text-white"
+			className="flex flex-col fixed h-full w-[149px] bg-gradient-to-b from-[#ED1B23] via-[#F16233] via-70% to-[#ffffff] text-white z-50"
 		>
 			<div className="flex justify-center items-center py-[9px]">
 				<Link to="/home">
