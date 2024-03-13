@@ -124,6 +124,7 @@ const Records = () => {
                         <th className="px-5 pt-5 pb-4 w-3/12 text-3xl">Time</th>
                       </tr>
                     </thead>
+                    <div></div>
                   </table>
                   <div role="status">
                     <svg aria-hidden="true" className="w-16 h-16 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600 left-1/2  top-1/2 absolute" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -139,7 +140,7 @@ const Records = () => {
                   <Pagination
                     current={active}
                     onChange={onChangePage}
-                    total={data.importers.length}
+                    total={filteredData.length}
                     pageSize={itemsPerPage}
                     showSizeChanger={false}
                     // onShowSizeChange={onChangePageSize}
@@ -163,39 +164,40 @@ const Records = () => {
             <span className="text-6xl font-bold"> RFID Records </span>
           </Typography>
           <div className="space-x-2 mr-20 mt-12">
-                <Checkbox
-                  id="abnormalCheckbox"
-                  checked={selectedStatusGroups.Abnormal}
-                  onChange={() => handleCheckboxChange('Abnormal')}
-                  label="Abnormal"
-                  className='checked:bg-abnormal checked:border-abnormal'
-                />
-                <Checkbox
-                  id="clarifiedCheckbox"
-                  checked={selectedStatusGroups.Clarified}
-                  onChange={() => handleCheckboxChange('Clarified')}
-                  label="Clarified"
-                  className='checked:bg-clarified checked:border-clarified'
-                />
-                <Checkbox
-                  id="checkInOutCheckbox"
-                  checked={selectedStatusGroups.CheckInOut}
-                  onChange={() => handleCheckboxChange('CheckInOut')}
-                  label="Check In-Out"
-                  className='checked:bg-normal checked:border-normal'
-                />
-              </div>
+            <Checkbox
+              id="abnormalCheckbox"
+              checked={selectedStatusGroups.Abnormal}
+              onChange={() => handleCheckboxChange('Abnormal')}
+              label="Abnormal"
+              className='checked:bg-abnormal checked:border-abnormal'
+            />
+            <Checkbox
+              id="clarifiedCheckbox"
+              checked={selectedStatusGroups.Clarified}
+              onChange={() => handleCheckboxChange('Clarified')}
+              label="Clarified"
+              className='checked:bg-clarified checked:border-clarified'
+            />
+            <Checkbox
+              id="checkInOutCheckbox"
+              checked={selectedStatusGroups.CheckInOut}
+              onChange={() => handleCheckboxChange('CheckInOut')}
+              label="Check In-Out"
+              className='checked:bg-normal checked:border-normal'
+            />
+          </div>
         </div>
-        
+
         <div className="flex-1 ml-11 mr-9 -mt-2 h-[865px]">
-        
+
           <Card className="rounded-3xl h-full w-full bg-light-gray">
             <CardBody className="max-h-full flex-1 relative">
-              
+
 
               <div className="w-full h-full">
-                <table className="w-full h-full mt-0">
-                <thead>
+                {filteredData.length > 0 ? (
+                  <table className="w-full h-full mt-0">
+                    <thead>
                       <tr>
                         <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
                         <th className="px-5 pt-5 pb-4 pl-5 w-5/12 text-3xl text-start">
@@ -208,7 +210,7 @@ const Records = () => {
                         <th className="px-5 pt-5 pb-4 w-3/12 text-3xl">Time</th>
                       </tr>
                     </thead>
-                  {data.importers.length > 0 ? (
+
                     <tbody className="">
                       {paginatedImporters.map((importer, index) => (
                         <tr key={index} className="h-32">
@@ -247,7 +249,6 @@ const Records = () => {
                                 </span>
                               ) : (
                                 <Typography>
-
                                   <span className="text-4xl font-bold">
                                     {importer[columnName]}
                                   </span>
@@ -267,10 +268,35 @@ const Records = () => {
                         </>
                       )}
                     </tbody>
-                  ) : (
-                    <div>No records available.</div>
-                  )}
-                </table>
+                  </table>
+                ) : (
+                  <div className="w-full h-full mt-0">
+                    <table className="w-full h-auto mt-0">
+                      <thead>
+                        <tr>
+                          <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
+                          <th className="px-5 pt-5 pb-4 pl-5 w-5/12 text-3xl text-start">
+                            Name
+                          </th>
+                          <th className="px-5 pt-5 pb-4 pl-5 w-2/12 text-3xl text-start">
+                            UID
+                          </th>
+                          <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">Status</th>
+                          <th className="px-5 pt-5 pb-4 w-3/12 text-3xl">Time</th>
+                        </tr>
+                      </thead>
+                    </table>
+                    <div className='flex justify-center items-top h-auto mt-20'>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="90px" height="90px" viewBox="0 0 24 24"><path fill="currentColor" d="M22.54 21.12L20.41 19l2.13-2.12l-1.42-1.42L19 17.59l-2.12-2.13l-1.42 1.42L17.59 19l-2.13 2.12l1.42 1.42L19 20.41l2.12 2.13M6 2a2 2 0 0 0-2 2v16c0 1.11.89 2 2 2h7.81c-.36-.62-.61-1.3-.73-2H6V4h7v5h5v4.08c.33-.05.67-.08 1-.08c.34 0 .67.03 1 .08V8l-6-6M8 12v2h8v-2m-8 4v2h5v-2Z" /></svg>
+                      
+                    </div>
+                    <Typography>
+                        <span className="text-2xl font-bold text-center w-full flex justify-center mt-4">No Records Available</span>
+                      </Typography>
+                  </div>
+
+                )}
+
               </div>
             </CardBody>
             <CardFooter className="flex justify-center mt-auto">

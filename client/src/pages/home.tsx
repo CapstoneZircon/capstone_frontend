@@ -67,7 +67,7 @@ const HomePage = () => {
 
 										</div>
 									</CardBody>
-									<div className="absolute bottom-14 left-[270px] text-sm text-gray-600">
+									<div className="absolute bottom-14 left-[300px] text-sm text-gray-600">
 										within 7 days
 									</div>
 								</Card>

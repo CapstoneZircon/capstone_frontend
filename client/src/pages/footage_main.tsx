@@ -11,7 +11,7 @@ interface VideoData {
   downloadURL: string;
   createdTime: string;
   thumbnailURL: string;
-  status:string;
+  status: string;
 }
 
 const ITEMS_PER_PAGE = 6;
@@ -30,16 +30,17 @@ const Footages = () => {
         if (cachedData) {
           setVideoData(JSON.parse(cachedData));
         }
-        
+
         const response = await fetch("http://localhost:8080/api/all_videos_url");
+        
         const data = await response.json();
         setVideoData(data);
         localStorage.setItem('videoData', JSON.stringify(data));
-        console.log("cachedData",cachedData)
+        console.log("cachedData", cachedData)
         if (returnValue && returnValue.currentPage) {
           setCurrentPage(returnValue.currentPage);
         }
-        
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching video data:", error);
@@ -106,28 +107,42 @@ const Footages = () => {
             <span className="text-6xl font-bold"> Anomaly Footage </span>
           </Typography>
         </div>
-        <div className="grid grid-cols-3 gap-x-12 gap-y-10 ml-11 mt-5 mr-7">
-          {getCurrentItems().map((video: VideoData, index: number) => (
-            <Link to={`/footage/${video.fileName}`} state={5} key={index}>
-              <Card key={index} className="bg-light-gray rounded-3xl z-10">
-                <CardHeader className="h-72 w-auto mt-4 mx-4 rounded-xl">
-                  <img src="/images/default_warehouse.jpg" alt={video.fileName} />
-                </CardHeader>
-                <CardBody className="h-[72px] pt-2 relative">
-                  <Typography className="text-2xl font-bold">{video.fileName}</Typography>
-                  <Typography className="text-sm font-normal">{getDaysAgo(video.createdTime)}</Typography>
-                  <span className={`absolute right-6 bottom-4 ${video?.status === "Abnormal" ? "bg-abnormal text-white" : video?.status === "Clarified" ? "bg-clarified" : "bg-normal"} rounded-full px-4 py-1 flex items-center justify-center text-xl font-bold`}>
-													<Typography> <span className="text-base font-bold"> {video?.status} </span> </Typography>
-												</span>
-                </CardBody>
-              </Card>
-            </Link>
+        {totalItems > 0 ? (
+          <div>
+            <div className="grid grid-cols-3 gap-x-12 gap-y-10 ml-11 mt-5 mr-7">
+              {getCurrentItems().map((video: VideoData, index: number) => (
+                <Link to={`/footage/${video.fileName}`} state={5} key={index}>
+                  <Card key={index} className="bg-light-gray rounded-3xl z-10">
+                    <CardHeader className="h-72 w-auto mt-4 mx-4 rounded-xl">
+                      <img src="/images/default_warehouse.jpg" alt={video.fileName} />
+                    </CardHeader>
+                    <CardBody className="h-[72px] pt-2 relative">
+                      <Typography className="text-2xl font-bold">{video.fileName}</Typography>
+                      <Typography className="text-sm font-normal">{getDaysAgo(video.createdTime)}</Typography>
+                      <span className={`absolute right-6 bottom-4 ${video?.status === "Abnormal" ? "bg-abnormal text-white" : video?.status === "Clarified" ? "bg-clarified" : "bg-normal"} rounded-full px-4 py-1 flex items-center justify-center text-xl font-bold`}>
+                        <Typography> <span className="text-base font-bold"> {video?.status} </span> </Typography>
+                      </span>
+                    </CardBody>
+                  </Card>
+                </Link>
 
-          ))}
-        </div>
-        <CardFooter className="flex justify-center mt-5">
-          <Pagination current={currentPage} total={totalItems} pageSize={ITEMS_PER_PAGE} onChange={handlePageChange} />
-        </CardFooter>
+              ))}
+            </div>
+            <div className="flex justify-center mt-5">
+              <Pagination current={currentPage} total={totalItems} pageSize={ITEMS_PER_PAGE} onChange={handlePageChange} />
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div className='flex justify-center items-top h-auto mt-20'>
+              <svg xmlns="http://www.w3.org/2000/svg" width="90px" height="90px" viewBox="0 0 24 24"><path fill="currentColor" d="M22.54 21.12L20.41 19l2.13-2.12l-1.42-1.42L19 17.59l-2.12-2.13l-1.42 1.42L17.59 19l-2.13 2.12l1.42 1.42L19 20.41l2.12 2.13M6 2a2 2 0 0 0-2 2v16c0 1.11.89 2 2 2h7.81c-.36-.62-.61-1.3-.73-2H6V4h7v5h5v4.08c.33-.05.67-.08 1-.08c.34 0 .67.03 1 .08V8l-6-6M8 12v2h8v-2m-8 4v2h5v-2Z" /></svg>
+
+            </div>
+            <Typography>
+              <span className="text-2xl font-bold text-center w-full flex justify-center mt-4">No Footages Available</span>
+            </Typography>
+          </div>
+        )}
       </div>
     </div>
   );
