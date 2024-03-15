@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardBody, CardFooter, CardHeader } from "@material-tailwind/react";
+import { Card, CardBody, CardFooter, CardHeader, Checkbox } from "@material-tailwind/react";
 import { Typography } from "@material-tailwind/react";
 import { Link, useLocation } from "react-router-dom";
 import Navbar from "../components/navbar/navbar";
@@ -13,6 +13,11 @@ interface VideoData {
   thumbnailURL: string;
   status: string;
 }
+type SelectedStatusGroups = {
+  Abnormal: boolean;
+  Clarified: boolean;
+  CheckInOut: boolean;
+};
 
 const ITEMS_PER_PAGE = 6;
 
@@ -22,6 +27,12 @@ const Footages = () => {
   const [loading, setLoading] = useState(true);
   const { state } = useLocation();
   const returnValue = state;
+  const [selectedStatusGroups, setSelectedStatusGroups] = useState({
+    Abnormal: true,
+    Clarified: true,
+    CheckInOut: true,
+  });
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,7 +43,7 @@ const Footages = () => {
         }
 
         const response = await fetch("http://localhost:8080/api/all_videos_url");
-        
+
         const data = await response.json();
         setVideoData(data);
         localStorage.setItem('videoData', JSON.stringify(data));
@@ -50,6 +61,20 @@ const Footages = () => {
 
     fetchData();
   }, []);
+  const handleCheckboxChange = (statusGroup: keyof SelectedStatusGroups) => {
+    setSelectedStatusGroups({
+      ...selectedStatusGroups,
+      [statusGroup]: !selectedStatusGroups[statusGroup],
+    });
+    setCurrentPage(1);
+  };
+
+  const filteredData = Array.isArray(videoData) ? videoData.filter((videoData) => {
+    if (selectedStatusGroups.Abnormal && videoData.status === 'Abnormal') return true;
+    if (selectedStatusGroups.Clarified && videoData.status === 'Clarified') return true;
+    if (selectedStatusGroups.CheckInOut && (videoData.status === 'Check-in' || videoData.status === 'Check-out')) return true;
+    return false;
+  }) : [];
 
   const totalItems = videoData.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
@@ -57,7 +82,7 @@ const Footages = () => {
   const getCurrentItems = (): VideoData[] => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
-    return videoData.slice(startIndex, endIndex);
+    return filteredData.slice(startIndex, endIndex);
   };
 
   const handlePageChange = (page: number) => {
@@ -78,10 +103,11 @@ const Footages = () => {
         <Navbar></Navbar>
 
         <div className="flex-1 p-3 pl-[165px]">
-          <div className="pt-10 pl-10 pb-3">
-            <Typography>
-              <span className="text-6xl font-bold"> Anomaly Footage </span>
+          <div className="pt-10 pl-10 pb-3 flex flex-row">
+            <Typography className="grow">
+              <span className="text-6xl font-bold">  Anomaly Footage </span>
             </Typography>
+
           </div>
           <div className="flex justify-center items-center flex-1 h-[900px]">
             <div role="status">
@@ -102,14 +128,30 @@ const Footages = () => {
       <Navbar></Navbar>
 
       <div className="flex-1 p-3 pl-[165px]">
-        <div className="pt-10 pl-10 pb-3">
-          <Typography>
-            <span className="text-6xl font-bold"> Anomaly Footage </span>
+        <div className="pt-10 pl-10 pb-0 flex flex-row">
+          <Typography className="grow">
+            <span className="text-6xl font-bold">  Anomaly Footage </span>
           </Typography>
+          <div className="space-x-2 mr-11 mt-12">
+            <Checkbox
+              id="abnormalCheckbox"
+              checked={selectedStatusGroups.Abnormal}
+              onChange={() => handleCheckboxChange('Abnormal')}
+              label="Abnormal"
+              className='checked:bg-abnormal checked:border-abnormal'
+            />
+            <Checkbox
+              id="clarifiedCheckbox"
+              checked={selectedStatusGroups.Clarified}
+              onChange={() => handleCheckboxChange('Clarified')}
+              label="Clarified"
+              className='checked:bg-clarified checked:border-clarified'
+            />
+          </div>
         </div>
         {totalItems > 0 ? (
           <div>
-            <div className="grid grid-cols-3 gap-x-12 gap-y-10 ml-11 mt-5 mr-7">
+            <div className="grid grid-cols-3 gap-x-12 gap-y-10 ml-11 mt-2 mr-7">
               {getCurrentItems().map((video: VideoData, index: number) => (
                 <Link to={`/footage/${video.fileName}`} state={5} key={index}>
                   <Card key={index} className="bg-light-gray rounded-3xl z-10">
