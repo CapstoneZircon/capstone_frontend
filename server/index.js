@@ -4,6 +4,7 @@ const { collection, getDocs, query, orderBy, where, limit, doc, updateDoc, getDo
 const { getStorage, ref, getDownloadURL, listAll, getMetadata, } = require('firebase/storage');
 const { getFirestore, Timestamp, FieldValue, Filter } = require('firebase-admin/firestore');
 const { getAuth, signInWithEmailAndPassword, signOut, EmailAuthProvider, reauthenticateWithCredential } = require("firebase/auth");
+const { endOfDay, subDays } = require('date-fns');
 
 const cors = require('cors');
 const express = require("express");
@@ -270,9 +271,6 @@ app.put('/api/updateNote/RFID_Record/:document', async (req, res) => {
     }
 });
 
-
-
-
 app.get('/api/rfid_record', async (req, res) => {
     try {
         // Initialize Firestore
@@ -353,21 +351,31 @@ app.get('/api/rfid_record_Dashboard', async (req, res) => {
 
 app.get('/api/rfid_record_counts', async (req, res) => {
     try {
-        const coll = collection(db_firestore, 'RFID_Record')
-
-
-        // Query for Abnormal count
-        const qAbnormal = query(coll, where("Status", "==", "Abnormal"));
+        const coll = collection(db_firestore, 'RFID_Record');
+        const now = new Date();
+        
+        const lastSevenDays = subDays(endOfDay(now), 7); 
+        console.log(endOfDay(now),lastSevenDays)
+        const qAbnormal = query(coll, 
+            where("Status", "==", "Abnormal"),
+            where("TimeInOut", ">=", lastSevenDays),
+        );
         const snapshotAbnormal = await getDocs(qAbnormal);
         const countAbnormal = snapshotAbnormal.size;
 
-        // Query for Check-in count
-        const qCheckInOut = query(coll, where("Status", "in", ["Check-in", "Check-out"]));
+        // Query for Check-in/Check-out records in the last 7 days
+        const qCheckInOut = query(coll, 
+            where("Status", "in", ["Check-in", "Check-out"]),
+            where("TimeInOut", ">=", lastSevenDays),
+        );
         const snapshotCheckInOut = await getDocs(qCheckInOut);
         const countCheckInOut = snapshotCheckInOut.size;
 
-        // Query for Check-out count
-        const qClarified = query(coll, where("Status", "==", "Clarified"));
+        // Query for Clarified records in the last 7 days
+        const qClarified = query(coll, 
+            where("Status", "==", "Clarified"),
+            where("TimeInOut", ">=", lastSevenDays),
+        );
         const snapshotClarified = await getDocs(qClarified);
         const countClarified = snapshotClarified.size;
 
