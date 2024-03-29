@@ -17,18 +17,30 @@ interface Record {
 const HomePage = () => {
 	const [loading, setLoading] = useState(true);
 	const [recentRecords, setRecentRecords] = useState<Record[]>([]);
-
+	const getStatusTextTH = (status:any) => {
+		if (status === 'Abnormal') {
+		  return 'ผิดปกติ';
+		} else if (status === 'Clarified') {
+		  return 'ตรวจสอบแล้ว';
+		} else if (status === 'Check-in') {
+			return 'เช็คอิน';
+		}else if (status === 'Check-out') {
+			return 'เช็คเอาท์';
+		}else {
+		  return status;
+		}
+	  };
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				// Fetch most recent RFID records for dashboard
 				setLoading(loading)
-				const recordsResponse = await fetch("http://localhost:8080/api/rfid_record_Dashboard");
+				const recordsResponse = await fetch("http://localhost:3002/api/rfid_record_Dashboard");
 				const recordsData = await recordsResponse.json();
 				setRecentRecords(recordsData);
 				setLoading(false)
 			} catch (error) {
-				console.error("Error fetching data:", error);
+				// console.error("Error fetching data:", error);
 			}
 		};
 
@@ -47,7 +59,7 @@ const HomePage = () => {
 
 			<div className="flex-1 p-4 pl-[165px]">
 				<div className="pt-10 pl-10 pb-3">
-					<Typography> <span className="text-6xl font-bold"> Dashboard </span> </Typography>
+					<Typography> <span className="text-6xl font-bold"> แดชบอร์ด </span> </Typography>
 				</div>
 				{firstRecord && (
 					<div className="flex pt-5 pl-1">
@@ -57,7 +69,7 @@ const HomePage = () => {
 									<CardHeader className="m-0 p-2 pt-3 rounded-t-2xl rounded-b-none bg-light-gray border-b-2 border-mid-gray shadow-none">
 										<div>
 											<Typography>
-												<span className="text-2xl font-bold ml-3"> Security Number Overview </span>
+												<span className="text-2xl font-bold ml-3"> ภาพรวมข้อมูลสถิติ </span>
 											</Typography>
 										</div>
 									</CardHeader>
@@ -67,9 +79,9 @@ const HomePage = () => {
 
 										</div>
 									</CardBody>
-									<div className="absolute bottom-14 left-[300px] text-sm text-gray-600">
-										within 7 days
-									</div>
+									<span className="absolute bottom-14 left-[300px] text-md text-gray-600">
+									7 วันล่าสุด
+									</span>
 								</Card>
 							</div>
 
@@ -78,19 +90,19 @@ const HomePage = () => {
 								<Card className="rounded-2xl w-[420px] h-[400px] mt-16 bg-light-gray ">
 									<CardBody className="mb-4">
 										<div className="">
-											<Typography> <span className="text-3xl font-bold"> Lastest Activity </span> </Typography>
+											<Typography> <span className="text-3xl font-bold"> กิจกรรมล่าสุด </span> </Typography>
 										</div>
 										<div className="flex justify-end items-center h-auto py-6 ">
 											<div className="w-40 relative">
 												<img src={firstRecord?.picture} className="object-cover object-bottom rounded-full" alt="Employee" />
 												<span className={`absolute -bottom-3 -left-14 ${firstRecord?.Status === "Abnormal" ? "bg-red-500 text-white" : firstRecord?.Status === "Clarified" ? "bg-clarified" : "bg-normal"} rounded-full px-4 py-2 flex items-center justify-center text-xl font-bold`}>
-													<Typography> <span className="text-xl font-bold"> {firstRecord?.Status} </span> </Typography>
+													<Typography> <span className="text-xl font-bold"> {getStatusTextTH(firstRecord?.Status)} </span> </Typography>
 												</span>
 											</div>
 										</div>
 										<div className=" flex flex-col justify-center items-start mt-5 text-black">
-											<Typography> <div className="text-5xl font-black"> {firstRecord?.name} </div> </Typography>
-											<Typography> <div className="text-2xl font-medium mt-3"> {firstRecord?.TimeInOut} </div> </Typography>
+											<Typography> <span className="text-[32px] font-black"> {firstRecord?.name} </span> </Typography>
+											<Typography> <span className="text-2xl font-medium mt-3"> {firstRecord?.TimeInOut} </span> </Typography>
 										</div>
 									</CardBody>
 									{/* <CardFooter className=" border-mid-gray mt-auto">
@@ -103,16 +115,16 @@ const HomePage = () => {
 						<Card className="rounded-2xl h-auto  min-w-[1160px] w-auto ml-20 bg-light-gray">
 							<CardBody>
 								<div className="p-3">
-									<Typography> <span className="text-5xl font-bold"> History </span> </Typography>
+									<Typography> <span className="text-5xl font-bold"> ประวัติการเข้า-ออก </span> </Typography>
 								</div>
 								<div className="w-full h-full">
 									<table className="w-full h-full">
 										<thead>
 											<tr>
 												<th className="px-5 pt-5 w-40 text-3xl "></th>
-												<th className="px-5 pt-5 w-auto text-3xl text-start pl-5">Name</th>
-												<th className="px-5 pt-5 w-1/4 text-3xl">Status</th>
-												<th className="px-5 pt-5 w-1/4 text-3xl">Time</th>
+												<th className="px-5 pt-5 w-auto text-3xl text-start pl-5">ชื่อ</th>
+												<th className="px-5 pt-5 w-1/4 text-3xl">สถานะ</th>
+												<th className="px-5 pt-5 w-1/4 text-3xl">เวลา</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -131,14 +143,14 @@ const HomePage = () => {
 																/>
 															) : columnName === "Status" ? (
 																<span
-																	className={`text-2xl font-bold flex items-center justify-center w-8/12 h-14 px-4 ${record[columnName] === "Abnormal"
+																	className={`text-2xl font-bold flex items-center justify-center w-10/12 h-14 px-4 ${record[columnName] === "Abnormal"
 																		? "inline-flex items-center rounded-xl bg-abnormal text-white"
 																		: record[columnName] === "Clarified"
 																			? "inline-flex items-center rounded-xl bg-clarified "
 																			: "inline-flex items-center rounded-xl bg-normal"
 																		}`}
 																>
-																	{record[columnName]}
+																	{getStatusTextTH(record[columnName])}
 																</span>
 															) :columnName === "TimeInOut" ? (
 																<Typography> <span className="text-[26px] font-bold"> {record[columnName]} </span> </Typography>

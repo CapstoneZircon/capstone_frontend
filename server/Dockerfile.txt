@@ -1,0 +1,18 @@
+FROM node:18-alpine3.18
+
+WORKDIR /app_Zircon
+
+COPY package*.json .
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 3002
+
+CMD ["npm", "run", "dev"]
+
+# Build command 
+# docker build -f Dockerfile.txt -t backend-eng:2.0.0-prod .
+#zip docker
+#docker save -o <your_tarball_name>.tar <your_image_name>

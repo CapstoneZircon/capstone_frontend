@@ -9,7 +9,7 @@ const DonutChart = () => {
     const fetchData = async () => {
       try {
         // Fetch counts for each status
-        const countsResponse = await fetch("http://localhost:8080/api/rfid_record_counts");
+        const countsResponse = await fetch("http://localhost:3002/api/rfid_record_counts");
         const countsData = await countsResponse.json();
         setCounts(countsData);
       } catch (error) {
@@ -24,7 +24,8 @@ const DonutChart = () => {
     if (!chartRef.current || !counts) return; // Null check for chartRef and counts
 
     const data = {
-      labels: ['Normal', 'Clarified', 'Abnormal'],
+      // labels: ['Normal', 'Clarified', 'Abnormal'],
+      labels: ['ปกติ', 'ตรวจสอบแล้ว', 'ผิดปกติ'],
       datasets: [{
         data: [counts.CheckInOut, counts.Clarified, counts.Abnormal], // Use counts data here
         backgroundColor: ['#90FF7E', '#FFE55C', '#FF5C5C'],

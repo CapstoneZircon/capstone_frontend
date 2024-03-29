@@ -24,3 +24,13 @@ yarn-debug.log*
 yarn-error.log*
 
 package-lock.json
+
+*.tar
+client/*.tar
+client/*.rar
+client/*.conf
+client/*.dockerignore
+client/*.txt
+server/*.tar
+server/*.txt
+server/*.dockerignore

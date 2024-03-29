@@ -1,6 +1,8 @@
 import { Fragment, useRef, FC, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Input } from '@material-tailwind/react';
+import { IconButton, Textarea} from "@material-tailwind/react";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 interface ClarifyModalProps {
     showModal: boolean;
@@ -14,22 +16,24 @@ const ClarifyModal: FC<ClarifyModalProps> = ({ showModal, closeModal, videoDocum
     const cancelButtonRef = useRef<HTMLButtonElement>(null);
     const [note, setNote] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [showPassword, setShowPassword] = useState(false);
     // const [passwordIncorrect, setPasswordIncorrect] = useState<boolean>(true); // State to track if password is incorrect
 
     const handleClarify = async () => {
-        // Call the updateData function with videoDocumentId, note, and password
+
         try {
             await updateData(videoDocumentId, note, password);
-
+            setPassword("")
         } catch (error: any) {
             console.error('Error updating note:', error);
-            // Optionally, you can handle errors or display a message to the user
-            console.log("hi40111 ja")
             if (error.response.status === 401) {
 
             }
         }
     };
+    const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(e.target.value); 
+    }
 
     return (
         <Transition.Root show={showModal} as={Fragment}>
@@ -68,17 +72,18 @@ const ClarifyModal: FC<ClarifyModalProps> = ({ showModal, closeModal, videoDocum
                             <div className="flex items-start">
                                 <div>
                                     <div className="text-left">
-                                        <Dialog.Title as="h3" className="text-lg font-semibold leading-6 text-gray-900">
-                                            Please Verify
+                                        <Dialog.Title as="h3" className="text-2xl font-semibold leading-6 text-gray-900 pb-3">
+                                        กรุณาตรวจสอบความผิดปกติ
                                         </Dialog.Title>
                                     </div>
                                     <div className="mt-2 w-96 h-auto">
-                                        <p className="text-sm text-gray-500">
-                                            Note (optional)
+                                        <p className="text-md text-gray-500">
+                                        {/* หมายเหตุ (ไม่บังคับ) */}
                                         </p>
-                                        <textarea 
+                                        <Textarea 
                                             id="note" 
                                             name="note" 
+                                            label="หมายเหตุ (ไม่บังคับ)"
                                             rows={7}  
                                             cols={43} 
                                             className='border-[1px] border-gray-400 rounded-lg w-96 resize-none p-2'
@@ -87,19 +92,24 @@ const ClarifyModal: FC<ClarifyModalProps> = ({ showModal, closeModal, videoDocum
                                         />
                                     </div>
                                     <div className="mt-2">
-                                        <p className="text-sm text-gray-500">
-                                            Password
+                                        <p className="text-md text-gray-500">
+                                            {/* รหัสผ่าน */}
                                         </p>
-                                        <Input 
+                                        {/* <Input 
                                             type="password"
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
-                                        />
+                                            
+                                        /> */}
+                                        <Input className="col mr-16 " name="password" type={showPassword ? "text" : "password"}
+                                    icon={<IconButton onClick={() => setShowPassword(!showPassword)} className="-my-1" variant="text" size="sm">{showPassword ? <FaEye /> : <FaEyeSlash />}</IconButton>}
+                                    value={password} onChange={changeHandler} label="Password" size="lg" />
                                     </div>
 
                                     {Incorretpassword && ( // Conditionally render the error message
                                         <p className="mt-2 text-sm text-red-500">
-                                            Incorrect password. Please try again.
+                                            รหัสผ่านผิดพลาด กรุณาลองอีกครั้ง
+                                            {/* Incorrect password. Please try again. */}
                                         </p>
                                     )}
 
@@ -109,7 +119,7 @@ const ClarifyModal: FC<ClarifyModalProps> = ({ showModal, closeModal, videoDocum
                                             className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                                             onClick={handleClarify} // Call handleClarify function when button is clicked
                                         >
-                                            Clarify
+                                            ยืนยัน
                                         </button>
                                         <button
                                             type="button"
@@ -117,7 +127,7 @@ const ClarifyModal: FC<ClarifyModalProps> = ({ showModal, closeModal, videoDocum
                                             onClick={() => closeModal()}
                                             ref={cancelButtonRef}
                                         >
-                                            Cancel
+                                            ยกเลิก
                                         </button>
                                     </div>
                                 </div>
