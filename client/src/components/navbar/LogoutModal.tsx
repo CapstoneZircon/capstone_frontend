@@ -1,6 +1,7 @@
 import { Fragment, useRef, FC } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { ArrowLeftEndOnRectangleIcon } from '@heroicons/react/24/outline';
+import { Card, CardBody, CardFooter, CardHeader, Checkbox, } from "@material-tailwind/react";
 
 interface LogoutModalProps {
     showModal: boolean;
