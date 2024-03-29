@@ -27,7 +27,7 @@ package-lock.json
 
 *.tar
 client/*.tar
-client/*.rar
+*.rar
 client/*.conf
 client/*.dockerignore
 client/*.txt
