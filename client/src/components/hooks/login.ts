@@ -12,7 +12,7 @@ export default function LoginCheck({email, password}:userInfo){
 
     try{
         setData({email , password});
-        console.log(data);
+        // console.log(data);
     }
     catch (error){
         console.error("Problems with sending Names.;" , error);

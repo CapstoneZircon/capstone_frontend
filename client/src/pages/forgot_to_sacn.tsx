@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../components/navbar/navbar';
 import { Typography, Card, CardBody, CardFooter, Checkbox } from '@material-tailwind/react';
 import { Pagination } from 'antd';
+import ClarifyModal from '../components/clarify_modal/Clarify_modal';
 
-const Records = () => {
+const ForgotToScan = () => {
   type SelectedStatusGroups = {
     Abnormal: boolean;
     Clarified: boolean;
@@ -21,6 +22,8 @@ const Records = () => {
         UID: "",
         Status: "",
         TimeInOut: "",
+        docName: "",
+        Note: ""
       },
     ],
   });
@@ -29,8 +32,34 @@ const Records = () => {
     Clarified: true,
     CheckInOut: true,
   });
-
+  const handleUpdateNote = async (document: string, newNote: string, password: string) => {
+    try {
+      const response = await fetch(`http://localhost:3002/api/updateNote/RFID_Record/${document}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ Note: newNote, Password: password }),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      // console.log(data);
+      setClarifyModalOpen(false)
+      setPasswordIncorrect(false)
+      window.location.reload();
+      // Optionally, you can handle success or display a message to the user
+    } catch (error) {
+      console.error('Error updating data:', error);
+      setPasswordIncorrect(true)
+      return
+      // Optionally, you can handle errors or display a message to the user
+    }
+  };
   const [pageSize, setPageSize] = useState(5); // Default page size
+  const [isClarifyModalOpen, setClarifyModalOpen] = useState(false);
+  const [passwordIncorrect, setPasswordIncorrect] = useState<boolean>(false);
   const getStatusTextTH = (status: any) => {
     if (status === 'Abnormal') {
       return 'ผิดปกติ';
@@ -48,7 +77,7 @@ const Records = () => {
     const fetchData = async () => {
       try {
         setLoading(true)
-        const response = await fetch('http://localhost:3002/api/rfid_record'); // Assuming your API endpoint is '/api/rfid_record'
+        const response = await fetch('http://localhost:3002/api/rfid_record_fts'); // Assuming your API endpoint is '/api/rfid_record'
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
@@ -88,7 +117,6 @@ const Records = () => {
   const filteredData = Array.isArray(data.importers) ? data.importers.filter((item: Importer) => {
     if (selectedStatusGroups.Abnormal && item.Status === 'Abnormal') return true;
     if (selectedStatusGroups.Clarified && item.Status === 'Clarified') return true;
-    if (selectedStatusGroups.CheckInOut && (item.Status === 'Check-in' || item.Status === 'Check-out')) return true;
     return false;
   }) : [];
   // console.log("filteredData : ", filteredData)
@@ -114,7 +142,7 @@ const Records = () => {
         <div className="flex-1 p-4 pl-[165px]">
           <div className="pt-10 pl-10 pb-3 flex flex-row">
             <Typography className="grow">
-              <span className="text-6xl font-bold"> บันทึกข้อมูล RFID </span>
+              <span className="text-6xl font-bold"> รายชื่อผู้ไม่ออกจากระบบ </span>
             </Typography>
             <div className="space-x-2 mr-20 mt-12">
               <Checkbox
@@ -131,13 +159,6 @@ const Records = () => {
                 label="ตรวจสอบแล้ว"
                 className='checked:bg-clarified checked:border-clarified'
               />
-              <Checkbox
-                id="checkInOutCheckbox"
-                checked={selectedStatusGroups.CheckInOut}
-                onChange={() => handleCheckboxChange('CheckInOut')}
-                label="เช็คอิน เช็คเอาท์"
-                className='checked:bg-normal checked:border-normal'
-              />
             </div>
           </div>
 
@@ -149,20 +170,20 @@ const Records = () => {
 
                 <div className="w-full h-full">
                   <table className="w-full h-full mt-0">
-                  <thead>
-                          <tr>
-                            <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
-                            <th className="px-5 pt-5 pb-4 pl-5 w-3/12 text-3xl text-start">
-                              ชื่อ
-                            </th>
-                            <th className="px-5 pt-5 pb-4 pl-5 w-2/12 text-3xl text-start">
-                              เลขพนักงาน
-                            </th>
-                            <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">สถานะ</th>
-                            <th className="px-5 pt-5 pb-4 w-3/12 text-3xl">เวลา</th>
-                            <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">หมายเหตุ</th>
-                          </tr>
-                        </thead>
+                    <thead>
+                      <tr>
+                        <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
+                        <th className="px-5 pt-5 pb-4 pl-5 w-3/12 text-3xl text-start">
+                          ชื่อ
+                        </th>
+                        <th className="px-5 pt-5 pb-4 pl-5 w-2/12 text-3xl text-start">
+                          เลขพนักงาน
+                        </th>
+                        <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">สถานะ</th>
+                        <th className="px-5 pt-5 pb-4 w-3/12 text-3xl">เวลา</th>
+                        <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">หมายเหตุ</th>
+                      </tr>
+                    </thead>
                     <tbody>
                       <></>
                     </tbody>
@@ -204,7 +225,7 @@ const Records = () => {
       <div className="flex-1 p-4 pl-[165px]">
         <div className="pt-10 pl-10 pb-3 flex flex-row">
           <Typography className="grow">
-            <span className="text-6xl font-bold"> บันทึกข้อมูล RFID </span>
+            <span className="text-6xl font-bold "> รายชื่อผู้ไม่ออกจากระบบ </span>
           </Typography>
           <div className="space-x-2 mr-20 mt-12">
             <Checkbox
@@ -221,13 +242,7 @@ const Records = () => {
               label="ตรวจสอบแล้ว"
               className='checked:bg-clarified checked:border-clarified'
             />
-            <Checkbox
-              id="checkInOutCheckbox"
-              checked={selectedStatusGroups.CheckInOut}
-              onChange={() => handleCheckboxChange('CheckInOut')}
-              label="เช็คอิน เช็คเอาท์"
-              className='checked:bg-normal checked:border-normal'
-            />
+
           </div>
         </div>
 
@@ -241,65 +256,81 @@ const Records = () => {
                 {filteredData.length > 0 ? (
                   <table className="w-full h-full mt-0">
                     <thead>
-                          <tr>
-                            <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
-                            <th className="px-5 pt-5 pb-4 pl-5 w-3/12 text-3xl text-start">
-                              ชื่อ
-                            </th>
-                            <th className="px-5 pt-5 pb-4 pl-5 w-2/12 text-3xl text-start">
-                              เลขพนักงาน
-                            </th>
-                            <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">สถานะ</th>
-                            <th className="px-5 pt-5 pb-4 w-3/12 text-3xl">เวลา</th>
-                            <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">หมายเหตุ</th>
-                          </tr>
-                        </thead>
+                      <tr>
+                        <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
+                        <th className="px-5 pt-5 pb-4 pl-5 w-3/12 text-3xl text-start">
+                          ชื่อ
+                        </th>
+                        <th className="px-5 pt-5 pb-4 pl-5 w-2/12 text-3xl text-start">
+                          เลขพนักงาน
+                        </th>
+                        <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">สถานะ</th>
+                        <th className="px-5 pt-5 pb-4 w-3/12 text-3xl">เวลา</th>
+                        <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">หมายเหตุ</th>
+                      </tr>
+                    </thead>
 
                     <tbody className="">
                       {paginatedImporters.map((importer, index) => (
                         <tr key={index} className="h-32">
                           {columnNames.map((columnName) => (
-                            <td
-                              key={columnName}
-                              className={`px-5 py-2 ${columnName === "name" || columnName === "UID"
-                                ? "text-left"
-                                : "text-center"
-                                }`}
-                            >
-                              {columnName === "picture" ? (
-                                <img
-                                  src={importer[columnName]}
-                                  className="object-cover object-top w-24 h-24 rounded-full mx-auto"
-                                  alt="Employee"
-                                />
-                              ) : columnName === "Status" ? (
-                                // <span
-                                //   className={`text-2xl font-bold flex items-center justify-center w-4/5 h-14 p-2 ${importer[columnName] === "Abnormal"
-                                //     ? "inline-flex items-center rounded-xl bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/70"
-                                //     : importer[columnName] === "detect" ||  importer[columnName] === "Forget to scan when exit"
-                                //       ? "inline-flex items-center rounded-xl bg-yellow-100 text-yellow-900 ring-1 ring-inset ring-yellow-600/70"
-                                //       : "inline-flex items-center rounded-xl bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/70"
-                                //     }`}
-                                // >
-                                <span
-                                  className={`text-2xl font-bold flex items-center justify-center h-14 w-11/12  ${importer[columnName] === "Abnormal"
-                                    ? "inline-flex items-center rounded-xl bg-abnormal text-white"
-                                    : importer[columnName] === "Clarified"
-                                      ? "inline-flex items-center rounded-xl bg-clarified "
-                                      : "inline-flex items-center rounded-xl bg-normal"
-                                    }`}
-                                >
-                                  {getStatusTextTH(importer[columnName])}
-                                </span>
-                              ) : (
-                                <Typography>
-                                  <span className="text-4xl font-bold">
-                                    {importer[columnName]}
+                            columnName !== "docName" && (
+                              <td
+                                key={columnName}
+                                className={`px-5 py-2 ${columnName === "name" || columnName === "UID"
+                                  ? "text-left"
+                                  : "text-center"
+                                  }`}
+                              >
+                                {columnName === "picture" ? (
+                                  <img
+                                    src={importer[columnName]}
+                                    className="object-cover object-top w-24 h-24 rounded-full mx-auto"
+                                    alt="Employee"
+                                  />
+                                ) : columnName === "Status" ? (
+                                  // <span
+                                  //   className={`text-2xl font-bold flex items-center justify-center w-4/5 h-14 p-2 ${importer[columnName] === "Abnormal"
+                                  //     ? "inline-flex items-center rounded-xl bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/70"
+                                  //     : importer[columnName] === "detect" ||  importer[columnName] === "Forget to scan when exit"
+                                  //       ? "inline-flex items-center rounded-xl bg-yellow-100 text-yellow-900 ring-1 ring-inset ring-yellow-600/70"
+                                  //       : "inline-flex items-center rounded-xl bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/70"
+                                  //     }`}
+                                  // >
+                                  <span
+                                    className={`text-2xl font-bold flex items-center justify-center h-14 w-11/12  ${importer[columnName] === "Abnormal"
+                                      ? "inline-flex items-center rounded-xl bg-abnormal text-white"
+                                      : importer[columnName] === "Clarified"
+                                        ? "inline-flex items-center rounded-xl bg-clarified "
+                                        : "inline-flex items-center rounded-xl bg-normal"
+                                      }`}
+                                  >
+                                    {importer[columnName] == "Abnormal" ? (
+                                      <div>
+                                        <button onClick={() => setClarifyModalOpen(true)}>{getStatusTextTH(importer[columnName])}</button>
+                                        <ClarifyModal showModal={isClarifyModalOpen} closeModal={() => setClarifyModalOpen(false)} videoDocumentId={importer["docName"]} updateData={handleUpdateNote} Incorretpassword={passwordIncorrect} />
+                                      </div>
+                                    ) : (
+                                      getStatusTextTH(importer[columnName])
+
+                                    )}
+
                                   </span>
-                                </Typography>
-                              )}
-                            </td>
-                          ))}
+
+                                ) : columnName === "TimeInOut" ? (
+                                  <Typography>
+                                    <span className="text-3xl font-bold">
+                                      {importer[columnName]}
+                                    </span>
+                                  </Typography>
+                                ) : (
+                                  <Typography>
+                                    <span className="text-3xl font-bold">
+                                      {importer[columnName]}
+                                    </span>
+                                  </Typography>)}
+                              </td>
+                            )))}
                         </tr>
                       ))}
                       {active === totalPages && paginatedImporters.length < 5 && (
@@ -317,19 +348,20 @@ const Records = () => {
                   <div className="w-full h-full mt-0">
                     <div>
                       <table className="w-full h-auto mt-0">
-                      <thead>
-                      <tr>
-                        <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
-                        <th className="px-5 pt-5 pb-4 pl-5 w-5/12 text-3xl text-start">
-                          ชื่อ
-                        </th>
-                        <th className="px-5 pt-5 pb-4 pl-5 w-2/12 text-3xl text-start">
-                          เลขพนักงาน
-                        </th>
-                        <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">สถานะ</th>
-                        <th className="px-5 pt-5 pb-4 w-3/12 text-3xl">เวลา</th>
-                      </tr>
-                    </thead>
+                        <thead>
+                          <tr>
+                            <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
+                            <th className="px-5 pt-5 pb-4 pl-5 w-3/12 text-3xl text-start">
+                              ชื่อ
+                            </th>
+                            <th className="px-5 pt-5 pb-4 pl-5 w-2/12 text-3xl text-start">
+                              เลขพนักงาน
+                            </th>
+                            <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">สถานะ</th>
+                            <th className="px-5 pt-5 pb-4 w-3/12 text-3xl">เวลา</th>
+                            <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">หมายเหตุ</th>
+                          </tr>
+                        </thead>
                       </table>
                     </div>
                     <span className='flex justify-center items-top h-auto mt-20'>
@@ -359,10 +391,11 @@ const Records = () => {
               </div>
             </CardFooter>
           </Card>
+
         </div>
       </div>
     </div>
   );
 };
 
-export default Records;
+export default ForgotToScan;

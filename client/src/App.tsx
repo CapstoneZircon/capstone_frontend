@@ -4,9 +4,10 @@ import LoginPage from './pages/login';
 import Footage from './pages/footage_main';
 import Records from './pages/records_antd'
 import VideoFootagePage from './pages/footage_video';
+import ForgotToScan from './pages/forgot_to_sacn';
 
 import React, { useState, useEffect, useContext } from 'react';
-import { Routes, BrowserRouter as Router, Route } from 'react-router-dom';
+import { Routes, BrowserRouter as Router, Route, useLocation  } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 
 const App = () => {
@@ -19,7 +20,7 @@ const App = () => {
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/check-auth', {
+        const response = await fetch('http://localhost:3002/api/check-auth', {
           method: 'GET',
           credentials: 'include',
         });
@@ -38,7 +39,7 @@ const App = () => {
     };
 
     checkAuthentication();
-  }, [location.pathname]);
+  }, []);
 
   const handleLogin = () => {
     setAuthenticated(true);
@@ -47,7 +48,7 @@ const App = () => {
 
 
   const ProtectedRoute = ({ children }: any) => {
-    console.log("authenticated: ",authenticated)
+    // console.log("authenticated: ",authenticated)
 
     if (!authenticated) {
       return <Navigate to="/" />;
@@ -63,6 +64,8 @@ const App = () => {
         <Route path='/records' element={<ProtectedRoute><Records /></ProtectedRoute>} />
         <Route path='/footage' element={<ProtectedRoute><Footage /></ProtectedRoute>} />
         <Route path="/footage/:videoId" element={<ProtectedRoute><VideoFootagePage /></ProtectedRoute>} />
+        <Route path='/scans' element={<ProtectedRoute><ForgotToScan /></ProtectedRoute>} />
+        
       </Routes>
     </Router>
   );

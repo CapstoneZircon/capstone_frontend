@@ -11,12 +11,18 @@ const express = require("express");
 
 const corsOptions = {
     origin: 'http://localhost:3001',
-    credentials: true, // Allow credentials
+    credentials: true,
   };
 
 const app = express();
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+  });
 
 app.post('/api/signin', async (req, res) => {
     const { email, password } = req.body;
@@ -92,6 +98,7 @@ app.get('/api/all_videos', async (req, res) => {
                     day: 'numeric',
                     hour: 'numeric',
                     minute: 'numeric',
+                    timeZone: 'Asia/Bangkok'
                 });
 
                 const thumbnailFileJPG = thumbnailsList.items.find(
@@ -135,89 +142,116 @@ app.get('/api/all_videos_url', async (req, res) => {
     try {
         const storage = getStorage();
         const videosRef = ref(storage, 'Abnormal_Videos');
+        const thumbnailRef = ref(storage, 'Abnormal_Images');
 
-        const videoList = await listAll(videosRef);
+        const [videoList, thumbnailsList] = await Promise.all([
+            listAll(videosRef),
+            listAll(thumbnailRef),
+        ]);
 
-        // Query Firestore for RFID records
+        // Query Firestore for RFID records ordered by time
         const querySnapshot = await getDocs(
             query(
                 collection(db_firestore, 'RFID_Record'),
-                orderBy('TimeInOut', 'desc'),
+                orderBy('TimeInOutUTC', 'desc'),
             )
         );
+
         console.log(querySnapshot)
-        const videoData = [];
+        const videoDataPromises = [];
 
-        for (const videoItem of videoList.items) {
-            try {
-                // Extract date and time from the video file name
+        querySnapshot.forEach(doc => {
+            const docName = doc.id;
+
+            // Find matching video item
+            const matchingVideoItem = videoList.items.find(videoItem => {
                 const videoFileName = videoItem.name.replace('.mp4', "");
-                // Find a matching document in Firestore based on the extracted date and time
-                const matchingRecord = querySnapshot.docs.find(doc => {
-                    // const docFileNameParts = doc.id.split(" ")[0];
-                    // const docTimeArray = doc.id.split(" ")[1].split(".");
-                    // const docTime = docTimeArray[0] + "." + docTimeArray[1] + "." + docTimeArray[2]
-                    // const docFileName = docFileNameParts + " " + docTime
-                    const docName = doc.id;
-                    return videoFileName === docName;
+                return videoFileName === docName;
+            });
 
-                });
+            if (matchingVideoItem) {
+                const videoDataPromise = (async () => {
+                    try {
+                        console.log("match name", doc.data())
+                        // Generate the download URL
+                        const downloadURL = await getDownloadURL(matchingVideoItem);
 
-                if (matchingRecord) {
-
-                    console.log("match name", matchingRecord.data())
-                    // Generate the download URL
-                    const downloadURL = await getDownloadURL(videoItem);
-
-                    // Get storage metadata
-                    const metadata = await getMetadata(videoItem);
-                    const createdTimeString = metadata.timeCreated;
-                    const dateTime = new Date(createdTimeString);
-
-                    // Format the date and time for Thai locale
-                    const createdTime = dateTime.toLocaleString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                        hour: 'numeric',
-                        minute: 'numeric',
-                        hour12: true,
-                    });
-
-                    // Add the relevant information to the response array
-                    videoData.push({
-                        fileName: videoFileName,
-                        docName: matchingRecord.id,
-                        downloadURL,
-                        createdTime,
-                        name: matchingRecord.data().FnameT + "  " + matchingRecord.data().LnameT,
-                        UID: matchingRecord.data().PersonCardID,
-                        status: matchingRecord.data().Status,
-                        timeInOut: new Date(matchingRecord.data().TimeInOut).toLocaleString('en-US', {
+                        // Get storage metadata
+                        const metadata = await getMetadata(matchingVideoItem);
+                        const createdTimeString = metadata.timeCreated;
+                        const dateTime = new Date(createdTimeString);
+                        // dateTime.setHours(dateTime.getHours() + 7);
+                        // Format the date and time for Thai locale
+                        const createdTime = dateTime.toLocaleString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            timeZone: 'Asia/Bangkok'
+                        });
+                        const createdTimeTH = dateTime.toLocaleString('th-TH', {
                             year: 'numeric',
                             month: 'short',
                             day: 'numeric',
                             hour: 'numeric',
                             minute: 'numeric',
                             hour12: false,
-                        }),
-                        event: matchingRecord.data().Event,
-                        Note: matchingRecord.data().Note
-                        // Add additional fields from the matching RFID record if needed
-                        // Example: additionalField: matchingRecord.data().additionalField
-                    });
-                }
-            } catch (error) {
-                console.error('Error processing video item:', error);
+                            timeZone: 'Asia/Bangkok'
+                        });
+                        const fileName = matchingVideoItem.name.split('/').pop();
+                        const thumbnailFileJPG = thumbnailsList.items.find(
+                            (thumbnailItem) =>
+                                thumbnailItem._location.path_.endsWith(`/${fileName.replace(/\.[^/.]+$/, '.jpg')}`)
+                        );
+                        const thumbnailURL = await getDownloadURL(thumbnailFileJPG);
+                        
+                        // Return the relevant information
+                        return {
+                            fileName: docName,
+                            docName: doc.id,
+                            downloadURL,
+                            createdTime,
+                            name: doc.data().FnameT + "  " + doc.data().LnameT,
+                            UID: doc.data().PersonCardID,
+                            status: doc.data().Status,
+                            timeInOut: new Date(doc.data().TimeInOut).toLocaleString('th-TH', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                                hour: 'numeric',
+                                minute: 'numeric',
+                                hour12: false,
+                                timeZone: 'Asia/Bangkok'
+                            }),
+                            event: doc.data().Event,
+                            Note: doc.data().Note,
+                            thumbnailURL: thumbnailURL ,
+                            createdTimeTH: createdTimeTH
+                        };
+                    } catch (error) {
+                        console.error('Error processing document:', error);
+                        return null;
+                    }
+                })();
+                videoDataPromises.push(videoDataPromise);
             }
-        }
+        });
 
-        res.json(videoData);
+        // Wait for all promises to resolve
+        const videoData = await Promise.all(videoDataPromises);
+
+        // Filter out null values (in case of errors during processing)
+        const filteredVideoData = videoData.filter(data => data !== null);
+
+        res.json(filteredVideoData);
     } catch (error) {
         console.error('Error fetching video data:', error);
         res.status(500).send('Internal Server Error');
     }
 });
+
+
 
 // API endpoint to update the Note field in Firestore
 app.put('/api/updateNote/RFID_Record/:document', async (req, res) => {
@@ -273,9 +307,7 @@ app.put('/api/updateNote/RFID_Record/:document', async (req, res) => {
 
 app.get('/api/rfid_record', async (req, res) => {
     try {
-        // Initialize Firestore
 
-        // Retrieve data from the collection
         const queryRfid_record = await getDocs(
             query(
                 collection(db_firestore, 'RFID_Record'),
@@ -292,14 +324,59 @@ app.get('/api/rfid_record', async (req, res) => {
                 name: doc.data().FnameT + "  " + doc.data().LnameT,
                 UID: doc.data().PersonCardID,
                 Status: doc.data().Status,
-                TimeInOut: new Date(doc.data().TimeInOut).toLocaleString('en-US', {
+                TimeInOut: new Date(doc.data().TimeInOut).toLocaleString('th-TH', {
                     year: 'numeric',
                     month: 'short',
                     day: 'numeric',
                     hour: 'numeric',
                     minute: 'numeric',
                     hour12: false,
+                    timeZone: 'Asia/Bangkok'
                 }),
+                Note:doc.data().Note || "-",
+            });
+        });
+
+        res.json(tableData);
+    } catch (error) {
+        console.error("Error retrieving RFID records:", error);
+        res.status(500).json({ error: "Failed to retrieve RFID records" });
+    }
+});
+
+app.get('/api/rfid_record_fts', async (req, res) => {
+    try {
+        // Initialize Firestore
+
+        // Retrieve data from the collection
+        const queryRfid_record = await getDocs(
+            query(
+                collection(db_firestore, 'RFID_Record'),
+                where("Event", "==", "This person forgot to scan out when leave Yuanter"),
+                orderBy('TimeInOut', 'desc'),
+            )
+        );
+
+        const tableData = [];
+
+        queryRfid_record.forEach((doc) => {
+            console.log(doc.data())
+            tableData.push({
+                picture: "/images/default_profile.jpg",
+                docName: doc.id,
+                name: doc.data().FnameT + "  " + doc.data().LnameT,
+                UID: doc.data().PersonCardID,
+                Status: doc.data().Status,
+                TimeInOut: new Date(doc.data().TimeInOut).toLocaleString('th-TH', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    hour12: false,
+                    timeZone: 'Asia/Bangkok'
+                }),
+                Note:doc.data().Note || "-",
             });
         });
 
@@ -331,13 +408,14 @@ app.get('/api/rfid_record_Dashboard', async (req, res) => {
                 picture: "/images/default_profile.jpg",
                 name: doc.data().FnameT + "  " + doc.data().LnameT,
                 Status: doc.data().Status,
-                TimeInOut: new Date(doc.data().TimeInOut).toLocaleString('en-US', {
+                TimeInOut: new Date(doc.data().TimeInOut).toLocaleString('th-TH', {
                     year: 'numeric',
                     month: 'short',
                     day: 'numeric',
                     hour: 'numeric',
                     minute: 'numeric',
                     hour12: false,
+                    timeZone: 'Asia/Bangkok'
                 }),
             });
         });
@@ -355,18 +433,16 @@ app.get('/api/rfid_record_counts', async (req, res) => {
         const now = new Date();
         
         const lastSevenDays = subDays(endOfDay(now), 7); 
-        console.log(endOfDay(now),lastSevenDays)
         const qAbnormal = query(coll, 
             where("Status", "==", "Abnormal"),
-            where("TimeInOut", ">=", lastSevenDays),
+            where("TimeInOutUTC", ">=", lastSevenDays),
         );
         const snapshotAbnormal = await getDocs(qAbnormal);
         const countAbnormal = snapshotAbnormal.size;
 
-        // Query for Check-in/Check-out records in the last 7 days
         const qCheckInOut = query(coll, 
             where("Status", "in", ["Check-in", "Check-out"]),
-            where("TimeInOut", ">=", lastSevenDays),
+            where("TimeInOutUTC", ">=", lastSevenDays),
         );
         const snapshotCheckInOut = await getDocs(qCheckInOut);
         const countCheckInOut = snapshotCheckInOut.size;
@@ -374,7 +450,7 @@ app.get('/api/rfid_record_counts', async (req, res) => {
         // Query for Clarified records in the last 7 days
         const qClarified = query(coll, 
             where("Status", "==", "Clarified"),
-            where("TimeInOut", ">=", lastSevenDays),
+            where("TimeInOutUTC", ">=", lastSevenDays),
         );
         const snapshotClarified = await getDocs(qClarified);
         const countClarified = snapshotClarified.size;
@@ -392,7 +468,7 @@ app.get('/api/rfid_record_counts', async (req, res) => {
     }
 });
 
-app.listen('8080', "0.0.0.0", () => {
+app.listen('3002', "0.0.0.0", () => {
     console.log('server is running');
 })
 
