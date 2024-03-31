@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import ButtonLink from './ButtonLink';
 import LogoutModal from './LogoutModal';
+import encryptedPath from './encryptPath';
 
 const Navbar = () => {
 	const navigate = useNavigate();
@@ -9,7 +10,7 @@ const Navbar = () => {
 	const [isLogoutModalOpen, setLogoutModalOpen] = useState(false);
 
 	const getButtonClass = (path: any) => {
-		return location.pathname.startsWith(path) ? "bg-white text-red-500 hover:bg-none" : "bg-none text-white hover:bg-light-gray";
+		return location.pathname.startsWith(encryptedPath(path)) ? "bg-white text-red-500 hover:bg-none" : "bg-none text-white hover:bg-light-gray";
 		// return location.pathname === path ? "bg-dark-gray" : "bg-mid-gray";
 	};
 	const handleLogout = async () => {
@@ -40,7 +41,7 @@ const Navbar = () => {
 			className="flex flex-col fixed h-full w-[149px] bg-gradient-to-b from-[#ED1B23] via-[#F16233] via-70% to-[#ffffff] text-white z-50"
 		>
 			<div className="flex justify-center items-center py-[9px]">
-				<Link to="/home">
+				<Link to={encryptedPath("/home")}>
 					<img
 						src="/images/yuanter.jpg"
 						alt="Yuanter Image"

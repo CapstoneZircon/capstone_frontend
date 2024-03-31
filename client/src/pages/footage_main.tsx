@@ -6,7 +6,7 @@ import Navbar from "../components/navbar/navbar";
 import { Pagination } from "antd";
 import { formatDistanceToNow } from 'date-fns';
 import { th } from 'date-fns/locale';
-
+import encryptedPath from "../components/navbar/encryptPath";
 interface VideoData {
   fileName: string;
   downloadURL: string;
@@ -170,7 +170,7 @@ const Footages = () => {
           <div>
             <div className="grid grid-cols-3 gap-x-12 gap-y-10 ml-11 mt-2 mr-7">
               {getCurrentItems().map((video: VideoData, index: number) => (
-                <Link to={`/footage/${video.fileName}`} state={5} key={index}>
+                <Link to={encryptedPath(`/footage/${video.fileName}`)} state={5} key={index}>
                   <Card key={index} className="bg-light-gray rounded-3xl z-10">
                     <CardHeader className="h-72 w-auto mt-4 mx-4 rounded-xl">
                       <img

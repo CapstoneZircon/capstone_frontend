@@ -5,9 +5,10 @@ import Footage from './pages/footage_main';
 import Records from './pages/records_antd'
 import VideoFootagePage from './pages/footage_video';
 import ForgotToScan from './pages/forgot_to_sacn';
+import encryptedPath from './components/navbar/encryptPath';
 
 import React, { useState, useEffect, useContext } from 'react';
-import { Routes, BrowserRouter as Router, Route, useLocation  } from 'react-router-dom';
+import { Routes, BrowserRouter as Router, Route, useLocation } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
     const storedAuthenticated = localStorage.getItem('authenticated');
     return storedAuthenticated ? JSON.parse(storedAuthenticated) : false;
   });
+
 
   useEffect(() => {
     const checkAuthentication = async () => {
@@ -26,10 +28,10 @@ const App = () => {
         });
         if (response.ok) {
           setAuthenticated(true);
-          localStorage.setItem('authenticated', JSON.stringify(true)); 
+          localStorage.setItem('authenticated', JSON.stringify(true));
         } else {
           setAuthenticated(false);
-          localStorage.removeItem('authenticated'); 
+          localStorage.removeItem('authenticated');
         }
       } catch (error) {
         console.error('Error checking authentication:', error);
@@ -55,18 +57,18 @@ const App = () => {
     }
     return children;
   };
-  
+
 
   return (
     <Router>
       <Routes>
-      <Route path="/" element={<LoginPage onLogin={handleLogin} />} />
-        <Route path='/home' element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
-        <Route path='/records' element={<ProtectedRoute><Records /></ProtectedRoute>} />
-        <Route path='/footage' element={<ProtectedRoute><Footage /></ProtectedRoute>} />
-        <Route path="/footage/:videoId" element={<ProtectedRoute><VideoFootagePage /></ProtectedRoute>} />
-        <Route path='/scans' element={<ProtectedRoute><ForgotToScan /></ProtectedRoute>} />
-        
+        <Route path="/" element={<LoginPage onLogin={handleLogin} />} />
+        <Route path={encryptedPath('/home')} element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+        <Route path={encryptedPath('/Records')} element={<ProtectedRoute><Records /></ProtectedRoute>} />
+        <Route path={encryptedPath('/footage')} element={<ProtectedRoute><Footage /></ProtectedRoute>} />
+        <Route path={encryptedPath('/footage/:videoId')} element={<ProtectedRoute><VideoFootagePage /></ProtectedRoute>} />
+        <Route path={encryptedPath('/scans')} element={<ProtectedRoute><ForgotToScan /></ProtectedRoute>} />
+
       </Routes>
     </Router>
   );

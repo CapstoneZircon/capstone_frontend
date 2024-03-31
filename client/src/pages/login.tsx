@@ -4,7 +4,7 @@ import { Button } from "@material-tailwind/react";
 import { auth, db_firestore } from "../firebase";
 import { signInWithEmailAndPassword,getAuth, signOut } from "firebase/auth";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-
+import encryptedPath from "../components/navbar/encryptPath";
 
 import {
     Card,
@@ -53,7 +53,7 @@ const LoginPage = ({ onLogin }: { onLogin: () => void }) => {
                     }
                     // Call the onLogin function passed as prop from App component
                     onLogin();
-                    navigate("/home");
+                    navigate(encryptedPath("/home"));
                 } else {
                     // console.log("No user is signed in");
                 }

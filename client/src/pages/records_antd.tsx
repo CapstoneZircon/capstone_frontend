@@ -142,7 +142,7 @@ const Records = () => {
 
           <div className="flex-1 ml-11 mr-9 -mt-2 h-[865px]">
 
-            <Card className="rounded-3xl h-full w-full bg-light-gray">
+            <Card className="rounded-3xl h-full w-full bg-light-gray min-h-[835px]">
               <CardBody className="max-h-full flex-1 relative">
 
 

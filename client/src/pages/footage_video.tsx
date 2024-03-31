@@ -5,7 +5,8 @@ import { Typography, Button } from "@material-tailwind/react";
 import ReactPlayer from "react-player";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import ClarifyModal from "../components/clarify_modal/Clarify_modal";
-
+import decryptedPath from "../components/navbar/decryptPath";
+import encryptedPath from "../components/navbar/encryptPath";
 interface VideoData {
     fileName: string;
     docName: string;
@@ -22,7 +23,8 @@ interface VideoData {
 }
 
 const VideoFootagePage: React.FC = () => {
-    const { videoId } = useParams<{ videoId?: string }>();
+    const { videoId } = useParams<{ videoId: string }>();
+    const decodedVideoId = videoId ? decryptedPath(videoId) : "";
     const [videoData, setVideoData] = useState<VideoData[]>([]);
     const [currentVideoIndex, setCurrentVideoIndex] = useState<number>(-1);
     const [loading, setLoading] = useState(true);
@@ -57,15 +59,14 @@ const VideoFootagePage: React.FC = () => {
         }
     };
 
-    
-
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetch("http://localhost:3002/api/all_videos_url");
                 const data = await response.json();
                 setVideoData(data);
-                const index = data.findIndex((video: VideoData) => video.fileName === videoId);
+                
+                const index = data.findIndex((video: VideoData) => video.fileName === decodedVideoId);
                 if (index !== -1) {
                     setCurrentVideoIndex(index);
                     setReturnValue(Math.ceil((index + 1) / 6));
@@ -80,7 +81,7 @@ const VideoFootagePage: React.FC = () => {
         };
 
         fetchData();
-    }, [videoId]);
+    }, [decodedVideoId]);
     // console.log(returnValue)
     // Debounce function
     const debounce = (func: Function, delay: number) => {
@@ -98,7 +99,7 @@ const VideoFootagePage: React.FC = () => {
             setLoading(true);
             setCurrentVideoIndex(currentVideoIndex - 1);
             const prevVideoId = videoData[currentVideoIndex - 1].fileName;
-            navigate(`/footage/${prevVideoId}`);
+            navigate(encryptedPath(`/footage/${prevVideoId}`));
         }
     };
 
@@ -107,11 +108,11 @@ const VideoFootagePage: React.FC = () => {
             setLoading(true);
             setCurrentVideoIndex(currentVideoIndex + 1);
             const nextVideoId = videoData[currentVideoIndex + 1].fileName;
-            navigate(`/footage/${nextVideoId}`);
+            navigate(encryptedPath(`/footage/${nextVideoId}`));
         }
     };
-    const debouncedHandlePreviousVideo = debounce(handlePreviousVideo, 1000);
-    const debouncedHandleNextVideo = debounce(handleNextVideo, 1000);
+    const debouncedHandlePreviousVideo = debounce(handlePreviousVideo, 500);
+    const debouncedHandleNextVideo = debounce(handleNextVideo, 500);
 
     if (loading) {
         // Display loading screen while data is being fetched
@@ -120,7 +121,7 @@ const VideoFootagePage: React.FC = () => {
                 <Navbar></Navbar>
                 <div className="flex-1 p-3 pl-[165px]">
                     <div className="flex flex-row pt-10 pl-10 pb-3 ">
-                        <Link to={"/footage"} state={Math.ceil(returnValue)}>
+                        <Link to={encryptedPath("/footage")} state={Math.ceil(returnValue)}>
                             <Button className="bg-dark-gray h-14 text-xl px-9">
                                 ย้อนกลับ
                             </Button>
@@ -147,7 +148,7 @@ const VideoFootagePage: React.FC = () => {
             <Navbar></Navbar>
             <div className="flex-1 p-3 pl-[165px]">
                 <div className="flex flex-row pt-10 pl-10 pb-3 ">
-                    <Link to="/footage" state={{ currentPage: returnValue }}>
+                    <Link to={encryptedPath("/footage")} state={{ currentPage: returnValue }}>
 
                         <Button className="bg-dark-gray h-14 text-xl px-9">
                             ย้อนกลับ
@@ -169,7 +170,7 @@ const VideoFootagePage: React.FC = () => {
                             >
                                 <ChevronLeftIcon className="h-10 w-10" />
                             </button>
-                            <div className="flex justify-center">
+                            <div className="flex justify-center w-[70%]">
                                 <div className="flex flex-col justify-center align-middle">
                                     <div className="rounded-3xl overflow-hidden border">
                                         <ReactPlayer
@@ -194,15 +195,18 @@ const VideoFootagePage: React.FC = () => {
                                         
                                     </div>
                                     <div className="flex relative mt-6 justify-end">
-                                        <div className="grow">
-                                            <Typography className="pl-6 ">
-                                                <span className="text-2xl font-semibold "> เหตุการณ์: {videoData[currentVideoIndex].event} </span>
+                                        <div className="w-10/12">
+                                            <Typography className="pl-6 flex">
+                                                <div className="text-2xl font-semibold "> เหตุการณ์ : </div>
+                                                <div className="text-2xl font-semibold pl-2"> {videoData[currentVideoIndex].event} </div>
                                             </Typography>
-                                            <Typography className="pl-6">
-                                                <span className="text-2xl font-semibold "> หมายเหตุ: {videoData[currentVideoIndex].Note} </span>
+                                            <Typography className="pl-6 pt-3 flex">
+                                                <div className="text-2xl font-semibold "> หมายเหตุ :   </div>
+                                                <div className="text-2xl font-semibold pl-2"> { videoData[currentVideoIndex].Note} </div>
                                             </Typography>
                                         </div >
-                                        <div className="flex items-center justify-center">
+                                        <div className="grow"></div>
+                                        <div className="flex items-start justify-center">
                                             {videoData[currentVideoIndex].status === "Abnormal" ? (
                                                 <Button className="bg-abnormal text-xl text-white font-black" onClick={() => setClarifyModalOpen(true)}>
                                                     แจ้งตรวจสอบ

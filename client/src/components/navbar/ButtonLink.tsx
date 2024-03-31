@@ -1,7 +1,7 @@
 import React, { ReactNode, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Tooltip } from '@material-tailwind/react'; // Import Tooltip from material-tailwind
-
+import encryptedPath from './encryptPath';
 interface ButtonLinkProps {
   to: string;
   onClick?: () => void;
@@ -23,7 +23,7 @@ const ButtonLink: React.FC<ButtonLinkProps> = ({
 
   return (
     <Tooltip content={tooltipContent || ''} placement="right" className='bg-opacity-80'>
-      <Link to={to} onClick={onClick}>
+      <Link to={encryptedPath(to)} onClick={onClick}>
         <button
           className={`flex justify-center items-center w-[149px] h-[129px] ${activeClass || ''} hover:bg-light-gray hover:bg-opacity-50 transition-colors duration-200 ${className || ''}`}>
           {children}
