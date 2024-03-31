@@ -196,6 +196,7 @@ app.get('/api/all_videos_url', async (req, res) => {
                             day: 'numeric',
                             hour: 'numeric',
                             minute: 'numeric',
+                            second:'numeric',
                             hour12: false,
                             timeZone: 'Asia/Bangkok'
                         });
@@ -227,7 +228,15 @@ app.get('/api/all_videos_url', async (req, res) => {
                             event: doc.data().Event,
                             Note: doc.data().Note,
                             thumbnailURL: thumbnailURL ,
-                            createdTimeTH: createdTimeTH
+                            createdTimeTH: new Date(doc.data().TimeInOut).toLocaleString('th-TH', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                                hour: 'numeric',
+                                minute: 'numeric',
+                                hour12: false,
+                                timeZone: 'Asia/Bangkok'
+                            }),
                         };
                     } catch (error) {
                         console.error('Error processing document:', error);
@@ -320,7 +329,7 @@ app.get('/api/rfid_record', async (req, res) => {
         queryRfid_record.forEach((doc) => {
             console.log(doc.data())
             tableData.push({
-                picture: "/images/default_profile.jpg",
+                // picture: "/images/default_profile.jpg",
                 name: doc.data().FnameT + "  " + doc.data().LnameT,
                 UID: doc.data().PersonCardID,
                 Status: doc.data().Status,

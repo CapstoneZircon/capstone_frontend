@@ -16,7 +16,6 @@ const Records = () => {
   const [data, setData] = useState<{ importers: Importer[] }>({
     importers: [
       {
-        picture: "",
         name: "",
         UID: "",
         Status: "",
@@ -149,20 +148,20 @@ const Records = () => {
 
                 <div className="w-full h-full">
                   <table className="w-full h-full mt-0">
-                  <thead>
-                          <tr>
-                            <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
-                            <th className="px-5 pt-5 pb-4 pl-5 w-3/12 text-3xl text-start">
-                              ชื่อ
-                            </th>
-                            <th className="px-5 pt-5 pb-4 pl-5 w-2/12 text-3xl text-start">
-                              เลขพนักงาน
-                            </th>
-                            <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">สถานะ</th>
-                            <th className="px-5 pt-5 pb-4 w-3/12 text-3xl">เวลา</th>
-                            <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">หมายเหตุ</th>
-                          </tr>
-                        </thead>
+                    <thead>
+                      <tr>
+                        <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
+                        <th className="px-5 pt-5 pb-4 pl-5 w-3/12 text-3xl text-start">
+                          ชื่อ
+                        </th>
+                        <th className="px-5 pt-5 pb-4 pl-5 w-2/12 text-3xl text-start">
+                          เลขพนักงาน
+                        </th>
+                        <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">สถานะ</th>
+                        <th className="px-5 pt-5 pb-4 w-3/12 text-3xl">เวลา</th>
+                        <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">หมายเหตุ</th>
+                      </tr>
+                    </thead>
                     <tbody>
                       <></>
                     </tbody>
@@ -231,7 +230,7 @@ const Records = () => {
           </div>
         </div>
 
-        <div className="flex-1 ml-11 mr-9 -mt-2 h-[865px]">
+        <div className="flex-1 ml-11 mr-9 -mt-2 ">
 
           <Card className="rounded-3xl h-full w-full bg-light-gray">
             <CardBody className="max-h-full flex-1 relative">
@@ -241,19 +240,18 @@ const Records = () => {
                 {filteredData.length > 0 ? (
                   <table className="w-full h-full mt-0">
                     <thead>
-                          <tr>
-                            <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
-                            <th className="px-5 pt-5 pb-4 pl-5 w-3/12 text-3xl text-start">
-                              ชื่อ
-                            </th>
-                            <th className="px-5 pt-5 pb-4 pl-5 w-2/12 text-3xl text-start">
-                              เลขพนักงาน
-                            </th>
-                            <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">สถานะ</th>
-                            <th className="px-5 pt-5 pb-4 w-3/12 text-3xl">เวลา</th>
-                            <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">หมายเหตุ</th>
-                          </tr>
-                        </thead>
+                      <tr>
+                        <th className="px-5 pt-5 pb-4 pl-5 w-3/12 text-3xl text-start">
+                          ชื่อ
+                        </th>
+                        <th className="px-5 pt-5 pb-4 pl-5 w-2/12 text-3xl text-start">
+                          เลขพนักงาน
+                        </th>
+                        <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">สถานะ</th>
+                        <th className="px-5 pt-5 pb-4 w-3/12 text-3xl">เวลา</th>
+                        <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">หมายเหตุ</th>
+                      </tr>
+                    </thead>
 
                     <tbody className="">
                       {paginatedImporters.map((importer, index) => (
@@ -261,18 +259,12 @@ const Records = () => {
                           {columnNames.map((columnName) => (
                             <td
                               key={columnName}
-                              className={`px-5 py-2 ${columnName === "name" || columnName === "UID"
+                              className={columnName === "name" || columnName === "UID"
                                 ? "text-left"
-                                : "text-center"
-                                }`}
+                                : "text-center"}
+
                             >
-                              {columnName === "picture" ? (
-                                <img
-                                  src={importer[columnName]}
-                                  className="object-cover object-top w-24 h-24 rounded-full mx-auto"
-                                  alt="Employee"
-                                />
-                              ) : columnName === "Status" ? (
+                              { columnName === "Status" ? (
                                 // <span
                                 //   className={`text-2xl font-bold flex items-center justify-center w-4/5 h-14 p-2 ${importer[columnName] === "Abnormal"
                                 //     ? "inline-flex items-center rounded-xl bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/70"
@@ -291,11 +283,15 @@ const Records = () => {
                                 >
                                   {getStatusTextTH(importer[columnName])}
                                 </span>
+                              ) : columnName === "Note" ? (
+                                <Typography className="text-2xl font-bold max-h-28 overflow-y-auto items-center">
+                                  {importer[columnName]}
+                                </Typography>
                               ) : (
                                 <Typography>
-                                  <span className="text-4xl font-bold">
+                                  <div className="text-4xl font-bold">
                                     {importer[columnName]}
-                                  </span>
+                                  </div>
                                 </Typography>
                               )}
                             </td>
@@ -317,19 +313,19 @@ const Records = () => {
                   <div className="w-full h-full mt-0">
                     <div>
                       <table className="w-full h-auto mt-0">
-                      <thead>
-                      <tr>
-                        <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
-                        <th className="px-5 pt-5 pb-4 pl-5 w-5/12 text-3xl text-start">
-                          ชื่อ
-                        </th>
-                        <th className="px-5 pt-5 pb-4 pl-5 w-2/12 text-3xl text-start">
-                          เลขพนักงาน
-                        </th>
-                        <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">สถานะ</th>
-                        <th className="px-5 pt-5 pb-4 w-3/12 text-3xl">เวลา</th>
-                      </tr>
-                    </thead>
+                        <thead>
+                          <tr>
+                            <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
+                            <th className="px-5 pt-5 pb-4 pl-5 w-5/12 text-3xl text-start">
+                              ชื่อ
+                            </th>
+                            <th className="px-5 pt-5 pb-4 pl-5 w-2/12 text-3xl text-start">
+                              เลขพนักงาน
+                            </th>
+                            <th className="px-5 pt-5 pb-4 w-2/12 text-3xl">สถานะ</th>
+                            <th className="px-5 pt-5 pb-4 w-3/12 text-3xl">เวลา</th>
+                          </tr>
+                        </thead>
                       </table>
                     </div>
                     <span className='flex justify-center items-top h-auto mt-20'>

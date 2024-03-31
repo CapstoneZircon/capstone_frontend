@@ -323,12 +323,17 @@ const ForgotToScan = () => {
                                       {importer[columnName]}
                                     </span>
                                   </Typography>
+                                ) : columnName === "Note" ? (
+                                  <Typography className="text-2xl font-bold max-h-28 overflow-y-auto items-center">
+                                    {importer[columnName]}
+                                  </Typography>
                                 ) : (
                                   <Typography>
-                                    <span className="text-3xl font-bold">
+                                    <div className="text-4xl font-bold">
                                       {importer[columnName]}
-                                    </span>
-                                  </Typography>)}
+                                    </div>
+                                  </Typography>
+                                )}
                               </td>
                             )))}
                         </tr>
@@ -377,7 +382,7 @@ const ForgotToScan = () => {
 
               </div>
             </CardBody>
-            <CardFooter className="flex justify-center mt-auto">
+            <CardFooter className="flex justify-center ">
               <div className="flex items-center gap-4">
                 <Pagination
                   current={active}
