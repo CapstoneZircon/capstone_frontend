@@ -139,7 +139,7 @@ const ForgotToScan = () => {
       <div className="flex">
         <Navbar></Navbar>
 
-        <div className="flex-1 p-4 pl-[165px]">
+        <div className="flex-1 p-4 pl-[165px] cursor-default">
           <div className="pt-10 pl-10 pb-3 flex flex-row">
             <Typography className="grow">
               <span className="text-6xl font-bold"> รายชื่อผู้ไม่ออกจากระบบ </span>
@@ -222,7 +222,7 @@ const ForgotToScan = () => {
     <div className="flex">
       <Navbar></Navbar>
 
-      <div className="flex-1 p-4 pl-[165px]">
+      <div className="flex-1 p-4 pl-[165px] cursor-default">
         <div className="pt-10 pl-10 pb-3 flex flex-row">
           <Typography className="grow">
             <span className="text-6xl font-bold "> รายชื่อผู้ไม่ออกจากระบบ </span>
@@ -254,7 +254,7 @@ const ForgotToScan = () => {
 
               <div className="w-full h-full">
                 {filteredData.length > 0 ? (
-                  <table className="w-full h-full mt-0">
+                  <table className="w-full h-full mt-0 cursor-default">
                     <thead>
                       <tr>
                         <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
@@ -278,8 +278,8 @@ const ForgotToScan = () => {
                               <td
                                 key={columnName}
                                 className={`px-5 py-2 ${columnName === "name" || columnName === "UID"
-                                  ? "text-left"
-                                  : "text-center"
+                                  ? "text-left cursor-default"
+                                  : "text-center cursor-default"
                                   }`}
                               >
                                 {columnName === "picture" ? (
@@ -288,7 +288,7 @@ const ForgotToScan = () => {
                                     className="object-cover object-top w-24 h-24 rounded-full mx-auto"
                                     alt="Employee"
                                   />
-                                ) : columnName === "Status" ? (
+                                ) : columnName === "Status" && importer[columnName] == "Abnormal" ? (
                                   // <span
                                   //   className={`text-2xl font-bold flex items-center justify-center w-4/5 h-14 p-2 ${importer[columnName] === "Abnormal"
                                   //     ? "inline-flex items-center rounded-xl bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/70"
@@ -297,25 +297,35 @@ const ForgotToScan = () => {
                                   //       : "inline-flex items-center rounded-xl bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/70"
                                   //     }`}
                                   // >
-                                  <span
-                                    className={`text-2xl font-bold flex items-center justify-center h-14 w-11/12  ${importer[columnName] === "Abnormal"
-                                      ? "inline-flex items-center rounded-xl bg-abnormal text-white"
-                                      : importer[columnName] === "Clarified"
-                                        ? "inline-flex items-center rounded-xl bg-clarified "
-                                        : "inline-flex items-center rounded-xl bg-normal"
-                                      }`}
-                                  >
-                                    {importer[columnName] == "Abnormal" ? (
-                                      <div>
-                                        <button onClick={() => setClarifyModalOpen(true)}>{getStatusTextTH(importer[columnName])}</button>
-                                        <ClarifyModal showModal={isClarifyModalOpen} closeModal={() => setClarifyModalOpen(false)} videoDocumentId={importer["docName"]} updateData={handleUpdateNote} Incorretpassword={passwordIncorrect} />
-                                      </div>
-                                    ) : (
-                                      getStatusTextTH(importer[columnName])
 
-                                    )}
+                                  <div>
+                                    <button
+                                      className={`text-2xl font-bold flex items-center justify-center h-14 w-11/12 cursor-pointer ${importer[columnName] === "Abnormal"
+                                        ? "inline-flex items-center rounded-xl bg-abnormal text-white"
+                                        : importer[columnName] === "Clarified"
+                                          ? "inline-flex items-center rounded-xl bg-clarified "
+                                          : "inline-flex items-center rounded-xl bg-normal"
+                                        }`}
+                                      onClick={() => setClarifyModalOpen(true)}
+                                    >
+                                      {getStatusTextTH(importer[columnName])}
 
-                                  </span>
+
+                                    </button>
+                                    <ClarifyModal showModal={isClarifyModalOpen} closeModal={() => setClarifyModalOpen(false)} videoDocumentId={importer["docName"]} updateData={handleUpdateNote} Incorretpassword={passwordIncorrect} />
+                                  </div>
+                                ) : columnName === "Status" && importer[columnName] == "Clarified" ? (
+
+                                    <span
+                                    className={`text-2xl font-bold flex items-center justify-center h-14 w-11/12 ${importer[columnName] === "Clarified"
+                                      ? "inline-flex items-center rounded-xl bg-clarified "
+                                      : "inline-flex items-center rounded-xl bg-normal"
+                                    }`}
+                                    >
+                                      {getStatusTextTH(importer[columnName])}
+
+
+                                    </span>
 
                                 ) : columnName === "TimeInOut" ? (
                                   <Typography>

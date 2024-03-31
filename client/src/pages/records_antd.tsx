@@ -110,10 +110,10 @@ const Records = () => {
       <div className="flex">
         <Navbar></Navbar>
 
-        <div className="flex-1 p-4 pl-[165px]">
+        <div className="flex-1 p-4 pl-[165px] cursor-default">
           <div className="pt-10 pl-10 pb-3 flex flex-row">
             <Typography className="grow">
-              <span className="text-6xl font-bold"> บันทึกข้อมูล RFID </span>
+              <span className="text-6xl font-bold "> บันทึกข้อมูล RFID </span>
             </Typography>
             <div className="space-x-2 mr-20 mt-12">
               <Checkbox
@@ -147,7 +147,7 @@ const Records = () => {
 
 
                 <div className="w-full h-full">
-                  <table className="w-full h-full mt-0">
+                  <table className="w-full h-full mt-0 cursor-default">
                     <thead>
                       <tr>
                         <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
@@ -200,7 +200,7 @@ const Records = () => {
     <div className="flex">
       <Navbar></Navbar>
 
-      <div className="flex-1 p-4 pl-[165px]">
+      <div className="flex-1 p-4 pl-[165px] cursor-default">
         <div className="pt-10 pl-10 pb-3 flex flex-row">
           <Typography className="grow">
             <span className="text-6xl font-bold"> บันทึกข้อมูล RFID </span>
@@ -238,7 +238,7 @@ const Records = () => {
 
               <div className="w-full h-full">
                 {filteredData.length > 0 ? (
-                  <table className="w-full h-full mt-0">
+                  <table className="w-full h-full mt-0 cursor-default">
                     <thead>
                       <tr>
                         <th className="px-5 pt-5 pb-4 pl-5 w-3/12 text-3xl text-start">

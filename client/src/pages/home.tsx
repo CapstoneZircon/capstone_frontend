@@ -57,7 +57,7 @@ const HomePage = () => {
 			<Navbar></Navbar>
 
 
-			<div className="flex-1 p-4 pl-[165px]">
+			<div className="flex-1 p-4 pl-[165px] cursor-default">
 				<div className="pt-10 pl-10 pb-3">
 					<Typography> <span className="text-6xl font-bold"> แดชบอร์ด </span> </Typography>
 				</div>

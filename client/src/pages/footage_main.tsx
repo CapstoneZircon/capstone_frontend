@@ -119,7 +119,7 @@ const Footages = () => {
       <div className="flex">
         <Navbar></Navbar>
 
-        <div className="flex-1 p-3 pl-[165px]">
+        <div className="flex-1 p-3 pl-[165px] cursor-default">
           <div className="pt-10 pl-10 pb-3 flex flex-row">
             <Typography className="grow">
               <span className="text-6xl font-bold">  ฟุตเทจของเหตุการณ์ผิดปกติ </span>
@@ -144,7 +144,7 @@ const Footages = () => {
     <div className="flex">
       <Navbar></Navbar>
 
-      <div className="flex-1 p-3 pl-[165px]">
+      <div className="flex-1 p-3 pl-[165px] cursor-default">
         <div className="pt-10 pl-10 pb-0 flex flex-row">
           <Typography className="grow">
             <span className="text-6xl font-bold">  ฟุตเทจของเหตุการณ์ผิดปกติ </span>

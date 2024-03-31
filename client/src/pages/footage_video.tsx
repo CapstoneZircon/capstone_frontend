@@ -119,7 +119,7 @@ const VideoFootagePage: React.FC = () => {
         return (
             <div className="flex">
                 <Navbar></Navbar>
-                <div className="flex-1 p-3 pl-[165px]">
+                <div className="flex-1 p-3 pl-[165px] cursor-default">
                     <div className="flex flex-row pt-10 pl-10 pb-3 ">
                         <Link to={encryptedPath("/footage")} state={Math.ceil(returnValue)}>
                             <Button className="bg-dark-gray h-14 text-xl px-9">
@@ -146,7 +146,7 @@ const VideoFootagePage: React.FC = () => {
     return (
         <div className="flex">
             <Navbar></Navbar>
-            <div className="flex-1 p-3 pl-[165px]">
+            <div className="flex-1 p-3 pl-[165px] cursor-default">
                 <div className="flex flex-row pt-10 pl-10 pb-3 ">
                     <Link to={encryptedPath("/footage")} state={{ currentPage: returnValue }}>
 
