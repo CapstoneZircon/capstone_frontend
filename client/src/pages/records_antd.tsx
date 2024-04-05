@@ -150,7 +150,6 @@ const Records = () => {
                   <table className="w-full h-full mt-0 cursor-default">
                     <thead>
                       <tr>
-                        <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
                         <th className="px-5 pt-5 pb-4 pl-5 w-3/12 text-3xl text-start">
                           ชื่อ
                         </th>
@@ -241,7 +240,8 @@ const Records = () => {
                   <table className="w-full h-full mt-0 cursor-default">
                     <thead>
                       <tr>
-                        <th className="px-5 pt-5 pb-4 pl-5 w-3/12 text-3xl text-start">
+                        
+                      <th className="px-5 pt-5 pb-4 pl-5 w-3/12 text-3xl text-start">
                           ชื่อ
                         </th>
                         <th className="px-5 pt-5 pb-4 pl-5 w-2/12 text-3xl text-start">
@@ -259,9 +259,10 @@ const Records = () => {
                           {columnNames.map((columnName) => (
                             <td
                               key={columnName}
-                              className={columnName === "name" || columnName === "UID"
-                                ? "text-left"
-                                : "text-center"}
+                              className={`px-5 py-2 ${columnName === "name" || columnName === "UID"
+                              ? "text-left cursor-default"
+                              : "text-center cursor-default"
+                              }`}
 
                             >
                               { columnName === "Status" ? (

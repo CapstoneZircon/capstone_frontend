@@ -60,6 +60,7 @@ const ForgotToScan = () => {
   const [pageSize, setPageSize] = useState(5); // Default page size
   const [isClarifyModalOpen, setClarifyModalOpen] = useState(false);
   const [passwordIncorrect, setPasswordIncorrect] = useState<boolean>(false);
+  const [Docname, setDocname] = useState("");
   const getStatusTextTH = (status: any) => {
     if (status === 'Abnormal') {
       return 'ผิดปกติ';
@@ -172,7 +173,7 @@ const ForgotToScan = () => {
                   <table className="w-full h-full mt-0">
                     <thead>
                       <tr>
-                        <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
+
                         <th className="px-5 pt-5 pb-4 pl-5 w-3/12 text-3xl text-start">
                           ชื่อ
                         </th>
@@ -252,12 +253,12 @@ const ForgotToScan = () => {
             <CardBody className="max-h-full flex-1 relative">
 
 
-              <div className="w-full h-full">
+              <div className="w-full h-full align-top">
                 {filteredData.length > 0 ? (
                   <table className="w-full h-full mt-0 cursor-default">
                     <thead>
                       <tr>
-                        <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
+
                         <th className="px-5 pt-5 pb-4 pl-5 w-3/12 text-3xl text-start">
                           ชื่อ
                         </th>
@@ -306,26 +307,29 @@ const ForgotToScan = () => {
                                           ? "inline-flex items-center rounded-xl bg-clarified "
                                           : "inline-flex items-center rounded-xl bg-normal"
                                         }`}
-                                      onClick={() => setClarifyModalOpen(true)}
+                                        onClick={() => {
+                                          setClarifyModalOpen(true);
+                                          setDocname(importer["docName"]);
+                                      }}
                                     >
                                       {getStatusTextTH(importer[columnName])}
 
 
                                     </button>
-                                    <ClarifyModal showModal={isClarifyModalOpen} closeModal={() => setClarifyModalOpen(false)} videoDocumentId={importer["docName"]} updateData={handleUpdateNote} Incorretpassword={passwordIncorrect} />
+
                                   </div>
                                 ) : columnName === "Status" && importer[columnName] == "Clarified" ? (
 
-                                    <span
+                                  <span
                                     className={`text-2xl font-bold flex items-center justify-center h-14 w-11/12 ${importer[columnName] === "Clarified"
                                       ? "inline-flex items-center rounded-xl bg-clarified "
                                       : "inline-flex items-center rounded-xl bg-normal"
-                                    }`}
-                                    >
-                                      {getStatusTextTH(importer[columnName])}
+                                      }`}
+                                  >
+                                    {getStatusTextTH(importer[columnName])}
 
 
-                                    </span>
+                                  </span>
 
                                 ) : columnName === "TimeInOut" ? (
                                   <Typography>
@@ -365,7 +369,6 @@ const ForgotToScan = () => {
                       <table className="w-full h-auto mt-0">
                         <thead>
                           <tr>
-                            <th className="px-5 pt-5 pb-4 w-40 text-3xl"></th>
                             <th className="px-5 pt-5 pb-4 pl-5 w-3/12 text-3xl text-start">
                               ชื่อ
                             </th>
@@ -389,7 +392,7 @@ const ForgotToScan = () => {
                   </div>
 
                 )}
-
+                <ClarifyModal showModal={isClarifyModalOpen} closeModal={() => setClarifyModalOpen(false)} videoDocumentId={Docname} updateData={handleUpdateNote} Incorretpassword={passwordIncorrect} />
               </div>
             </CardBody>
             <CardFooter className="flex justify-center ">

@@ -371,7 +371,7 @@ app.get('/api/rfid_record_fts', async (req, res) => {
         queryRfid_record.forEach((doc) => {
             console.log(doc.data())
             tableData.push({
-                picture: "/images/default_profile.jpg",
+                // picture: "/images/default_profile.jpg",
                 docName: doc.id,
                 name: doc.data().FnameT + "  " + doc.data().LnameT,
                 UID: doc.data().PersonCardID,

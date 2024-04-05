@@ -219,7 +219,6 @@ const VideoFootagePage: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
-                            
                             <button
                                 onClick={debouncedHandleNextVideo}
                                 className={`flex flex-grow align-middle justify-center ${currentVideoIndex === videoData.length - 1 ? 'cursor-not-allowed opacity-50' : ''

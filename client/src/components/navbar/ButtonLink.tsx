@@ -23,7 +23,7 @@ const ButtonLink: React.FC<ButtonLinkProps> = ({
 
   return (
     <Tooltip content={tooltipContent || ''} placement="right" className='bg-opacity-80'>
-      <Link to={encryptedPath(to)} onClick={onClick}>
+      <Link to={to} onClick={onClick}>
         <button
           className={`flex justify-center items-center w-[149px] h-[129px] ${activeClass || ''} hover:bg-light-gray hover:bg-opacity-50 transition-colors duration-200 ${className || ''}`}>
           {children}

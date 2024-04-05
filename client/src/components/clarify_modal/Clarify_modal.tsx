@@ -12,6 +12,8 @@ interface ClarifyModalProps {
     Incorretpassword: boolean;
 }
 
+// Existing imports...
+
 const ClarifyModal: FC<ClarifyModalProps> = ({ showModal, closeModal, videoDocumentId, updateData, Incorretpassword }) => {
     const cancelButtonRef = useRef<HTMLButtonElement>(null);
     const [note, setNote] = useState<string>('');
@@ -20,20 +22,21 @@ const ClarifyModal: FC<ClarifyModalProps> = ({ showModal, closeModal, videoDocum
     // const [passwordIncorrect, setPasswordIncorrect] = useState<boolean>(true); // State to track if password is incorrect
 
     const handleClarify = async () => {
-
         try {
             await updateData(videoDocumentId, note, password);
-            setPassword("")
+            setPassword("");
         } catch (error: any) {
             console.error('Error updating note:', error);
             if (error.response.status === 401) {
-
+                // Handle unauthorized error
             }
         }
     };
+
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.target.value); 
-    }
+        setPassword(e.target.value);
+        console.log(password)
+    };
 
     return (
         <Transition.Root show={showModal} as={Fragment}>
@@ -43,6 +46,7 @@ const ClarifyModal: FC<ClarifyModalProps> = ({ showModal, closeModal, videoDocum
                 onClose={() => closeModal()}
                 initialFocus={cancelButtonRef}
             >
+                
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -54,7 +58,6 @@ const ClarifyModal: FC<ClarifyModalProps> = ({ showModal, closeModal, videoDocum
                 >
                     <Dialog.Overlay
                         className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
-                        onClick={() => closeModal()}
                     />
                 </Transition.Child>
 
@@ -68,7 +71,7 @@ const ClarifyModal: FC<ClarifyModalProps> = ({ showModal, closeModal, videoDocum
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     >
-                        <div className="bg-white p-7 rounded-lg text-left overflow-hidden shadow-xl transition-all z-50">
+                        <div className="bg-white p-7 rounded-lg text-left overflow-hidden shadow-xl transition-all z-[100]">
                             <div className="flex items-start">
                                 <div>
                                     <div className="text-left">
@@ -77,9 +80,6 @@ const ClarifyModal: FC<ClarifyModalProps> = ({ showModal, closeModal, videoDocum
                                         </Dialog.Title>
                                     </div>
                                     <div className="mt-2 w-96 h-auto">
-                                        <p className="text-md text-gray-500">
-                                        {/* หมายเหตุ (ไม่บังคับ) */}
-                                        </p>
                                         <Textarea 
                                             id="note" 
                                             name="note" 
@@ -92,18 +92,16 @@ const ClarifyModal: FC<ClarifyModalProps> = ({ showModal, closeModal, videoDocum
                                         />
                                     </div>
                                     <div className="mt-2">
-                                        <p className="text-md text-gray-500">
-                                            {/* รหัสผ่าน */}
-                                        </p>
-                                        {/* <Input 
-                                            type="password"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            
-                                        /> */}
-                                        <Input className="col mr-16 " name="password" type={showPassword ? "text" : "password"}
-                                    icon={<IconButton onClick={() => setShowPassword(!showPassword)} className="-my-1" variant="text" size="sm">{showPassword ? <FaEye /> : <FaEyeSlash />}</IconButton>}
-                                    value={password} onChange={changeHandler} label="Password" size="lg" />
+                                        <Input 
+                                            className="col mr-16 " 
+                                            name="password" 
+                                            type={showPassword ? "text" : "password"}
+                                            icon={<IconButton onClick={() => setShowPassword(!showPassword)} className="-my-1" variant="text" size="sm">{showPassword ? <FaEye /> : <FaEyeSlash />}</IconButton>}
+                                            value={password} 
+                                            onChange={changeHandler} 
+                                            label="Password" 
+                                            size="lg" 
+                                        />
                                     </div>
 
                                     {Incorretpassword && ( // Conditionally render the error message
@@ -132,7 +130,6 @@ const ClarifyModal: FC<ClarifyModalProps> = ({ showModal, closeModal, videoDocum
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </Transition.Child>
                 </div>
