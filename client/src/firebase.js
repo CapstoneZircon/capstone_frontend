@@ -7,7 +7,7 @@ import { getFirestore } from "firebase/firestore";
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAdecG1lXgCG72ve0kzsXnAUtsdVHc19m0",
+  apiKey: "",
   authDomain: "capstone-warehouse.firebaseapp.com",
   projectId: "capstone-warehouse",
   storageBucket: "capstone-warehouse.appspot.com",
