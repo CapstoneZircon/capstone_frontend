@@ -4,7 +4,7 @@ const { getAuth } = require('firebase/auth');
 const { getFirestore} = require('firebase/firestore');
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAdecG1lXgCG72ve0kzsXnAUtsdVHc19m0",
+  apiKey: "",
   authDomain: "capstone-warehouse.firebaseapp.com",
   projectId: "capstone-warehouse",
   storageBucket: "capstone-warehouse.appspot.com",
