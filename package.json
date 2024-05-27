@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "chartjs": "^0.3.24",
-    "react-native-vlc-media-player": "^1.0.57"
-  },
-  "devDependencies": {
-    "@babel/preset-react": "^7.22.5"
-  }
-}
